@@ -9,15 +9,19 @@ import android.view.ViewGroup;
 
 public class AboutFragment extends Fragment {
 
-    public static AboutFragment newInstance(){
-        AboutFragment aboutFragment = new AboutFragment();
-        return aboutFragment;
+    public static AboutFragment newInstance() {
+        return new AboutFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_about, container, false);
-        return v;
+        return inflater.inflate(R.layout.fragment_about, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle(R.string.menu_about);
     }
 }
