@@ -1,4 +1,4 @@
-package com.chichkanov.yandex_weather;
+package com.chichkanov.yandex_weather.ui.about;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.chichkanov.yandex_weather.R;
 
 public class AboutFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.chichkanov.yandex_weather;
+package com.chichkanov.yandex_weather.ui.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.chichkanov.yandex_weather.R;
+import com.chichkanov.yandex_weather.ui.weather.WeatherFragment;
+import com.chichkanov.yandex_weather.ui.about.AboutFragment;
+import com.chichkanov.yandex_weather.ui.settings.SettingsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -53,6 +53,7 @@ android {
 ext {
     support_version = '26.0.+'
     butterknife_version = '8.7.0'
+    moxy_version = '1.5.3'
 }
 
 dependencies {
@@ -62,7 +63,7 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
 
-    //ButterKnife
+    // ButterKnife
     compile "com.jakewharton:butterknife:$butterknife_version"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
 
@@ -71,4 +72,8 @@ dependencies {
     compile "com.android.support:design:$support_version"
     compile "com.android.support:preference-v7:$support_version"
 
+    // Moxy
+    compile "com.arello-mobile:moxy:$moxy_version"
+    compile "com.arello-mobile:moxy-app-compat:$moxy_version"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$moxy_version"
 }

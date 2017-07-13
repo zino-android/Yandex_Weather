@@ -1,8 +1,10 @@
-package com.chichkanov.yandex_weather;
+package com.chichkanov.yandex_weather.ui.settings;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceFragmentCompat;
+
+import com.chichkanov.yandex_weather.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
