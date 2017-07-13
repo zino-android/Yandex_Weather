@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Погода</string>
+
+    <string name="navigation_drawer_open">Открыть боковое меню</string>
+    <string name="navigation_drawer_close">Закрыть боковое меню</string>
+
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_about">О приложении</string>
+    <string name="menu_weather">Погода</string>
+    <string name="yandex_task">Задание первого этапа Яндекс школы Мобилизация</string>
+    <string name="dev_name">Александр Чичканов</string>
+
+</resources>
