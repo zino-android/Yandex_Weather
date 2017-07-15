@@ -1,5 +1,6 @@
 package com.chichkanov.yandex_weather.ui.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
+import com.mikepenz.iconics.context.IconicsContextWrapper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -83,5 +85,10 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
     }
 }

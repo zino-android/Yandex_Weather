@@ -6,5 +6,6 @@ import com.chichkanov.yandex_weather.model.CurrentWeather;
 interface WeatherView extends MvpView{
     void showLoading();
     void hideLoading();
+    void showError();
     void showWeather(CurrentWeather weather);
 }

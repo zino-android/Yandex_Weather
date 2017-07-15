@@ -24,6 +24,6 @@ public class RepositoryImpl implements Repository {
     public Observable<CurrentWeather> getWeather(String cityName) {
         String locale = Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en";
         return weatherApi
-                .getWeather(cityName, Constants.API_KEY, locale);
+                .getWeather(cityName, Constants.API_KEY, locale, "metric");
     }
 }

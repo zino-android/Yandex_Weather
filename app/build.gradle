@@ -54,9 +54,9 @@ ext {
     support_version = '26.0.+'
     butterknife_version = '8.7.0'
     moxy_version = '1.5.3'
-    dagger2_version='2.9'
-    retrofit_version='2.3.0'
-    rxjava_version='2.1.0'
+    dagger2_version = '2.9'
+    retrofit_version = '2.3.0'
+    rxjava_version = '2.1.0'
 }
 
 dependencies {
@@ -98,4 +98,10 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
+    // Picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    // Weather Icons
+    compile "com.mikepenz:iconics-core:2.8.9@aar"
+    compile 'com.mikepenz:meteocons-typeface:1.1.0.3@aar'
 }

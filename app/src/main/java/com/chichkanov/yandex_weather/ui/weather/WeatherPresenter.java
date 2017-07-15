@@ -25,6 +25,10 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         interactor.getWeather(cityName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .onErrorResumeNext(f -> {
+                    getViewState().hideLoading();
+                    getViewState().showError();
+                })
                 .subscribe(response -> {
                     getViewState().hideLoading();
                     getViewState().showWeather(response);

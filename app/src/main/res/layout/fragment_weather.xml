@@ -1,7 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_refresh_weather"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/tv_weather_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="64sp" />
+
+        <ImageView
+            android:id="@+id/iv_weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/tv_weather_temp"
+            android:layout_toRightOf="@id/tv_weather_temp" />
+
+        <TextView
+            android:id="@+id/tv_weather_temp_minmax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_weather_temp"
+            android:layout_marginTop="20dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_weather_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_weather_temp_minmax"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_weather_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_weather_description"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/iv_weather_wind_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/tv_weather_city"
+            android:layout_marginTop="15dp"
+            app:ico_color="@android:color/white"
+            app:ico_icon="met_wind" />
+
+        <TextView
+            android:id="@+id/tv_weather_wind_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_weather_city"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@id/iv_weather_wind_icon"
+            android:layout_toRightOf="@+id/iv_weather_wind_icon" />
+
+        <ImageView
+            android:id="@+id/iv_weather_humidity_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/tv_weather_city"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@id/tv_weather_wind_speed"
+            android:layout_toRightOf="@id/tv_weather_wind_speed"
+            app:ico_color="@android:color/white"
+            app:ico_icon="met_temperature" />
+
+        <TextView
+            android:id="@+id/tv_weather_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_weather_city"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@id/iv_weather_humidity_icon"
+            android:layout_toRightOf="@id/iv_weather_humidity_icon" />
+
+
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
