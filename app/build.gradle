@@ -54,6 +54,7 @@ ext {
     support_version = '26.0.+'
     butterknife_version = '8.7.0'
     moxy_version = '1.5.3'
+    dagger2_version='2.9'
 }
 
 dependencies {
@@ -71,9 +72,15 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
     compile "com.android.support:preference-v7:$support_version"
+    compile "com.android.support:preference-v14:$support_version"
 
     // Moxy
     compile "com.arello-mobile:moxy:$moxy_version"
     compile "com.arello-mobile:moxy-app-compat:$moxy_version"
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxy_version"
+
+    // Dagger 2
+    compile "com.google.dagger:dagger:$dagger2_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger2_version"
+    provided 'javax.annotation:jsr250-api:1.0'
 }

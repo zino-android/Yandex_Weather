@@ -3,24 +3,24 @@ package com.chichkanov.yandex_weather.ui.main;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
-import com.chichkanov.yandex_weather.ui.weather.WeatherFragment;
-import com.chichkanov.yandex_weather.ui.about.AboutFragment;
-import com.chichkanov.yandex_weather.ui.settings.SettingsFragment;
+import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
+
+    @InjectPresenter
+    MainPresenter mainPresenter;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ButterKnife.bind(this);
 
         initNavigation();
+
+        mainPresenter.addNavigationManager(new NavigationManager(getSupportFragmentManager(), R.id.content_main));
 
         if (savedInstanceState == null) {
             navigationView.getMenu().getItem(0).setChecked(true);
@@ -62,26 +64,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void showFragment(Fragment fragment) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft = ft.replace(R.id.content_main, fragment);
-        ft.commit();
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_weather: {
-                showFragment(WeatherFragment.newInstance());
+                mainPresenter.showWeatherFragment();
                 break;
             }
             case R.id.nav_settings: {
-                showFragment(SettingsFragment.newInstance());
+                mainPresenter.showSettingsFragment();
                 break;
             }
             case R.id.nav_about: {
-                showFragment(AboutFragment.newInstance());
+                mainPresenter.showAboutFragment();
                 break;
             }
         }
