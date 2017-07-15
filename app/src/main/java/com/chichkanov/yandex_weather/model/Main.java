@@ -3,7 +3,7 @@ package com.chichkanov.yandex_weather.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class Main {
+public class Main {
 
     @SerializedName("grnd_level")
     @Expose

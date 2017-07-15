@@ -8,6 +8,6 @@ import retrofit2.http.Query;
 
 public interface WeatherApi {
 
-    @GET
+    @GET("weather?")
     Observable<CurrentWeather> getWeather(@Query("q") String cityName, @Query("appid") String apiKey, @Query("lang") String lang);
 }

@@ -1,5 +1,7 @@
 package com.chichkanov.yandex_weather.di.modules;
 
+import com.chichkanov.yandex_weather.api.WeatherApi;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -19,6 +21,12 @@ public class NetworkModule {
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl("http://api.openweathermap.org/data/2.5/")
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    WeatherApi provideWeatherApi(Retrofit retrofit){
+        return retrofit.create(WeatherApi.class);
     }
 
 }

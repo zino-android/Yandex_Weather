@@ -1,19 +1,23 @@
 package com.chichkanov.yandex_weather.repository;
 
+import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.api.WeatherApi;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
 import com.chichkanov.yandex_weather.utils.Constants;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 
 public class RepositoryImpl implements Repository {
 
-    private WeatherApi weatherApi;
+    @Inject
+    WeatherApi weatherApi;
 
-    public RepositoryImpl(WeatherApi weatherApi) {
-        this.weatherApi = weatherApi;
+    public RepositoryImpl() {
+        App.getComponent().inject(this);
     }
 
     @Override
