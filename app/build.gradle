@@ -55,6 +55,8 @@ ext {
     butterknife_version = '8.7.0'
     moxy_version = '1.5.3'
     dagger2_version='2.9'
+    retrofit_version='2.3.0'
+    rxjava_version='2.1.0'
 }
 
 dependencies {
@@ -83,4 +85,17 @@ dependencies {
     compile "com.google.dagger:dagger:$dagger2_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger2_version"
     provided 'javax.annotation:jsr250-api:1.0'
+
+    // RX
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
+
+    // Gson
+    compile 'com.google.code.gson:gson:2.7'
+
+    // Retrofit
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
 }
