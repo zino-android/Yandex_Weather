@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_refresh_weather"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -58,7 +59,8 @@
             android:layout_below="@id/tv_weather_city"
             android:layout_marginTop="15dp"
             app:ico_color="@android:color/white"
-            app:ico_icon="met_wind" />
+            app:ico_icon="met_wind"
+            tools:ignore="MissingPrefix" />
 
         <TextView
             android:id="@+id/tv_weather_wind_speed"
@@ -81,7 +83,8 @@
             android:layout_toEndOf="@id/tv_weather_wind_speed"
             android:layout_toRightOf="@id/tv_weather_wind_speed"
             app:ico_color="@android:color/white"
-            app:ico_icon="met_temperature" />
+            app:ico_icon="met_temperature"
+            tools:ignore="MissingPrefix" />
 
         <TextView
             android:id="@+id/tv_weather_humidity"

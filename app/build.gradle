@@ -104,4 +104,7 @@ dependencies {
     // Weather Icons
     compile "com.mikepenz:iconics-core:2.8.9@aar"
     compile 'com.mikepenz:meteocons-typeface:1.1.0.3@aar'
+
+    // Job Scheduler
+    compile 'com.evernote:android-job:1.1.11'
 }

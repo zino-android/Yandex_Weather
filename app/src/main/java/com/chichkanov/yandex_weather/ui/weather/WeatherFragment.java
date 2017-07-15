@@ -69,6 +69,8 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
 
     @Override
     public void showLoading() {
+        windIcon.setVisibility(View.GONE);
+        humidityIcon.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(true);
     }
 

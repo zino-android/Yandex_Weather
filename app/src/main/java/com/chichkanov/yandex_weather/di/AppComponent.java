@@ -1,6 +1,7 @@
 package com.chichkanov.yandex_weather.di;
 
 import com.chichkanov.yandex_weather.App;
+import com.chichkanov.yandex_weather.background.AutoUpdateJob;
 import com.chichkanov.yandex_weather.di.modules.InteractorModule;
 import com.chichkanov.yandex_weather.di.modules.NetworkModule;
 import com.chichkanov.yandex_weather.di.modules.RepositoryModule;
@@ -19,4 +20,5 @@ public interface AppComponent {
     void inject(RepositoryImpl repository);
     void inject(InteractorImpl interactor);
     void inject(WeatherPresenter presenter);
+    void inject(AutoUpdateJob autoUpdateJob);
 }
