@@ -1,11 +1,11 @@
 package com.chichkanov.yandex_weather.background;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.repository.RepositoryImpl;
 import com.chichkanov.yandex_weather.utils.Constants;
+import com.chichkanov.yandex_weather.utils.IOtools;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
 
@@ -29,7 +29,7 @@ public class AutoUpdateJob extends Job {
     protected Result onRunJob(Params params) {
         repository.getWeather(Constants.CITY)
                 .doOnError(Throwable::printStackTrace)
-                .subscribe(response -> Log.i("BackgroundUpdate", "Done"));
+                .subscribe(IOtools::saveCurrentWeather);
         return Result.SUCCESS;
     }
 

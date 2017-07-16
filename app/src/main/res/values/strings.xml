@@ -16,6 +16,7 @@
     <string name="weather_humidity">%1$d%%</string>
 
     <string name="settings_auto_update">Auto update interval</string>
+    <string name="message_no_internet">No internet connection</string>
 
     <string-array name="refresh_entries">
         <item>Never</item>

@@ -1,6 +1,8 @@
 package com.chichkanov.yandex_weather;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Context;
 
 import com.chichkanov.yandex_weather.background.AutoUpdateJob;
 import com.chichkanov.yandex_weather.background.AutoUpdateJobCreator;
@@ -15,11 +17,14 @@ import com.facebook.stetho.Stetho;
 
 public class App extends Application {
 
+    @SuppressLint("StaticFieldLeak")
+    private static Context context;
     private static AppComponent component;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         initDagger();
         initAutoUpdate();
         initStetho();
@@ -27,6 +32,10 @@ public class App extends Application {
 
     public static AppComponent getComponent() {
         return component;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 
     private void initStetho() {
@@ -44,7 +53,7 @@ public class App extends Application {
 
     private void initAutoUpdate() {
         JobManager.create(this).addJobCreator(new AutoUpdateJobCreator());
-        long time = new Settings(getApplicationContext()).getAutoRefreshTime();
+        long time = Settings.getAutoRefreshTime();
         if (time != 0) AutoUpdateJob.scheduleJob(time);
     }
 

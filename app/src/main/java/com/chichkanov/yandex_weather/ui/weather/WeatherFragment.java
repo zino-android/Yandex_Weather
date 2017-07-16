@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -76,6 +77,8 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
 
     @Override
     public void hideLoading() {
+        windIcon.setVisibility(View.VISIBLE);
+        humidityIcon.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -83,6 +86,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     public void showError() {
         windIcon.setVisibility(View.GONE);
         humidityIcon.setVisibility(View.GONE);
+        Toast.makeText(getContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
     }
 
     @Override
