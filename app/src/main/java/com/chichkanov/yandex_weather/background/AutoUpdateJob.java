@@ -27,17 +27,17 @@ public class AutoUpdateJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        Log.i("BackgroundUpdate", "Started");
         repository.getWeather(Constants.CITY)
                 .doOnError(Throwable::printStackTrace)
                 .subscribe(response -> Log.i("BackgroundUpdate", "Done"));
         return Result.SUCCESS;
     }
 
-    public static void scheduleJob() {
+    public static void scheduleJob(long autoUpdateTime) {
+
         new JobRequest.Builder(AutoUpdateJob.TAG)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .setPeriodic(TimeUnit.MINUTES.toMillis(15), TimeUnit.MINUTES.toMillis(5))
+                .setPeriodic(TimeUnit.MINUTES.toMillis(autoUpdateTime), TimeUnit.MINUTES.toMillis(autoUpdateTime))
                 .setUpdateCurrent(true)
                 .setPersisted(true)
                 .build()

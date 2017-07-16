@@ -107,4 +107,10 @@ dependencies {
 
     // Job Scheduler
     compile 'com.evernote:android-job:1.1.11'
+
+    // GCM
+    compile 'com.google.android.gms:play-services-gcm:11.0.2'
+
+    // Stetho
+    compile 'com.facebook.stetho:stetho:1.5.0'
 }
