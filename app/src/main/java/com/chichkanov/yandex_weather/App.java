@@ -8,9 +8,7 @@ import com.chichkanov.yandex_weather.background.AutoUpdateJob;
 import com.chichkanov.yandex_weather.background.AutoUpdateJobCreator;
 import com.chichkanov.yandex_weather.di.AppComponent;
 import com.chichkanov.yandex_weather.di.DaggerAppComponent;
-import com.chichkanov.yandex_weather.di.modules.InteractorModule;
-import com.chichkanov.yandex_weather.di.modules.NetworkModule;
-import com.chichkanov.yandex_weather.di.modules.RepositoryModule;
+import com.chichkanov.yandex_weather.di.modules.ApplicationModule;
 import com.chichkanov.yandex_weather.utils.Settings;
 import com.evernote.android.job.JobManager;
 import com.facebook.stetho.Stetho;
@@ -58,11 +56,8 @@ public class App extends Application {
     }
 
     private void initDagger() {
-        component = DaggerAppComponent
-                .builder()
-                .networkModule(new NetworkModule())
-                .repositoryModule(new RepositoryModule())
-                .interactorModule(new InteractorModule())
+        component = DaggerAppComponent.builder()
+                .applicationModule(new ApplicationModule(getApplicationContext()))
                 .build();
         component.inject(this);
     }

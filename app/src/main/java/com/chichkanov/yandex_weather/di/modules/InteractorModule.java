@@ -1,6 +1,6 @@
 package com.chichkanov.yandex_weather.di.modules;
 
-import com.chichkanov.yandex_weather.interactor.InteractorImpl;
+import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 
 import javax.inject.Singleton;
 
@@ -12,7 +12,7 @@ public class InteractorModule {
 
     @Singleton
     @Provides
-    InteractorImpl provideInteractor() {
-        return new InteractorImpl();
+    WeatherInteractorImpl provideInteractor() {
+        return new WeatherInteractorImpl();
     }
 }

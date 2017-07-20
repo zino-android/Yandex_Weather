@@ -14,10 +14,16 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.utils.Settings;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class WeatherFragment extends MvpAppCompatFragment implements WeatherView, SwipeRefreshLayout.OnRefreshListener {
 
@@ -33,6 +39,8 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     TextView tvDesc;
     @BindView(R.id.tv_weather_temp_minmax)
     TextView tvMinMaxTemp;
+    @BindView(R.id.tv_weather_latest_update)
+    TextView tvLatestUpdate;
 
     @BindView(R.id.iv_weather_icon)
     ImageView ivIcon;
@@ -47,6 +55,8 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     @InjectPresenter
     WeatherPresenter weatherPresenter;
 
+    private Unbinder unbinder;
+
     public static WeatherFragment newInstance() {
         return new WeatherFragment();
     }
@@ -55,7 +65,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_weather, container, false);
-        ButterKnife.bind(this, v);
+        unbinder = ButterKnife.bind(this, v);
         return v;
     }
 
@@ -70,23 +80,28 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
 
     @Override
     public void showLoading() {
-        windIcon.setVisibility(View.GONE);
-        humidityIcon.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        windIcon.setVisibility(View.VISIBLE);
-        humidityIcon.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
     }
 
+
     @Override
     public void showError() {
+        tvTemp.setText(getString(R.string.weather_error));
+        Toast.makeText(getContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+
         windIcon.setVisibility(View.GONE);
         humidityIcon.setVisibility(View.GONE);
-        Toast.makeText(getContext(), R.string.message_no_internet, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     @Override
@@ -101,6 +116,12 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
         tvDesc.setText(weather.getWeather().get(0).getDescription());
         tvMinMaxTemp.setText(getString(R.string.weather_temperature_minmax, (int) weather.getMain().getTempMax(), (int) weather.getMain().getTempMin()));
         ivIcon.setImageDrawable(WeatherUtils.chooseIcon(weather.getWeather().get(0).getIcon().substring(0, 2), getContext()));
+
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+        String formattedDate = dateFormat.format(new Date(Settings.getLastUpdateTime()));
+        tvLatestUpdate.setText(getString(R.string.weather_latest_update_time, formattedDate));
+        tvLatestUpdate.setVisibility(View.VISIBLE);
+        tvLatestUpdate.setText(getString(R.string.weather_latest_update_time, formattedDate));
     }
 
     @Override

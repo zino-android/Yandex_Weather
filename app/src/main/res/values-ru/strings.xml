@@ -17,6 +17,11 @@
 
     <string name="settings_auto_update">Интервал авто обновления</string>
     <string name="message_no_internet">Нет интернета</string>
+    <string name="weather_error">Ошибка ☹</string>
+    <string name="weather_latest_update_time">Последнее обновление: %1$s</string>
+    <string name="iv_weather_humidity_icon">Иконка влажности</string>
+    <string name="iv_weather_wind_icon_info">Иконка ветра</string>
+    <string name="iv_weather_icon_info">Иконка погоды</string>
 
     <string-array name="refresh_entries">
         <item>Никогда</item>

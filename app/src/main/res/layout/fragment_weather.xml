@@ -27,7 +27,8 @@
             android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"
             android:layout_toEndOf="@id/tv_weather_temp"
-            android:layout_toRightOf="@id/tv_weather_temp" />
+            android:layout_toRightOf="@id/tv_weather_temp"
+            android:contentDescription="@string/iv_weather_icon_info" />
 
         <TextView
             android:id="@+id/tv_weather_temp_minmax"
@@ -59,7 +60,8 @@
             android:layout_marginTop="15dp"
             app:ico_color="@android:color/white"
             app:ico_icon="met_wind"
-            tools:ignore="MissingPrefix" />
+            tools:ignore="MissingPrefix"
+            android:contentDescription="@string/iv_weather_wind_icon_info" />
 
         <TextView
             android:id="@+id/tv_weather_wind_speed"
@@ -84,7 +86,8 @@
             android:layout_toRightOf="@id/tv_weather_wind_speed"
             app:ico_color="@android:color/white"
             app:ico_icon="met_temperature"
-            tools:ignore="MissingPrefix" />
+            tools:ignore="MissingPrefix"
+            android:contentDescription="@string/iv_weather_humidity_icon" />
 
         <TextView
             android:id="@+id/tv_weather_humidity"
@@ -96,6 +99,14 @@
             android:layout_marginTop="15dp"
             android:layout_toEndOf="@id/iv_weather_humidity_icon"
             android:layout_toRightOf="@id/iv_weather_humidity_icon" />
+
+        <TextView
+            android:id="@+id/tv_weather_latest_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_weather_wind_speed"
+            android:layout_marginTop="15dp"
+            android:textColor="#EEEEEE" />
 
 
     </RelativeLayout>

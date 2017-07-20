@@ -3,7 +3,7 @@ package com.chichkanov.yandex_weather.background;
 import android.support.annotation.NonNull;
 
 import com.chichkanov.yandex_weather.App;
-import com.chichkanov.yandex_weather.repository.RepositoryImpl;
+import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 import com.chichkanov.yandex_weather.utils.Constants;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.evernote.android.job.Job;
@@ -16,7 +16,7 @@ import javax.inject.Inject;
 public class AutoUpdateJob extends Job {
 
     @Inject
-    RepositoryImpl repository;
+    WeatherRepositoryImpl repository;
 
     static final String TAG = "auto_update_job";
 
@@ -37,7 +37,7 @@ public class AutoUpdateJob extends Job {
 
         new JobRequest.Builder(AutoUpdateJob.TAG)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .setPeriodic(TimeUnit.MINUTES.toMillis(autoUpdateTime), TimeUnit.MINUTES.toMillis(autoUpdateTime))
+                .setPeriodic(TimeUnit.MINUTES.toMillis(autoUpdateTime), TimeUnit.MINUTES.toMillis(5))
                 .setUpdateCurrent(true)
                 .setPersisted(true)
                 .build()

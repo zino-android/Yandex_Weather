@@ -10,7 +10,6 @@ import javax.inject.Singleton;
 @Singleton
 public class Settings {
 
-    private final static String WEATHER_PREFS = "weather_prefs";
     private final static SharedPreferences prefsDefault = PreferenceManager.getDefaultSharedPreferences(App.getContext());
 
     public static long getAutoRefreshTime() {
@@ -18,11 +17,11 @@ public class Settings {
         return updateValue.equals("0") ? 0 : Long.valueOf(updateValue);
     }
 
-    public static void saveLastUpdateTime(){
+    public static void saveLastUpdateTime() {
         prefsDefault.edit().putLong("last_update", System.currentTimeMillis()).apply();
     }
 
-    public static long getLastUpdateTime(){
+    public static long getLastUpdateTime() {
         return prefsDefault.getLong("last_update", 0);
     }
 }

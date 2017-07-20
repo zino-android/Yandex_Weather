@@ -4,6 +4,6 @@ import com.chichkanov.yandex_weather.model.CurrentWeather;
 
 import io.reactivex.Observable;
 
-interface Repository {
+interface WeatherRepository {
     Observable<CurrentWeather> getWeather(String cityName);
 }

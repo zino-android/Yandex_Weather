@@ -2,18 +2,18 @@ package com.chichkanov.yandex_weather.interactor;
 
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
-import com.chichkanov.yandex_weather.repository.RepositoryImpl;
+import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
-public class InteractorImpl implements Interactor {
+public class WeatherInteractorImpl implements WeatherInteractor {
 
     @Inject
-    RepositoryImpl repository;
+    WeatherRepositoryImpl repository;
 
-    public InteractorImpl() {
+    public WeatherInteractorImpl() {
         App.getComponent().inject(this);
     }
 

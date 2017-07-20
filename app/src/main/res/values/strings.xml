@@ -14,9 +14,14 @@
     <string name="weather_temperature_minmax">%1$d° / %2$d°</string>
     <string name="weather_wind_speed">%1$d m/s</string>
     <string name="weather_humidity">%1$d%%</string>
+    <string name="weather_latest_update_time">Latest update: %1$s</string>
 
     <string name="settings_auto_update">Auto update interval</string>
     <string name="message_no_internet">No internet connection</string>
+    <string name="weather_error">Error ☹</string>
+    <string name="iv_weather_humidity_icon">Humidity icon</string>
+    <string name="iv_weather_wind_icon_info">Wind icon</string>
+    <string name="iv_weather_icon_info">Weather icon</string>
 
     <string-array name="refresh_entries">
         <item>Never</item>

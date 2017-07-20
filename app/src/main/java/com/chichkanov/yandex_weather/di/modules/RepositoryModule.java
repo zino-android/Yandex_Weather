@@ -1,6 +1,6 @@
 package com.chichkanov.yandex_weather.di.modules;
 
-import com.chichkanov.yandex_weather.repository.RepositoryImpl;
+import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 
 import javax.inject.Singleton;
 
@@ -12,7 +12,7 @@ public class RepositoryModule {
 
     @Singleton
     @Provides
-    RepositoryImpl provideRepository(){
-        return new RepositoryImpl();
+    WeatherRepositoryImpl provideRepository() {
+        return new WeatherRepositoryImpl();
     }
 }
