@@ -10,4 +10,36 @@
     <string name="yandex_task">Задание первого этапа Яндекс школы Мобилизация</string>
     <string name="dev_name">Александр Чичканов</string>
 
+    <string name="weather_temperature">%1$d°</string>
+    <string name="weather_temperature_minmax">%1$d° / %2$d°</string>
+    <string name="weather_wind_speed">%1$d м/с</string>
+    <string name="weather_humidity">%1$d%%</string>
+
+    <string name="settings_auto_update">Интервал авто обновления</string>
+    <string name="message_no_internet">Нет интернета</string>
+    <string name="weather_error">Ошибка ☹</string>
+    <string name="weather_latest_update_time">Последнее обновление: %1$s</string>
+    <string name="iv_weather_humidity_icon">Иконка влажности</string>
+    <string name="iv_weather_wind_icon_info">Иконка ветра</string>
+    <string name="iv_weather_icon_info">Иконка погоды</string>
+
+    <string-array name="refresh_entries">
+        <item>Никогда</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+        <item>2 часа</item>
+        <item>6 часов</item>
+        <item>12 чаов</item>
+        <item>1 день</item>
+    </string-array>
+    <string-array name="refresh_values">
+        <item>0</item>
+        <item>30</item>
+        <item>60</item>
+        <item>120</item>
+        <item>360</item>
+        <item>720</item>
+        <item>1440</item>
+    </string-array>
+
 </resources>
