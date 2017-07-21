@@ -7,5 +7,5 @@ interface WeatherView extends MvpView{
     void showLoading();
     void hideLoading();
     void showError();
-    void showWeather(CurrentWeather weather);
+    void showWeather(CurrentWeather weather, String lastUpdateDate);
 }

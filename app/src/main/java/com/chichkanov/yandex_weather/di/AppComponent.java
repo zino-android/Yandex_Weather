@@ -9,6 +9,7 @@ import com.chichkanov.yandex_weather.di.modules.RepositoryModule;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 import com.chichkanov.yandex_weather.ui.weather.WeatherPresenter;
+import com.chichkanov.yandex_weather.utils.Settings;
 
 import javax.inject.Singleton;
 
@@ -26,4 +27,6 @@ public interface AppComponent {
     void inject(WeatherPresenter presenter);
 
     void inject(AutoUpdateJob autoUpdateJob);
+
+    void inject(Settings settings);
 }

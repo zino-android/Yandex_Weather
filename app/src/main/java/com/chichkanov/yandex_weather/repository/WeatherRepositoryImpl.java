@@ -20,16 +20,23 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     @Inject
     WeatherApi weatherApi;
 
+    @Inject
+    Settings settings;
+
+    @Inject
+    IOtools iotools;
+
     public WeatherRepositoryImpl() {
         App.getComponent().inject(this);
     }
 
     @Override
     public Observable<CurrentWeather> getWeather(String cityName) {
+
         String locale = Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en";
 
         Observable<CurrentWeather> weatherDb = null;
-        CurrentWeather currentWeather = IOtools.getCurrentWeather();
+        CurrentWeather currentWeather = iotools.getCurrentWeather();
         if (currentWeather != null) {
             weatherDb = Observable.just(currentWeather);
             Log.i("Repository", "Cache exist");
@@ -38,8 +45,8 @@ public class WeatherRepositoryImpl implements WeatherRepository {
         Observable<CurrentWeather> weatherInternet = weatherApi
                 .getWeather(cityName, Constants.API_KEY, locale, "metric")
                 .doOnNext(f -> {
-                    Settings.saveLastUpdateTime();
-                    IOtools.saveCurrentWeather(f);
+                    settings.saveLastUpdateTime();
+                    iotools.saveCurrentWeather(f);
                 });
 
         if (weatherDb == null) {

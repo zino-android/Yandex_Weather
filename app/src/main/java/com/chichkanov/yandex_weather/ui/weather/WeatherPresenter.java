@@ -7,6 +7,11 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 import com.chichkanov.yandex_weather.utils.IOtools;
+import com.chichkanov.yandex_weather.utils.Settings;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -19,6 +24,12 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     @Inject
     WeatherInteractorImpl interactor;
+
+    @Inject
+    Settings settings;
+
+    @Inject
+    IOtools iotools;
 
     private Disposable weatherSubscription;
 
@@ -34,12 +45,17 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     Log.i("Presenter", "Success");
+
                     getViewState().hideLoading();
-                    getViewState().showWeather(response);
+                    DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+                    String formattedDate = dateFormat.format(new Date(settings.getLastUpdateTime()));
+
+                    getViewState().showWeather(response, formattedDate);
                 }, throwable -> {
                     Log.i("Presenter", "Error loading");
+                    Log.i("onError", throwable.toString());
                     getViewState().hideLoading();
-                    if (IOtools.getCurrentWeather() == null) getViewState().showError();
+                    if (iotools.getCurrentWeather() == null) getViewState().showError();
                 });
     }
 

@@ -18,6 +18,9 @@ public class AutoUpdateJob extends Job {
     @Inject
     WeatherRepositoryImpl repository;
 
+    @Inject
+    IOtools iotools;
+
     static final String TAG = "auto_update_job";
 
     AutoUpdateJob() {
@@ -28,8 +31,7 @@ public class AutoUpdateJob extends Job {
     @Override
     protected Result onRunJob(Params params) {
         repository.getWeather(Constants.CITY)
-                .doOnError(Throwable::printStackTrace)
-                .subscribe(IOtools::saveCurrentWeather);
+                .subscribe(iotools::saveCurrentWeather);
         return Result.SUCCESS;
     }
 

@@ -2,6 +2,9 @@ package com.chichkanov.yandex_weather.di.modules;
 
 import android.content.Context;
 
+import com.chichkanov.yandex_weather.utils.IOtools;
+import com.chichkanov.yandex_weather.utils.Settings;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -20,5 +23,17 @@ public class ApplicationModule {
     @Provides
     Context provideContext() {
         return context;
+    }
+
+    @Singleton
+    @Provides
+    Settings provideSettings(){
+        return new Settings(context);
+    }
+
+    @Singleton
+    @Provides
+    IOtools provideIotools(){
+        return new IOtools(context);
     }
 }

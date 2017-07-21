@@ -51,20 +51,25 @@ android {
 }
 
 ext {
-    support_version = '26.0.+'
+    support_version = '26.0.0-alpha1'
     butterknife_version = '8.7.0'
     moxy_version = '1.5.3'
     dagger2_version = '2.9'
     retrofit_version = '2.3.0'
     rxjava_version = '2.1.0'
+    rxandroid_version = '2.0.1'
+    javaannotation_version = '1.0'
+    gson_version = '2.7'
+    picasso_version = '2.5.2'
+    iconics_core_version = '2.8.9@aar'
+    meteocons_icons_version = '1.1.0.3@aar'
+    job_scheduler_version = '1.1.11'
+    gcm_version = '11.0.2'
+    stetho_version = '1.5.0'
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testCompile 'junit:junit:4.12'
 
     // ButterKnife
     compile "com.jakewharton:butterknife:$butterknife_version"
@@ -84,14 +89,14 @@ dependencies {
     // Dagger 2
     compile "com.google.dagger:dagger:$dagger2_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger2_version"
-    provided 'javax.annotation:jsr250-api:1.0'
+    provided "javax.annotation:jsr250-api:$javaannotation_version"
 
     // RX
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
     compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
 
     // Gson
-    compile 'com.google.code.gson:gson:2.7'
+    compile "com.google.code.gson:gson:$gson_version"
 
     // Retrofit
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -99,18 +104,18 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
     // Picasso
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile "com.squareup.picasso:picasso:$picasso_version"
 
     // Weather Icons
-    compile "com.mikepenz:iconics-core:2.8.9@aar"
-    compile 'com.mikepenz:meteocons-typeface:1.1.0.3@aar'
+    compile "com.mikepenz:iconics-core:$iconics_core_version"
+    compile "com.mikepenz:meteocons-typeface:$meteocons_icons_version"
 
     // Job Scheduler
-    compile 'com.evernote:android-job:1.1.11'
+    compile "com.evernote:android-job:$job_scheduler_version"
 
     // GCM
-    compile 'com.google.android.gms:play-services-gcm:11.0.2'
+    compile "com.google.android.gms:play-services-gcm:$gcm_version"
 
     // Stetho
-    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile "com.facebook.stetho:stetho:$stetho_version"
 }

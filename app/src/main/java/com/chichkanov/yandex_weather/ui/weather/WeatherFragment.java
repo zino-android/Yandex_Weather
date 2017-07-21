@@ -14,12 +14,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
-import com.chichkanov.yandex_weather.utils.Settings;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
-
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -105,7 +100,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     }
 
     @Override
-    public void showWeather(CurrentWeather weather) {
+    public void showWeather(CurrentWeather weather, String lastUpdateDate) {
         windIcon.setVisibility(View.VISIBLE);
         humidityIcon.setVisibility(View.VISIBLE);
 
@@ -117,11 +112,8 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
         tvMinMaxTemp.setText(getString(R.string.weather_temperature_minmax, (int) weather.getMain().getTempMax(), (int) weather.getMain().getTempMin()));
         ivIcon.setImageDrawable(WeatherUtils.chooseIcon(weather.getWeather().get(0).getIcon().substring(0, 2), getContext()));
 
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
-        String formattedDate = dateFormat.format(new Date(Settings.getLastUpdateTime()));
-        tvLatestUpdate.setText(getString(R.string.weather_latest_update_time, formattedDate));
         tvLatestUpdate.setVisibility(View.VISIBLE);
-        tvLatestUpdate.setText(getString(R.string.weather_latest_update_time, formattedDate));
+        tvLatestUpdate.setText(getString(R.string.weather_latest_update_time, lastUpdateDate));
     }
 
     @Override

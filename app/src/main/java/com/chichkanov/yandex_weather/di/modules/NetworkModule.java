@@ -5,8 +5,7 @@ import android.content.Context;
 import com.chichkanov.yandex_weather.api.WeatherApi;
 import com.chichkanov.yandex_weather.utils.NetworkUtils;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.nio.channels.NoConnectionPendingException;
 
 import javax.inject.Singleton;
 
@@ -24,10 +23,9 @@ public class NetworkModule {
     @Singleton
     OkHttpClient provideOkHttpClient(Context context) {
         return new OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.SECONDS)
                 .addInterceptor(i -> {
                     if (!NetworkUtils.isConnected(context)) {
-                        throw new IOException();
+                        throw new NoConnectionPendingException();
                     }
                     return i.proceed(i.request());
                 })
