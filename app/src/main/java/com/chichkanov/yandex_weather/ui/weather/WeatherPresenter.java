@@ -42,7 +42,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         Log.i("Presenter", "Loading weather");
         weatherSubscription = interactor.getWeather(cityName)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread(), true)
                 .subscribe(response -> {
                     Log.i("Presenter", "Success");
 
