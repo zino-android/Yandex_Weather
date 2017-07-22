@@ -16,5 +16,9 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_about"
             android:title="@string/menu_about" />
+        <item
+            android:id="@+id/nav_change_city"
+            android:icon="@drawable/ic_menu_about"
+            android:title="@string/menu_change_city" />
     </group>
 </menu>

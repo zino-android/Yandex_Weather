@@ -31,4 +31,12 @@ public class Settings {
     public long getLastUpdateTime() {
         return prefsDefault.getLong("last_update", 0);
     }
+
+    public void setCurrentCity(String city) {
+        prefsDefault.edit().putString("current_city", city).apply();
+    }
+
+    public String getCurrentCity() {
+        return prefsDefault.getString("current_city", "Москва");
+    }
 }

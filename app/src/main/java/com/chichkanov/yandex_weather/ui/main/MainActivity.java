@@ -82,6 +82,10 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
                 mainPresenter.showAboutFragment();
                 break;
             }
+            case R.id.nav_change_city: {
+                mainPresenter.showChangeCityFragment();
+                break;
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

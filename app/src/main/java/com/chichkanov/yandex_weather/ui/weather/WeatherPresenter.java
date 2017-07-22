@@ -37,8 +37,9 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         App.getComponent().inject(this);
     }
 
-    void loadWeather(String cityName) {
+    void loadWeather() {
         getViewState().showLoading();
+        String cityName = settings.getCurrentCity();
         Log.i("Presenter", "Loading weather");
         weatherSubscription = interactor.getWeather(cityName)
                 .subscribeOn(Schedulers.io())
@@ -51,6 +52,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     String formattedDate = dateFormat.format(new Date(settings.getLastUpdateTime()));
 
                     getViewState().showWeather(response, formattedDate);
+                    getViewState().showCityName(settings.getCurrentCity());
                 }, throwable -> {
                     Log.i("Presenter", "Error loading");
                     Log.i("onError", throwable.toString());

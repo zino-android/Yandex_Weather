@@ -3,8 +3,10 @@ package com.chichkanov.yandex_weather.repository;
 import android.util.Log;
 
 import com.chichkanov.yandex_weather.App;
+import com.chichkanov.yandex_weather.api.PlacesApi;
 import com.chichkanov.yandex_weather.api.WeatherApi;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.model.places.CitySuggestion;
 import com.chichkanov.yandex_weather.utils.Constants;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
@@ -21,6 +23,9 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     WeatherApi weatherApi;
 
     @Inject
+    PlacesApi placesApi;
+
+    @Inject
     Settings settings;
 
     @Inject
@@ -33,7 +38,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     @Override
     public Observable<CurrentWeather> getWeather(String cityName) {
 
-        String locale = Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en";
+        String locale = getLocale();
 
         Observable<CurrentWeather> weatherDb = null;
         CurrentWeather currentWeather = iotools.getCurrentWeather();
@@ -54,6 +59,23 @@ public class WeatherRepositoryImpl implements WeatherRepository {
         } else {
             return Observable.concat(weatherDb, weatherInternet);
         }
+    }
+
+    private String getLocale() {
+        return Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en";
+    }
+
+    @Override
+    public Observable<CitySuggestion> getCitySuggestion(String cityName) {
+        String locale = getLocale();
+        Observable<CitySuggestion> citySuggestion = placesApi
+                .getCitySuggest(cityName, locale, Constants.PLACES_API_KEY);
+
+        return citySuggestion;
+    }
+
+    public void setCurrentCity(String city) {
+        settings.setCurrentCity(city);
     }
 }
 

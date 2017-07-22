@@ -70,7 +70,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
         getActivity().setTitle(R.string.menu_weather);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setProgressViewOffset(false, 0, 100);
-        weatherPresenter.loadWeather("Москва");
+        weatherPresenter.loadWeather();
     }
 
     @Override
@@ -104,7 +104,6 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
         windIcon.setVisibility(View.VISIBLE);
         humidityIcon.setVisibility(View.VISIBLE);
 
-        tvCity.setText(weather.getName());
         tvTemp.setText(getString(R.string.weather_temperature, (int) weather.getMain().getTemp()));
         tvWind.setText(getString(R.string.weather_wind_speed, (int) weather.getWind().getSpeed()));
         tvHumidity.setText(getString(R.string.weather_humidity, weather.getMain().getHumidity()));
@@ -117,7 +116,12 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     }
 
     @Override
+    public void showCityName(String cityName) {
+        tvCity.setText(cityName);
+    }
+
+    @Override
     public void onRefresh() {
-        weatherPresenter.loadWeather("Москва");
+        weatherPresenter.loadWeather();
     }
 }

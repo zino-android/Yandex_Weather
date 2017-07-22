@@ -7,4 +7,5 @@
         android:entryValues="@array/refresh_values"
         android:key="refresh_update"
         android:title="@string/settings_auto_update" />
+
 </android.support.v7.preference.PreferenceScreen>

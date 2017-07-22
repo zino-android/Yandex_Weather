@@ -2,6 +2,7 @@ package com.chichkanov.yandex_weather.ui.main;
 
 import com.arellomobile.mvp.MvpPresenter;
 import com.chichkanov.yandex_weather.ui.about.AboutFragment;
+import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.ui.settings.SettingsFragment;
 import com.chichkanov.yandex_weather.ui.weather.WeatherFragment;
@@ -24,6 +25,10 @@ class MainPresenter extends MvpPresenter<MainView> {
 
     void showAboutFragment() {
         navigationManager.navigateTo(AboutFragment.newInstance());
+    }
+
+    void showChangeCityFragment() {
+        navigationManager.navigateTo(ChangeCityFragment.newInstance());
     }
 
 
