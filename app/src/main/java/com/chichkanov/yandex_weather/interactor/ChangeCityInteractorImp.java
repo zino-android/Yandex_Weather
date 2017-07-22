@@ -27,4 +27,9 @@ public class ChangeCityInteractorImp implements ChangeCityInteractor {
     public void setCurrentCity(String city) {
         repository.setCurrentCity(city);
     }
+
+    @Override
+    public String getCurrentCity() {
+        return repository.getCurrentCity();
+    }
 }

@@ -8,4 +8,16 @@ import java.util.List;
 
 public interface ChangeCityView extends MvpView {
     void showSuggestions(List<Prediction> suggestions);
+
+    void showCurrentCity(String city);
+
+    void hideClearButton();
+
+    void showClearButton();
+
+    void clearInput();
+
+    void hideSuggestionList();
+
+    void showSuggestionList();
 }

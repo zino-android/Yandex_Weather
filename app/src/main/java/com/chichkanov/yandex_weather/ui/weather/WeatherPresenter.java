@@ -6,6 +6,8 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
+import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
+import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
 
@@ -32,6 +34,9 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     IOtools iotools;
 
     private Disposable weatherSubscription;
+
+    private NavigationManager navigationManager;
+
 
     WeatherPresenter() {
         App.getComponent().inject(this);
@@ -65,5 +70,13 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     public void detachView(WeatherView view) {
         super.detachView(view);
         weatherSubscription.dispose();
+    }
+
+    void addNavigationManager(NavigationManager navigationManager) {
+        this.navigationManager = navigationManager;
+    }
+
+    void onMenuChangeCityClick() {
+        navigationManager.navigateTo(ChangeCityFragment.newInstance());
     }
 }

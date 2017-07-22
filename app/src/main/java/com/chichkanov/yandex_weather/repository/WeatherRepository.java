@@ -9,4 +9,8 @@ interface WeatherRepository {
     Observable<CurrentWeather> getWeather(String cityName);
 
     Observable<CitySuggestion> getCitySuggestion(String cityName);
+
+    void setCurrentCity(String city);
+
+    String getCurrentCity();
 }

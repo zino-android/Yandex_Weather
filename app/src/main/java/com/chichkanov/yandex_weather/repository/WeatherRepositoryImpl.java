@@ -74,8 +74,14 @@ public class WeatherRepositoryImpl implements WeatherRepository {
         return citySuggestion;
     }
 
+    @Override
     public void setCurrentCity(String city) {
         settings.setCurrentCity(city);
+    }
+
+    @Override
+    public String getCurrentCity() {
+        return settings.getCurrentCity();
     }
 }
 
