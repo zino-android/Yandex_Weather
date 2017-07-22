@@ -2,11 +2,13 @@ package com.chichkanov.yandex_weather.di.modules;
 
 import android.content.Context;
 
+import com.chichkanov.yandex_weather.api.PlacesApi;
 import com.chichkanov.yandex_weather.api.WeatherApi;
 import com.chichkanov.yandex_weather.utils.NetworkUtils;
 
 import java.nio.channels.NoConnectionPendingException;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -32,8 +34,10 @@ public class NetworkModule {
                 .build();
     }
 
+
     @Provides
     @Singleton
+    @Named("provideRetrofit")
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -45,8 +49,26 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    WeatherApi provideWeatherApi(Retrofit retrofit) {
+    @Named("providePlacesRetrofit")
+    Retrofit providePlacesRetrofit(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .baseUrl("https://maps.googleapis.com/maps/api/place/")
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    WeatherApi provideWeatherApi(@Named("provideRetrofit") Retrofit retrofit) {
         return retrofit.create(WeatherApi.class);
+    }
+
+    @Provides
+    @Singleton
+    PlacesApi providePlacesApi(@Named("providePlacesRetrofit") Retrofit retrofit) {
+        return retrofit.create(PlacesApi.class);
     }
 
 }
