@@ -1,7 +1,11 @@
 package com.chichkanov.yandex_weather.interactor;
 
+import android.util.Log;
+
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.model.places.CitySuggestion;
+import com.chichkanov.yandex_weather.repository.CityRepository;
+import com.chichkanov.yandex_weather.repository.CityRepositoryImp;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 
 import javax.inject.Inject;
@@ -12,7 +16,7 @@ import io.reactivex.Observable;
 public class ChangeCityInteractorImp implements ChangeCityInteractor {
 
     @Inject
-    WeatherRepositoryImpl repository;
+    CityRepositoryImp repository;
 
     public ChangeCityInteractorImp() {
         App.getComponent().inject(this);
@@ -30,6 +34,7 @@ public class ChangeCityInteractorImp implements ChangeCityInteractor {
 
     @Override
     public String getCurrentCity() {
+        Log.i("kkk", "getCurrentCity: " + (repository == null));
         return repository.getCurrentCity();
     }
 }

@@ -6,8 +6,11 @@ import com.chichkanov.yandex_weather.di.modules.ApplicationModule;
 import com.chichkanov.yandex_weather.di.modules.InteractorModule;
 import com.chichkanov.yandex_weather.di.modules.NetworkModule;
 import com.chichkanov.yandex_weather.di.modules.RepositoryModule;
+import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
 import com.chichkanov.yandex_weather.interactor.ChangeCityInteractorImp;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
+import com.chichkanov.yandex_weather.repository.CityRepository;
+import com.chichkanov.yandex_weather.repository.CityRepositoryImp;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 import com.chichkanov.yandex_weather.ui.change_city.ChangeCityPresenter;
 import com.chichkanov.yandex_weather.ui.weather.WeatherPresenter;
@@ -23,6 +26,8 @@ public interface AppComponent {
     void inject(App app);
 
     void inject(WeatherRepositoryImpl repository);
+
+    void inject(CityRepositoryImp repository);
 
     void inject(WeatherInteractorImpl interactor);
 
