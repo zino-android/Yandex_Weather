@@ -7,7 +7,7 @@
     <string name="menu_settings">Настройки</string>
     <string name="menu_about">О приложении</string>
     <string name="menu_weather">Погода</string>
-    <string name="menu_change_city">Изменить город</string>
+    <string name="settings_change_city">Изменить город</string>
 
     <string name="yandex_task">Задание первого этапа Яндекс школы Мобилизация</string>
     <string name="dev_name">Александр Чичканов</string>
@@ -26,6 +26,9 @@
     <string name="iv_weather_icon_info">Иконка погоды</string>
 
     <string name="change_city_hint">Введите название города</string>
+
+    <string name="default_city">Москва</string>
+
 
     <string-array name="refresh_entries">
         <item>Никогда</item>
