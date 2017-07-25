@@ -8,9 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -74,16 +71,15 @@ public class ChangeCityFragment extends MvpAppCompatFragment implements ChangeCi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
-        getActivity().setTitle(R.string.menu_change_city);
+        getActivity().setTitle(R.string.settings_change_city);
         changeCityPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
-        changeCityPresenter.getCurrentCity();
 
         RxTextView.textChangeEvents(etCityName)
                 .debounce(500, TimeUnit.MILLISECONDS)
+                .map(text -> text.text().toString().trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(e -> {
-                    String text = e.text().toString().trim();
+                .subscribe(text -> {
                     changeCityPresenter.loadCitySuggestion(text);
                 });
 

@@ -26,12 +26,27 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
 
     private Disposable suggestionSubscription;
 
+
+    private String currentInput;
+
     ChangeCityPresenter() {
         App.getComponent().inject(this);
     }
 
+    @Override
+    public void attachView(ChangeCityView view) {
+        super.attachView(view);
+        if (currentInput == null) {
+            String city = interactor.getCurrentCity();
+            getViewState().showCurrentCity(city);
+        } else {
+            getViewState().showCurrentCity(currentInput);
+        }
+    }
+
     void loadCitySuggestion(String cityName) {
         Log.i("Presenter", "Loading city suggestions");
+        currentInput = cityName;
         if (cityName != null && !cityName.equals("")) {
             getViewState().showClearButton();
             suggestionSubscription = interactor.getCitySuggestion(cityName)
@@ -42,18 +57,13 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
                         Log.i("Presenter", "Success loading suggestion");
                         getViewState().showSuggestions(response);
                         getViewState().showSuggestionList();
-                    }, throwable -> {
-                        throwable.printStackTrace();
                     });
         } else {
             getViewState().hideClearButton();
         }
     }
 
-    void getCurrentCity() {
-        String city = interactor.getCurrentCity();
-        getViewState().showCurrentCity(city);
-    }
+
 
     void OnCurrentCityChanged(String city) {
         interactor.setCurrentCity(city);

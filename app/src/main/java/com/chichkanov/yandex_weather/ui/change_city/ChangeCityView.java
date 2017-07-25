@@ -6,7 +6,7 @@ import com.chichkanov.yandex_weather.model.places.Prediction;
 import java.util.List;
 
 
-public interface ChangeCityView extends MvpView {
+interface ChangeCityView extends MvpView {
     void showSuggestions(List<Prediction> suggestions);
 
     void showCurrentCity(String city);
