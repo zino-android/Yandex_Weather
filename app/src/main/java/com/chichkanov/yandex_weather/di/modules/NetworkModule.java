@@ -34,15 +34,21 @@ public class NetworkModule {
                 .build();
     }
 
+    @Provides
+    @Singleton
+    Retrofit.Builder provideRetrofitBuilder(OkHttpClient okHttpClient) {
+        return new Retrofit.Builder()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient);
+    }
+
 
     @Provides
     @Singleton
     @Named("provideRetrofit")
-    Retrofit provideRetrofit(OkHttpClient okHttpClient) {
-        return new Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
+    Retrofit provideRetrofit(Retrofit.Builder builder) {
+        return builder
                 .baseUrl("http://api.openweathermap.org/data/2.5/")
                 .build();
     }
@@ -50,11 +56,8 @@ public class NetworkModule {
     @Provides
     @Singleton
     @Named("providePlacesRetrofit")
-    Retrofit providePlacesRetrofit(OkHttpClient okHttpClient) {
-        return new Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
+    Retrofit providePlacesRetrofit(Retrofit.Builder builder) {
+        return builder
                 .baseUrl("https://maps.googleapis.com/maps/api/place/")
                 .build();
     }
