@@ -22,4 +22,6 @@ interface ChangeCityView extends MvpView {
     void showSuggestionList();
 
     void showError();
+
+    void setCityNameObservable();
 }

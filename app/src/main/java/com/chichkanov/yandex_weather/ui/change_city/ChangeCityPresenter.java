@@ -10,8 +10,11 @@ import com.chichkanov.yandex_weather.model.places.CitySuggestion;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.ui.weather.WeatherFragment;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -25,6 +28,7 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
     private NavigationManager navigationManager;
 
     private Disposable suggestionSubscription;
+    private Disposable cityNameSubscription;
 
 
     private String currentInput;
@@ -86,6 +90,15 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
     void onClearClick() {
         getViewState().clearInput();
         getViewState().hideSuggestionList();
+    }
+
+    void setObservable(Observable<CharSequence> observable) {
+        cityNameSubscription = observable
+                .debounce(500, TimeUnit.MILLISECONDS)
+                .map(CharSequence::toString)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::loadCitySuggestion);
     }
 
 

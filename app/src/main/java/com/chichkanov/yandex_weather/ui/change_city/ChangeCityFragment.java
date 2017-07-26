@@ -1,7 +1,6 @@
 package com.chichkanov.yandex_weather.ui.change_city;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,26 +14,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.places.Prediction;
 import com.chichkanov.yandex_weather.ui.BaseFragment;
 import com.chichkanov.yandex_weather.ui.adapter.CitySuggestionAdapter;
-import com.chichkanov.yandex_weather.ui.main.OnMenuItemChangeListener;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     private static final int POSITION_IN_MENU = 1;
@@ -72,13 +65,7 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
         getActivity().setTitle(R.string.settings_change_city);
         menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
         changeCityPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
-
-        RxTextView.textChangeEvents(etCityName)
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .map(text -> text.text().toString().trim())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(changeCityPresenter::loadCitySuggestion);
+        setCityNameObservable();
 
         rvSuggestions.setHasFixedSize(true);
 
@@ -147,5 +134,10 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     @Override
     public void showError() {
         Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setCityNameObservable() {
+        changeCityPresenter.setObservable(RxTextView.textChanges(etCityName));
     }
 }
