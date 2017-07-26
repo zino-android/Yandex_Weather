@@ -61,7 +61,6 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        unbinder = ButterKnife.bind(this, view);
         getActivity().setTitle(R.string.settings_change_city);
         menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
         changeCityPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
