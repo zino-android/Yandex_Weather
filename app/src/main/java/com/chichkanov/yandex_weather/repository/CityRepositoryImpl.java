@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 
 
-public class CityRepositoryImp implements CityRepository {
+public class CityRepositoryImpl implements CityRepository {
 
     @Inject
     PlacesApi placesApi;
@@ -20,7 +20,7 @@ public class CityRepositoryImp implements CityRepository {
     @Inject
     Settings settings;
 
-    public CityRepositoryImp() {
+    public CityRepositoryImpl() {
         App.getComponent().inject(this);
     }
 

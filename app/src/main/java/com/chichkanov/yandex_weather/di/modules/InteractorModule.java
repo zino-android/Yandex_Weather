@@ -1,7 +1,7 @@
 package com.chichkanov.yandex_weather.di.modules;
 
 import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
-import com.chichkanov.yandex_weather.interactor.ChangeCityInteractorImp;
+import com.chichkanov.yandex_weather.interactor.ChangeCityInteractorImpl;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 
 import javax.inject.Singleton;
@@ -21,6 +21,6 @@ public class InteractorModule {
     @Singleton
     @Provides
     ChangeCityInteractor provideChangeCityInteractor() {
-        return new ChangeCityInteractorImp();
+        return new ChangeCityInteractorImpl();
     }
 }

@@ -4,21 +4,19 @@ import android.util.Log;
 
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.model.places.CitySuggestion;
-import com.chichkanov.yandex_weather.repository.CityRepository;
-import com.chichkanov.yandex_weather.repository.CityRepositoryImp;
-import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
+import com.chichkanov.yandex_weather.repository.CityRepositoryImpl;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 
 
-public class ChangeCityInteractorImp implements ChangeCityInteractor {
+public class ChangeCityInteractorImpl implements ChangeCityInteractor {
 
     @Inject
-    CityRepositoryImp repository;
+    CityRepositoryImpl repository;
 
-    public ChangeCityInteractorImp() {
+    public ChangeCityInteractorImpl() {
         App.getComponent().inject(this);
     }
 
