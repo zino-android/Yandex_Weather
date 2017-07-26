@@ -81,6 +81,7 @@ dependencies {
     compile "com.android.support:design:$support_version"
     compile "com.android.support:preference-v7:$support_version"
     compile "com.android.support:preference-v14:$support_version"
+    compile "com.android.support:support-v4:$support_version"
 
     // Moxy
     compile "com.arello-mobile:moxy:$moxy_version"
@@ -120,5 +121,5 @@ dependencies {
 
     // Stetho
     compile "com.facebook.stetho:stetho:$stetho_version"
-    compile 'com.android.support:support-v4:26.+'
+
 }

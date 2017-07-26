@@ -49,12 +49,7 @@ public class CitySuggestionAdapter extends RecyclerView.Adapter<CitySuggestionAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.textView.setText(predictions.get(position).getDescription());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onCityClick(predictions.get(position));
-            }
-        });
+        holder.itemView.setOnClickListener(view -> listener.onCityClick(predictions.get(holder.getAdapterPosition())));
     }
 
     @Override

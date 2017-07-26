@@ -3,7 +3,7 @@ package com.chichkanov.yandex_weather.model.places;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Term {
+class Term {
     @SerializedName("offset")
     private int offset;
     @SerializedName("value")

@@ -2,7 +2,7 @@ package com.chichkanov.yandex_weather.model.places;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MainTextMatchedSubstring {
+class MainTextMatchedSubstring {
     @SerializedName("length")
     private int length;
     @SerializedName("offset")

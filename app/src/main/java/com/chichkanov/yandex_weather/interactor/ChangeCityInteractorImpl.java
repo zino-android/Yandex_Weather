@@ -32,7 +32,6 @@ public class ChangeCityInteractorImpl implements ChangeCityInteractor {
 
     @Override
     public String getCurrentCity() {
-        Log.i("kkk", "getCurrentCity: " + (repository == null));
         return repository.getCurrentCity();
     }
 }

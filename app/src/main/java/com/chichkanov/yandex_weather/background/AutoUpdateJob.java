@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
-import com.chichkanov.yandex_weather.utils.Constants;
 import com.chichkanov.yandex_weather.utils.IOtools;
+import com.chichkanov.yandex_weather.utils.Settings;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
 
@@ -21,6 +21,9 @@ public class AutoUpdateJob extends Job {
     @Inject
     IOtools iotools;
 
+    @Inject
+    Settings settings;
+
     static final String TAG = "auto_update_job";
 
     AutoUpdateJob() {
@@ -30,7 +33,8 @@ public class AutoUpdateJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        repository.getWeather(Constants.CITY)
+        String currentCity = settings.getCurrentCity();
+        repository.getWeather(currentCity)
                 .subscribe(iotools::saveCurrentWeather);
         return Result.SUCCESS;
     }

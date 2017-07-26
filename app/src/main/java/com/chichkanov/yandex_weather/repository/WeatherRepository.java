@@ -6,5 +6,4 @@ import io.reactivex.Observable;
 
 interface WeatherRepository {
     Observable<CurrentWeather> getWeather(String cityName);
-
 }

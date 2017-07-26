@@ -3,7 +3,7 @@ package com.chichkanov.yandex_weather.model.places;
 import com.google.gson.annotations.SerializedName;
 
 
-public class MatchedSubstring {
+class MatchedSubstring {
     @SerializedName("length")
     private int length;
     @SerializedName("offset")
