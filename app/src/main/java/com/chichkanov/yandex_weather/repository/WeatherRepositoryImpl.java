@@ -3,16 +3,12 @@ package com.chichkanov.yandex_weather.repository;
 import android.util.Log;
 
 import com.chichkanov.yandex_weather.App;
-import com.chichkanov.yandex_weather.api.PlacesApi;
 import com.chichkanov.yandex_weather.api.WeatherApi;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
-import com.chichkanov.yandex_weather.model.places.CitySuggestion;
 import com.chichkanov.yandex_weather.utils.Constants;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
-
-import java.util.Locale;
 
 import javax.inject.Inject;
 

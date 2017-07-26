@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +48,7 @@ public class ChangeCityFragment extends MvpAppCompatFragment implements ChangeCi
     ChangeCityPresenter changeCityPresenter;
 
     public static ChangeCityFragment newInstance() {
-        ChangeCityFragment fragment = new ChangeCityFragment();
-
-        return fragment;
+        return new ChangeCityFragment();
     }
 
     public ChangeCityFragment() {
@@ -79,20 +76,15 @@ public class ChangeCityFragment extends MvpAppCompatFragment implements ChangeCi
                 .map(text -> text.text().toString().trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(text -> {
-                    changeCityPresenter.loadCitySuggestion(text);
-                });
+                .subscribe(changeCityPresenter::loadCitySuggestion);
 
         rvSuggestions.setHasFixedSize(true);
 
         rvSuggestions.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        adapter = new CitySuggestionAdapter(new ArrayList<>(), new OnCityClickListener() {
-            @Override
-            public void onCityClick(Prediction prediction) {
-                changeCityPresenter.OnCurrentCityChanged(prediction.getDescription());
-                hideKeyboard();
-            }
+        adapter = new CitySuggestionAdapter(new ArrayList<>(), prediction -> {
+            changeCityPresenter.OnCurrentCityChanged(prediction.getDescription());
+            hideKeyboard();
         });
         rvSuggestions.setAdapter(adapter);
     }

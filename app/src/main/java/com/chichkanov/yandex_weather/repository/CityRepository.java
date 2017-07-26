@@ -5,7 +5,7 @@ import com.chichkanov.yandex_weather.model.places.CitySuggestion;
 import io.reactivex.Observable;
 
 
-public interface CityRepository {
+interface CityRepository {
     Observable<CitySuggestion> getCitySuggestion(String cityName);
 
     void setCurrentCity(String city);
