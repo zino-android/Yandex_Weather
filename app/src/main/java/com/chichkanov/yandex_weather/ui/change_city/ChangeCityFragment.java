@@ -1,6 +1,7 @@
 package com.chichkanov.yandex_weather.ui.change_city;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +13,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.places.Prediction;
+import com.chichkanov.yandex_weather.ui.BaseFragment;
 import com.chichkanov.yandex_weather.ui.adapter.CitySuggestionAdapter;
+import com.chichkanov.yandex_weather.ui.main.OnMenuItemChangeListener;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -32,7 +36,8 @@ import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ChangeCityFragment extends MvpAppCompatFragment implements ChangeCityView {
+public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
+    private static final int POSITION_IN_MENU = 1;
 
     @BindView(R.id.et_city_name)
     EditText etCityName;
@@ -41,18 +46,14 @@ public class ChangeCityFragment extends MvpAppCompatFragment implements ChangeCi
     @BindView(R.id.iv_clear)
     ImageView ivClear;
 
-    private Unbinder unbinder;
     private CitySuggestionAdapter adapter;
+
 
     @InjectPresenter
     ChangeCityPresenter changeCityPresenter;
 
     public static ChangeCityFragment newInstance() {
         return new ChangeCityFragment();
-    }
-
-    public ChangeCityFragment() {
-        // Required empty public constructor
     }
 
 
@@ -69,6 +70,7 @@ public class ChangeCityFragment extends MvpAppCompatFragment implements ChangeCi
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
         getActivity().setTitle(R.string.settings_change_city);
+        menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
         changeCityPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
 
         RxTextView.textChangeEvents(etCityName)
@@ -102,11 +104,6 @@ public class ChangeCityFragment extends MvpAppCompatFragment implements ChangeCi
         etCityName.setSelection(city.length());
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     public interface OnCityClickListener {
         void onCityClick(Prediction prediction);
@@ -147,5 +144,8 @@ public class ChangeCityFragment extends MvpAppCompatFragment implements ChangeCi
         changeCityPresenter.onClearClick();
     }
 
-
+    @Override
+    public void showError() {
+        Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+    }
 }

@@ -19,7 +19,8 @@ import com.mikepenz.iconics.context.IconicsContextWrapper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
+public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView,
+        OnMenuItemChangeListener {
 
     @InjectPresenter
     MainPresenter mainPresenter;
@@ -92,5 +93,10 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onMenuItemChange(int position) {
+        navigationView.getMenu().getItem(position).setChecked(true);
     }
 }

@@ -17,6 +17,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.ui.BaseFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
 
@@ -24,7 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class WeatherFragment extends MvpAppCompatFragment implements WeatherView, SwipeRefreshLayout.OnRefreshListener {
+public class WeatherFragment extends BaseFragment implements WeatherView, SwipeRefreshLayout.OnRefreshListener {
+    private static final int POSITION_IN_MENU = 0;
 
     @BindView(R.id.tv_weather_city)
     TextView tvCity;
@@ -54,7 +56,6 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     @InjectPresenter
     WeatherPresenter weatherPresenter;
 
-    private Unbinder unbinder;
 
     public static WeatherFragment newInstance() {
         return new WeatherFragment();
@@ -70,9 +71,8 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_weather, container, false);
-        unbinder = ButterKnife.bind(this, v);
         weatherPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
-
+        menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
         return v;
     }
 
@@ -105,11 +105,6 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
         humidityIcon.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @Override
     public void showWeather(CurrentWeather weather, String lastUpdateDate) {

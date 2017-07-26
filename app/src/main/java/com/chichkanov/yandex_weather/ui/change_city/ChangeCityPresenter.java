@@ -57,6 +57,10 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
                         Log.i("Presenter", "Success loading suggestion");
                         getViewState().showSuggestions(response);
                         getViewState().showSuggestionList();
+                    }, throwable -> {
+                        Log.i("Presenter", "Error loading");
+                        Log.i("onError", throwable.toString());
+                        getViewState().showError();
                     });
         } else {
             getViewState().hideClearButton();

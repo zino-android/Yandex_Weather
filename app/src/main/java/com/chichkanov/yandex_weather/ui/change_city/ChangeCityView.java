@@ -20,4 +20,6 @@ interface ChangeCityView extends MvpView {
     void hideSuggestionList();
 
     void showSuggestionList();
+
+    void showError();
 }
