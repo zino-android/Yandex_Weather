@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,13 +17,16 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.ui.BaseFragment;
+import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class WeatherFragment extends MvpAppCompatFragment implements WeatherView, SwipeRefreshLayout.OnRefreshListener {
+public class WeatherFragment extends BaseFragment implements WeatherView, SwipeRefreshLayout.OnRefreshListener {
+    private static final int POSITION_IN_MENU = 0;
 
     @BindView(R.id.tv_weather_city)
     TextView tvCity;
@@ -50,17 +56,23 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     @InjectPresenter
     WeatherPresenter weatherPresenter;
 
-    private Unbinder unbinder;
 
     public static WeatherFragment newInstance() {
         return new WeatherFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_weather, container, false);
-        unbinder = ButterKnife.bind(this, v);
+        weatherPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
+        menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
         return v;
     }
 
@@ -70,7 +82,7 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
         getActivity().setTitle(R.string.menu_weather);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setProgressViewOffset(false, 0, 100);
-        weatherPresenter.loadWeather("Москва");
+        weatherPresenter.loadWeather();
     }
 
     @Override
@@ -93,18 +105,12 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
         humidityIcon.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @Override
     public void showWeather(CurrentWeather weather, String lastUpdateDate) {
         windIcon.setVisibility(View.VISIBLE);
         humidityIcon.setVisibility(View.VISIBLE);
 
-        tvCity.setText(weather.getName());
         tvTemp.setText(getString(R.string.weather_temperature, (int) weather.getMain().getTemp()));
         tvWind.setText(getString(R.string.weather_wind_speed, (int) weather.getWind().getSpeed()));
         tvHumidity.setText(getString(R.string.weather_humidity, weather.getMain().getHumidity()));
@@ -117,7 +123,28 @@ public class WeatherFragment extends MvpAppCompatFragment implements WeatherView
     }
 
     @Override
-    public void onRefresh() {
-        weatherPresenter.loadWeather("Москва");
+    public void showCityName(String cityName) {
+        tvCity.setText(cityName);
     }
+
+    @Override
+    public void onRefresh() {
+        weatherPresenter.loadWeather();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.toolbar_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.nav_change_city) {
+            weatherPresenter.onMenuChangeCityClick();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

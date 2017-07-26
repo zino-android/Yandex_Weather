@@ -7,4 +7,12 @@
         android:entryValues="@array/refresh_values"
         android:key="refresh_update"
         android:title="@string/settings_auto_update" />
+
+    <android.support.v7.preference.Preference
+        android:defaultValue="@string/default_city"
+        android:inputType="text"
+        android:key="current_city"
+        android:summary=""
+        android:title="@string/settings_change_city"/>
+
 </android.support.v7.preference.PreferenceScreen>

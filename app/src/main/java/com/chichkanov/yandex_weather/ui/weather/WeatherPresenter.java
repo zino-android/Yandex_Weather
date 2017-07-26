@@ -6,6 +6,8 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
+import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
+import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
 
@@ -33,12 +35,16 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     private Disposable weatherSubscription;
 
+    private NavigationManager navigationManager;
+
+
     WeatherPresenter() {
         App.getComponent().inject(this);
     }
 
-    void loadWeather(String cityName) {
+    void loadWeather() {
         getViewState().showLoading();
+        String cityName = settings.getCurrentCity();
         Log.i("Presenter", "Loading weather");
         weatherSubscription = interactor.getWeather(cityName)
                 .subscribeOn(Schedulers.io())
@@ -51,6 +57,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     String formattedDate = dateFormat.format(new Date(settings.getLastUpdateTime()));
 
                     getViewState().showWeather(response, formattedDate);
+                    getViewState().showCityName(settings.getCurrentCity());
                 }, throwable -> {
                     Log.i("Presenter", "Error loading");
                     Log.i("onError", throwable.toString());
@@ -63,5 +70,13 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     public void detachView(WeatherView view) {
         super.detachView(view);
         weatherSubscription.dispose();
+    }
+
+    void addNavigationManager(NavigationManager navigationManager) {
+        this.navigationManager = navigationManager;
+    }
+
+    void onMenuChangeCityClick() {
+        navigationManager.navigateTo(ChangeCityFragment.newInstance());
     }
 }

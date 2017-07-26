@@ -58,6 +58,7 @@ ext {
     retrofit_version = '2.3.0'
     rxjava_version = '2.1.0'
     rxandroid_version = '2.0.1'
+    rxbinding_version = '2.0.0'
     javaannotation_version = '1.0'
     gson_version = '2.7'
     picasso_version = '2.5.2'
@@ -80,6 +81,7 @@ dependencies {
     compile "com.android.support:design:$support_version"
     compile "com.android.support:preference-v7:$support_version"
     compile "com.android.support:preference-v14:$support_version"
+    compile "com.android.support:support-v4:$support_version"
 
     // Moxy
     compile "com.arello-mobile:moxy:$moxy_version"
@@ -94,6 +96,7 @@ dependencies {
     // RX
     compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
     compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    compile "com.jakewharton.rxbinding2:rxbinding:$rxbinding_version"
 
     // Gson
     compile "com.google.code.gson:gson:$gson_version"
@@ -118,4 +121,5 @@ dependencies {
 
     // Stetho
     compile "com.facebook.stetho:stetho:$stetho_version"
+
 }

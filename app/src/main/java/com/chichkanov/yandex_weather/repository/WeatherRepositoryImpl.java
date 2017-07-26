@@ -8,8 +8,7 @@ import com.chichkanov.yandex_weather.model.CurrentWeather;
 import com.chichkanov.yandex_weather.utils.Constants;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
-
-import java.util.Locale;
+import com.chichkanov.yandex_weather.utils.WeatherUtils;
 
 import javax.inject.Inject;
 
@@ -33,7 +32,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     @Override
     public Observable<CurrentWeather> getWeather(String cityName) {
 
-        String locale = Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en";
+        String locale = WeatherUtils.getLocale();
 
         Observable<CurrentWeather> weatherDb = null;
         CurrentWeather currentWeather = iotools.getCurrentWeather();

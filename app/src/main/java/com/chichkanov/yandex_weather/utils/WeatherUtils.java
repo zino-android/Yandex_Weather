@@ -6,6 +6,8 @@ import android.graphics.Color;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.meteocons_typeface_library.Meteoconcs;
 
+import java.util.Locale;
+
 public class WeatherUtils {
 
     private static final int ICON_SIZE = 80;
@@ -41,5 +43,9 @@ public class WeatherUtils {
             }
         }
         return null;
+    }
+
+    public static String getLocale() {
+        return Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en";
     }
 }
