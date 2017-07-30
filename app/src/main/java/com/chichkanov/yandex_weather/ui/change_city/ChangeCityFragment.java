@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.places.Prediction;
 import com.chichkanov.yandex_weather.ui.BaseFragment;
@@ -26,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
@@ -44,6 +45,11 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
 
     @InjectPresenter
     ChangeCityPresenter changeCityPresenter;
+
+    @ProvidePresenter
+    ChangeCityPresenter providePresenter() {
+        return  App.getComponent().getChangeCityPresenter();
+    }
 
     public static ChangeCityFragment newInstance() {
         return new ChangeCityFragment();
@@ -71,7 +77,7 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
         rvSuggestions.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         adapter = new CitySuggestionAdapter(new ArrayList<>(), prediction -> {
-            changeCityPresenter.OnCurrentCityChanged(prediction.getDescription());
+            changeCityPresenter.onCurrentCityChanged(prediction.getDescription());
             hideKeyboard();
         });
         rvSuggestions.setAdapter(adapter);

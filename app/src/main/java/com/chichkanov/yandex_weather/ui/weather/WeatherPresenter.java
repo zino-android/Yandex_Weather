@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
@@ -17,29 +16,32 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
-    @Inject
-    WeatherInteractorImpl interactor;
+    private WeatherInteractorImpl interactor;
 
-    @Inject
-    Settings settings;
+    private Settings settings;
 
-    @Inject
-    IOtools iotools;
+    private IOtools iotools;
 
     private Disposable weatherSubscription;
 
     private NavigationManager navigationManager;
 
+    private Scheduler ioScheduler;
+    private Scheduler mainScheduler;
 
-    WeatherPresenter() {
-        App.getComponent().inject(this);
+    @Inject
+    public WeatherPresenter(WeatherInteractorImpl interactor, Settings settings, IOtools iotools, Scheduler io, Scheduler main) {
+        this.interactor = interactor;
+        this.settings = settings;
+        this.iotools = iotools;
+        this.ioScheduler = io;
+        this.mainScheduler = main;
     }
 
     void loadWeather() {
@@ -47,8 +49,8 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         String cityName = settings.getCurrentCity();
         Log.i("Presenter", "Loading weather");
         weatherSubscription = interactor.getWeather(cityName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread(), true)
+                .subscribeOn(ioScheduler)
+                .observeOn(mainScheduler, true)
                 .subscribe(response -> {
                     Log.i("Presenter", "Success");
 
@@ -69,7 +71,9 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     @Override
     public void detachView(WeatherView view) {
         super.detachView(view);
-        weatherSubscription.dispose();
+        if (weatherSubscription != null) {
+            weatherSubscription.dispose();
+        }
     }
 
     void addNavigationManager(NavigationManager navigationManager) {
@@ -77,6 +81,8 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     }
 
     void onMenuChangeCityClick() {
-        navigationManager.navigateTo(ChangeCityFragment.newInstance());
+        if (navigationManager != null) {
+            navigationManager.navigateTo(ChangeCityFragment.newInstance());
+        }
     }
 }

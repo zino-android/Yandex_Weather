@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
 import com.chichkanov.yandex_weather.model.places.CitySuggestion;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
@@ -15,26 +14,30 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
 
-    @Inject
-    ChangeCityInteractor interactor;
+    private ChangeCityInteractor interactor;
 
     private NavigationManager navigationManager;
 
     private Disposable suggestionSubscription;
     private Disposable cityNameSubscription;
 
+    private Scheduler ioScheduler;
+    private Scheduler mainScheduler;
+
 
     private String currentInput;
 
-    ChangeCityPresenter() {
-        App.getComponent().inject(this);
+    @Inject
+    public ChangeCityPresenter(ChangeCityInteractor interactor, Scheduler io, Scheduler main) {
+        this.interactor = interactor;
+        this.ioScheduler = io;
+        this.mainScheduler = main;
     }
 
     @Override
@@ -55,8 +58,8 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
             getViewState().showClearButton();
             suggestionSubscription = interactor.getCitySuggestion(cityName)
                     .map(CitySuggestion::getPredictions)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread(), true)
+                    .subscribeOn(ioScheduler)
+                    .observeOn(mainScheduler)
                     .subscribe(response -> {
                         Log.i("Presenter", "Success loading suggestion");
                         getViewState().showSuggestions(response);
@@ -73,7 +76,7 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
 
 
 
-    void OnCurrentCityChanged(String city) {
+    void onCurrentCityChanged(String city) {
         interactor.setCurrentCity(city);
         showWeatherFragment();
     }
@@ -84,7 +87,9 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
     }
 
     private void showWeatherFragment() {
-        navigationManager.navigateTo(WeatherFragment.newInstance());
+        if (navigationManager != null) {
+            navigationManager.navigateTo(WeatherFragment.newInstance());
+        }
     }
 
     void onClearClick() {
@@ -96,8 +101,7 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
         cityNameSubscription = observable
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .map(CharSequence::toString)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(mainScheduler)
                 .subscribe(this::loadCitySuggestion);
     }
 
@@ -105,6 +109,12 @@ public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
     @Override
     public void detachView(ChangeCityView view) {
         super.detachView(view);
-        suggestionSubscription.dispose();
+        if (suggestionSubscription != null) {
+            suggestionSubscription.dispose();
+        }
+
+        if (cityNameSubscription != null) {
+            cityNameSubscription.dispose();
+        }
     }
 }

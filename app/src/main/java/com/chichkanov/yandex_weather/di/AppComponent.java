@@ -5,6 +5,7 @@ import com.chichkanov.yandex_weather.background.AutoUpdateJob;
 import com.chichkanov.yandex_weather.di.modules.ApplicationModule;
 import com.chichkanov.yandex_weather.di.modules.InteractorModule;
 import com.chichkanov.yandex_weather.di.modules.NetworkModule;
+import com.chichkanov.yandex_weather.di.modules.PresenterModule;
 import com.chichkanov.yandex_weather.di.modules.RepositoryModule;
 import com.chichkanov.yandex_weather.interactor.ChangeCityInteractorImpl;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
@@ -19,7 +20,9 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {NetworkModule.class, RepositoryModule.class, InteractorModule.class, ApplicationModule.class})
+@Component(modules = {NetworkModule.class, RepositoryModule.class, InteractorModule.class, ApplicationModule.class,
+        PresenterModule.class})
+
 public interface AppComponent {
     void inject(App app);
 
@@ -38,4 +41,8 @@ public interface AppComponent {
     void inject(AutoUpdateJob autoUpdateJob);
 
     void inject(Settings settings);
+
+    ChangeCityPresenter getChangeCityPresenter();
+
+    WeatherPresenter getWeatherPresenter();
 }
