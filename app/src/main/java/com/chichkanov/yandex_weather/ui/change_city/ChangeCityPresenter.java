@@ -20,7 +20,6 @@ import io.reactivex.disposables.Disposable;
 @InjectViewState
 public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {
 
-//    @Inject
     private ChangeCityInteractor interactor;
 
     private NavigationManager navigationManager;

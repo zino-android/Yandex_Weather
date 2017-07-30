@@ -129,7 +129,7 @@ public class ChangeCityPresenterTest {
                 .thenReturn(Observable.just(citySuggestion));
         presenter.attachView(changeCityView);
         presenter.setObservable(Observable.just(new StringBuilder().append(DEFAULT_CITY)));
-        testScheduler.triggerActions();//(1, TimeUnit.SECONDS);
+        testScheduler.triggerActions();
         verify(changeCityView, times(1)).showSuggestions(citySuggestion.getPredictions());
         verify(changeCityView, times(1)).showSuggestionList();
     }

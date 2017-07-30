@@ -43,4 +43,6 @@ public interface AppComponent {
     void inject(Settings settings);
 
     ChangeCityPresenter getChangeCityPresenter();
+
+    WeatherPresenter getWeatherPresenter();
 }

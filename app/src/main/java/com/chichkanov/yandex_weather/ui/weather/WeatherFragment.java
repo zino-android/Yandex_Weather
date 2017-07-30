@@ -13,8 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
 import com.chichkanov.yandex_weather.ui.BaseFragment;
@@ -22,8 +23,6 @@ import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class WeatherFragment extends BaseFragment implements WeatherView, SwipeRefreshLayout.OnRefreshListener {
     private static final int POSITION_IN_MENU = 0;
@@ -55,6 +54,11 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
 
     @InjectPresenter
     WeatherPresenter weatherPresenter;
+
+    @ProvidePresenter
+    WeatherPresenter providePresenter() {
+        return  App.getComponent().getWeatherPresenter();
+    }
 
 
     public static WeatherFragment newInstance() {
