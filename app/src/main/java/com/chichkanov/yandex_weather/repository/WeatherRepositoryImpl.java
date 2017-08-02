@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.api.WeatherApi;
-import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
 import com.chichkanov.yandex_weather.utils.Constants;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;

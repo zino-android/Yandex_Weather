@@ -3,7 +3,7 @@ package com.chichkanov.yandex_weather.ui.weather;
 
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 
-import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
@@ -23,7 +23,6 @@ import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;

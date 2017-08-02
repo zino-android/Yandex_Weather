@@ -1,4 +1,4 @@
-package com.chichkanov.yandex_weather.model;
+package com.chichkanov.yandex_weather.model.current_weather;
 
 
 import com.google.gson.annotations.Expose;
@@ -23,32 +23,16 @@ class Sys {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public double getMessage() {
         return message;
-    }
-
-    public void setMessage(double message) {
-        this.message = message;
     }
 
     public int getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(int sunrise) {
-        this.sunrise = sunrise;
-    }
-
     public int getSunset() {
         return sunset;
-    }
-
-    public void setSunset(int sunset) {
-        this.sunset = sunset;
     }
 
 }

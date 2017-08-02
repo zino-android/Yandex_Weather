@@ -1,9 +1,9 @@
-package com.chichkanov.yandex_weather.model;
+package com.chichkanov.yandex_weather.model.current_weather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class Coord {
+public class Coord {
 
     @SerializedName("lat")
     @Expose
@@ -16,16 +16,7 @@ class Coord {
         return lat;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
     public double getLon() {
         return lon;
     }
-
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
-
 }

@@ -2,7 +2,7 @@ package com.chichkanov.yandex_weather.utils;
 
 import android.content.Context;
 
-import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;

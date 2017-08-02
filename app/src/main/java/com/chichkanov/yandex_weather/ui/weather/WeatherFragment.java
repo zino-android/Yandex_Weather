@@ -17,7 +17,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.R;
-import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
 import com.chichkanov.yandex_weather.ui.BaseFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;

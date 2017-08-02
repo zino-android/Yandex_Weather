@@ -1,7 +1,7 @@
 package com.chichkanov.yandex_weather.interactor;
 
 import com.chichkanov.yandex_weather.App;
-import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 
 import javax.inject.Inject;

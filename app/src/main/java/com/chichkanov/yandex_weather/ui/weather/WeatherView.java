@@ -1,7 +1,7 @@
 package com.chichkanov.yandex_weather.ui.weather;
 
 import com.arellomobile.mvp.MvpView;
-import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
 
 interface WeatherView extends MvpView{
     void showLoading();

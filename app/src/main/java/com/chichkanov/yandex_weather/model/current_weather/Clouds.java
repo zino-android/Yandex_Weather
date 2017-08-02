@@ -1,9 +1,9 @@
-package com.chichkanov.yandex_weather.model;
+package com.chichkanov.yandex_weather.model.current_weather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-class Clouds {
+public class Clouds {
 
     @SerializedName("all")
     @Expose
