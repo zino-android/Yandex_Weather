@@ -5,6 +5,7 @@ import android.util.Log;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.api.WeatherApi;
 import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
+import com.chichkanov.yandex_weather.model.forecast.ForecastResponse;
 import com.chichkanov.yandex_weather.utils.Constants;
 import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
@@ -53,6 +54,17 @@ public class WeatherRepositoryImpl implements WeatherRepository {
         } else {
             return Observable.concat(weatherDb, weatherInternet);
         }
+    }
+
+    @Override
+    public Observable<ForecastResponse> getForecasts(String cityName) {
+        String locale = WeatherUtils.getLocale();
+
+        Observable<ForecastResponse> forecastInternet = weatherApi
+                .getForecasts(cityName, Constants.API_KEY, locale, "metric");
+
+
+        return forecastInternet;
     }
 }
 

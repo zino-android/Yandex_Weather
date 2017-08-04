@@ -13,7 +13,7 @@ public interface WeatherApi {
     Observable<CurrentWeather> getWeather(@Query("q") String cityName, @Query("appid") String apiKey,
                                           @Query("lang") String lang, @Query("units") String units);
 
-    @GET("forecast?")
+    @GET("forecast/daily?")
     Observable<ForecastResponse> getForecasts(@Query("q") String cityName, @Query("appid") String apiKey,
                                               @Query("lang") String lang, @Query("units") String units);
 }

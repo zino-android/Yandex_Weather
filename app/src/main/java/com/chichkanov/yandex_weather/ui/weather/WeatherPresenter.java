@@ -29,6 +29,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     private IOtools iotools;
 
     private Disposable weatherSubscription;
+    private Disposable forecastSubscription;
 
     private NavigationManager navigationManager;
 
@@ -65,6 +66,23 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     Log.i("onError", throwable.toString());
                     getViewState().hideLoading();
                     if (iotools.getCurrentWeather() == null) getViewState().showError();
+                });
+
+        forecastSubscription = interactor.getForecasts(cityName)
+                .subscribeOn(ioScheduler)
+                .observeOn(mainScheduler, true)
+                .subscribe(forecasts -> {
+                    Log.i("Presenter", "Success");
+
+                    getViewState().hideLoading();
+
+                    getViewState().showForecast(forecasts);
+                }, throwable -> {
+                    Log.i("Presenter", "Error loading");
+                    Log.i("onError", throwable.toString());
+                    throwable.printStackTrace();
+                    getViewState().hideLoading();
+                    getViewState().showError();
                 });
     }
 

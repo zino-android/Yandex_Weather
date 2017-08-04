@@ -3,12 +3,15 @@ package com.chichkanov.yandex_weather.ui.weather;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,9 +21,15 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
+import com.chichkanov.yandex_weather.model.forecast.Forecast;
 import com.chichkanov.yandex_weather.ui.BaseFragment;
+import com.chichkanov.yandex_weather.ui.adapter.CitySuggestionAdapter;
+import com.chichkanov.yandex_weather.ui.adapter.ForecastAdapter;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -52,6 +61,11 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
     @BindView(R.id.swipe_refresh_weather)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.rv_forecast)
+    RecyclerView rvForecast;
+
+    private ForecastAdapter adapter;
+
     @InjectPresenter
     WeatherPresenter weatherPresenter;
 
@@ -74,10 +88,26 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_weather, container, false);
+        return inflater.inflate(R.layout.fragment_weather, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         weatherPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
         menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
-        return v;
+
+        rvForecast.setHasFixedSize(true);
+
+        rvForecast.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        adapter = new ForecastAdapter(new ArrayList<>(), new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+        rvForecast.setAdapter(adapter);
     }
 
     @Override
@@ -150,5 +180,8 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void showForecast(List<Forecast> forecasts) {
+        adapter.setForecasts(forecasts);
+    }
 }

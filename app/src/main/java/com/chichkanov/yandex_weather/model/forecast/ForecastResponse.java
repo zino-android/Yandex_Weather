@@ -15,7 +15,7 @@ public class ForecastResponse {
     @SerializedName("cnt")
     private int cnt;
     @SerializedName("list")
-    private List<Forecast> forecastes;
+    private List<Forecast> forecasts;
 
     public City getCity() {
         return city;
@@ -33,7 +33,7 @@ public class ForecastResponse {
         return cnt;
     }
 
-    public List<Forecast> getForecastes() {
-        return forecastes;
+    public List<Forecast> getForecasts() {
+        return forecasts;
     }
 }

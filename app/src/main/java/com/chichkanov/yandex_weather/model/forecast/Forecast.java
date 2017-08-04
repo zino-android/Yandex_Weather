@@ -1,9 +1,7 @@
 package com.chichkanov.yandex_weather.model.forecast;
 
 import com.chichkanov.yandex_weather.model.current_weather.Clouds;
-import com.chichkanov.yandex_weather.model.current_weather.Main;
 import com.chichkanov.yandex_weather.model.current_weather.Weather;
-import com.chichkanov.yandex_weather.model.current_weather.Wind;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -11,39 +9,57 @@ import java.util.List;
 
 public class Forecast {
     @SerializedName("dt")
-    public int dateTime;
-    @SerializedName("main")
-    public Main main;
+    private long dt;
+    @SerializedName("temp")
+    private Temp temp;
+    @SerializedName("pressure")
+    private double pressure;
+    @SerializedName("humidity")
+    private int humidity;
     @SerializedName("weather")
-    public List<Weather> weather;
+    private List<Weather> weather;
+    @SerializedName("speed")
+    private double speed;
+    @SerializedName("deg")
+    private double deg;
     @SerializedName("clouds")
-    public Clouds clouds;
-    @SerializedName("wind")
-    public Wind wind;
-    @SerializedName("dt_txt")
-    public String dtTxt;
+    private int clouds;
+    @SerializedName("rain")
+    private double rain;
 
-    public int getDateTime() {
-        return dateTime;
+    public long getDt() {
+        return dt;
     }
 
-    public Main getMain() {
-        return main;
+    public Temp getTemp() {
+        return temp;
+    }
+
+    public double getPressure() {
+        return pressure;
+    }
+
+    public int getHumidity() {
+        return humidity;
     }
 
     public List<Weather> getWeather() {
         return weather;
     }
 
-    public Clouds getClouds() {
+    public double getSpeed() {
+        return speed;
+    }
+
+    public double getDeg() {
+        return deg;
+    }
+
+    public int getClouds() {
         return clouds;
     }
 
-    public Wind getWind() {
-        return wind;
-    }
-
-    public String getDtTxt() {
-        return dtTxt;
+    public double getRain() {
+        return rain;
     }
 }
