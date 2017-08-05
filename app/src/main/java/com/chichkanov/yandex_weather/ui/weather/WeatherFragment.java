@@ -20,10 +20,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.R;
+import com.chichkanov.yandex_weather.model.Forecast;
 import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
-import com.chichkanov.yandex_weather.model.forecast.Forecast;
 import com.chichkanov.yandex_weather.ui.BaseFragment;
-import com.chichkanov.yandex_weather.ui.adapter.CitySuggestionAdapter;
 import com.chichkanov.yandex_weather.ui.adapter.ForecastAdapter;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
@@ -116,7 +115,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
         getActivity().setTitle(R.string.menu_weather);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setProgressViewOffset(false, 0, 100);
-        weatherPresenter.loadWeather();
+        weatherPresenter.loadCurrentWeather();
     }
 
     @Override
@@ -163,7 +162,8 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
 
     @Override
     public void onRefresh() {
-        weatherPresenter.loadWeather();
+        weatherPresenter.loadCurrentWeather();
+        weatherPresenter.loadForecastWeather();
     }
 
     @Override

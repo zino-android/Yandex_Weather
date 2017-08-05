@@ -73,7 +73,7 @@ public class WeatherPresenterTest {
         when(weatherInteractor.getWeather(DEFAULT_CITY)).thenReturn(Observable.error(nothing));
         when(settings.getCurrentCity()).thenReturn(DEFAULT_CITY);
 
-        presenter.loadWeather();
+        presenter.loadCurrentWeather();
         verify(weatherView, times(1)).showLoading();
         testScheduler.triggerActions();
         verify(weatherView, times(1)).hideLoading();
@@ -88,7 +88,7 @@ public class WeatherPresenterTest {
         when(settings.getCurrentCity()).thenReturn(DEFAULT_CITY);
         when(iOtools.getCurrentWeather()).thenReturn(new Gson().fromJson(json, CurrentWeather.class));
 
-        presenter.loadWeather();
+        presenter.loadCurrentWeather();
         verify(weatherView, times(1)).showLoading();
         testScheduler.triggerActions();
         verify(weatherView, times(1)).hideLoading();
@@ -101,7 +101,7 @@ public class WeatherPresenterTest {
         CurrentWeather weather = new Gson().fromJson(json, CurrentWeather.class);
         when(weatherInteractor.getWeather(DEFAULT_CITY)).thenReturn(Observable.just(weather));
         when(settings.getCurrentCity()).thenReturn(DEFAULT_CITY);
-        presenter.loadWeather();
+        presenter.loadCurrentWeather();
         verify(weatherView, times(1)).showLoading();
         testScheduler.triggerActions();
         verify(weatherView, times(1)).hideLoading();

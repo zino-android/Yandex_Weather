@@ -45,7 +45,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         this.mainScheduler = main;
     }
 
-    void loadWeather() {
+    void loadCurrentWeather() {
         getViewState().showLoading();
         String cityName = settings.getCurrentCity();
         Log.i("Presenter", "Loading weather");
@@ -67,6 +67,13 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     getViewState().hideLoading();
                     if (iotools.getCurrentWeather() == null) getViewState().showError();
                 });
+
+
+    }
+
+    public void loadForecastWeather() {
+
+        String cityName = settings.getCurrentCity();
 
         forecastSubscription = interactor.getForecasts(cityName)
                 .subscribeOn(ioScheduler)

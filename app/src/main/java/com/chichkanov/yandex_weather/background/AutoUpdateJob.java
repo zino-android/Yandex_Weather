@@ -43,7 +43,8 @@ public class AutoUpdateJob extends Job {
 
         new JobRequest.Builder(AutoUpdateJob.TAG)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .setPeriodic(TimeUnit.MINUTES.toMillis(autoUpdateTime), TimeUnit.MINUTES.toMillis(5))
+                .setPeriodic(TimeUnit.MINUTES.toMillis(autoUpdateTime),
+                        TimeUnit.MINUTES.toMillis(5))
                 .setUpdateCurrent(true)
                 .setPersisted(true)
                 .build()

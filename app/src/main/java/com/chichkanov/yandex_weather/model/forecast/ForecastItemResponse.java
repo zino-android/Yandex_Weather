@@ -1,13 +1,12 @@
 package com.chichkanov.yandex_weather.model.forecast;
 
-import com.chichkanov.yandex_weather.model.current_weather.Clouds;
 import com.chichkanov.yandex_weather.model.current_weather.Weather;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 
-public class Forecast {
+public class ForecastItemResponse {
     @SerializedName("dt")
     private long dt;
     @SerializedName("temp")

@@ -2,7 +2,9 @@ package com.chichkanov.yandex_weather.di;
 
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.background.AutoUpdateJob;
+import com.chichkanov.yandex_weather.db.WeatherDatabase;
 import com.chichkanov.yandex_weather.di.modules.ApplicationModule;
+import com.chichkanov.yandex_weather.di.modules.DbModule;
 import com.chichkanov.yandex_weather.di.modules.InteractorModule;
 import com.chichkanov.yandex_weather.di.modules.NetworkModule;
 import com.chichkanov.yandex_weather.di.modules.PresenterModule;
@@ -21,7 +23,7 @@ import dagger.Component;
 
 @Singleton
 @Component(modules = {NetworkModule.class, RepositoryModule.class, InteractorModule.class, ApplicationModule.class,
-        PresenterModule.class})
+        PresenterModule.class, DbModule.class})
 
 public interface AppComponent {
     void inject(App app);
@@ -45,4 +47,6 @@ public interface AppComponent {
     ChangeCityPresenter getChangeCityPresenter();
 
     WeatherPresenter getWeatherPresenter();
+
+    void inject(WeatherDatabase weatherDatabase);
 }

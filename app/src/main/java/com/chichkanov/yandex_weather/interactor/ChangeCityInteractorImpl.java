@@ -3,10 +3,10 @@ package com.chichkanov.yandex_weather.interactor;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.model.places.CitySuggestion;
 import com.chichkanov.yandex_weather.repository.CityRepositoryImpl;
+import io.reactivex.Observable;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 
 
 public class ChangeCityInteractorImpl implements ChangeCityInteractor {

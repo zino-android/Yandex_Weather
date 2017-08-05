@@ -8,8 +8,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.chichkanov.yandex_weather.R;
-import com.chichkanov.yandex_weather.model.forecast.Forecast;
-
+import com.chichkanov.yandex_weather.model.Forecast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -52,7 +51,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Date now = new Date(forecasts.get(position).getDt() * 1000);
+        Date now = new Date(forecasts.get(position).getDateTime() * 1000);
 // or you can use
 // long millis = System.currentTimeInMillis();
 // Date now = new Date(millis);
@@ -61,8 +60,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
         SimpleDateFormat formatter = new SimpleDateFormat(datePattern);
         String formattedDate = formatter.format(now);
 
-        holder.textView.setText(formattedDate + " " + String.valueOf(forecasts.get(position).getTemp().getDay()
-                + " " + String.valueOf(forecasts.get(position).getTemp().getNight())));
+        holder.textView.setText(formattedDate + " " + String.valueOf(forecasts.get(position).getDayTemp()
+                + " / " + String.valueOf(forecasts.get(position).getNightTemp())));
 //        holder.itemView.setOnClickListener(view -> listener.onCityClick(forecasts.get(holder.getAdapterPosition())));
     }
 

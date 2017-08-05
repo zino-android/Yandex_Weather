@@ -11,11 +11,12 @@ import com.chichkanov.yandex_weather.ui.weather.WeatherFragment;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
+
+import javax.inject.Inject;
+
 
 @InjectViewState
 public class ChangeCityPresenter extends MvpPresenter<ChangeCityView> {

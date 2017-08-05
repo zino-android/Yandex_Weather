@@ -19,8 +19,8 @@ import com.mikepenz.iconics.context.IconicsContextWrapper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView,
-        OnMenuItemChangeListener {
+public class MainActivity extends MvpAppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener, MainView, OnMenuItemChangeListener {
 
     @InjectPresenter
     MainPresenter mainPresenter;

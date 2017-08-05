@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 
-public class City {
+public class CityResponse {
     @SerializedName("id")
     private int id;
     @SerializedName("name")

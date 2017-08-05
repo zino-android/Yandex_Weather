@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ForecastResponse {
     @SerializedName("city")
-    private City city;
+    private CityResponse city;
     @SerializedName("cod")
     private String cod;
     @SerializedName("message")
@@ -15,9 +15,9 @@ public class ForecastResponse {
     @SerializedName("cnt")
     private int cnt;
     @SerializedName("list")
-    private List<Forecast> forecasts;
+    private List<ForecastItemResponse> forecasts;
 
-    public City getCity() {
+    public CityResponse getCity() {
         return city;
     }
 
@@ -33,7 +33,7 @@ public class ForecastResponse {
         return cnt;
     }
 
-    public List<Forecast> getForecasts() {
+    public List<ForecastItemResponse> getForecasts() {
         return forecasts;
     }
 }

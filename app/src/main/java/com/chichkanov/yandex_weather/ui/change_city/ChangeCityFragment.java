@@ -25,10 +25,11 @@ import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import java.util.List;
 
 public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     private static final int POSITION_IN_MENU = 1;
@@ -102,7 +103,8 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     }
 
     private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etCityName.getWindowToken(), 0);
     }
 
@@ -138,7 +140,8 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
 
     @Override
     public void showError() {
-        Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

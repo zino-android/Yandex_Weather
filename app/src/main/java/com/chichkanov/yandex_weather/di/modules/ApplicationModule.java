@@ -27,13 +27,13 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    Settings provideSettings(){
+    Settings provideSettings() {
         return new Settings(context);
     }
 
     @Singleton
     @Provides
-    IOtools provideIotools(){
+    IOtools provideIotools() {
         return new IOtools(context);
     }
 }
