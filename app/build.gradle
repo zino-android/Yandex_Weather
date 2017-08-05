@@ -22,8 +22,8 @@ android {
             storePassword '123456'
         }
     }
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.chichkanov.yandex_weather"
         minSdkVersion 16
@@ -55,8 +55,8 @@ android {
 }
 
 ext {
-    support_version = '25.4.0'
-    butterknife_version = '8.7.0'
+    support_version = '26.0.0'
+    butterknife_version = '8.8.0'
     moxy_version = '1.5.3'
     dagger2_version = '2.9'
     retrofit_version = '2.3.0'
@@ -64,7 +64,7 @@ ext {
     rxandroid_version = '2.0.1'
     rxbinding_version = '2.0.0'
     javaannotation_version = '1.0'
-    gson_version = '2.7'
+    gson_version = '2.8.0'
     picasso_version = '2.5.2'
     iconics_core_version = '2.8.9@aar'
     meteocons_icons_version = '1.1.0.3@aar'
@@ -75,19 +75,30 @@ ext {
     espresso_version = '3.0.0'
     mockito_version = '2.8.47'
     runner_version = '1.0.0'
+    room_version = '1.0.0-alpha8'
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Tests
-    androidTestCompile "com.android.support.test.espresso:espresso-core:$espresso_version"
+    androidTestCompile ("com.android.support.test.espresso:espresso-core:$espresso_version") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     testCompile "junit:junit:$junit_version"
     testCompile "org.mockito:mockito-core:$mockito_version"
-    androidTestCompile "com.android.support.test.espresso:espresso-contrib:$espresso_version"
+    androidTestCompile ("com.android.support.test.espresso:espresso-contrib:$espresso_version") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'design'
+    }
     compile "com.android.support:support-annotations:$support_version"
-    compile "com.android.support.test.espresso:espresso-idling-resource:$espresso_version"
-    androidTestCompile "com.android.support.test:runner:$runner_version"
+    androidTestCompile "com.android.support.test.espresso:espresso-idling-resource:$espresso_version"
+    androidTestCompile ("com.android.support.test:runner:$runner_version") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
     // ButterKnife
     compile "com.jakewharton:butterknife:$butterknife_version"
@@ -138,5 +149,11 @@ dependencies {
 
     // Stetho
     compile "com.facebook.stetho:stetho:$stetho_version"
+
+    // Room
+    compile "android.arch.persistence.room:runtime:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+    testCompile "android.arch.persistence.room:testing:$room_version"
+    compile "android.arch.persistence.room:rxjava2:$room_version"
 
 }
