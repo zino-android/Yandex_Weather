@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CurrentWeather {
+public class CurrentWeatherResponse {
 
     @SerializedName("base")
     @Expose
@@ -36,7 +36,7 @@ public class CurrentWeather {
     private Sys sys;
     @SerializedName("weather")
     @Expose
-    private List<Weather> weather = null;
+    private List<Weather> weather;
     @SerializedName("wind")
     @Expose
     private Wind wind;

@@ -1,5 +1,6 @@
 package com.chichkanov.yandex_weather.ui.adapter;
 
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Date now = new Date(forecasts.get(position).getDateTime() * 1000);
+        int pos = holder.getAdapterPosition();
+
+        Date now = new Date(forecasts.get(pos).getDateTime() * 1000);
 // or you can use
 // long millis = System.currentTimeInMillis();
 // Date now = new Date(millis);
@@ -60,8 +63,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
         SimpleDateFormat formatter = new SimpleDateFormat(datePattern);
         String formattedDate = formatter.format(now);
 
-        holder.textView.setText(formattedDate + " " + String.valueOf(forecasts.get(position).getDayTemp()
-                + " / " + String.valueOf(forecasts.get(position).getNightTemp())));
+        holder.textView.setText(formattedDate + " " + String.valueOf(forecasts.get(pos).getDayTemp()
+                + " / " + String.valueOf(forecasts.get(pos).getNightTemp())));
 //        holder.itemView.setOnClickListener(view -> listener.onCityClick(forecasts.get(holder.getAdapterPosition())));
     }
 
@@ -71,7 +74,11 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
     }
 
     public void setForecasts(List<Forecast> forecasts) {
+
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(
+                new ForecastItemDiffCallback(this.forecasts, forecasts), false);
         this.forecasts = forecasts;
-        notifyItemRangeChanged(0, forecasts.size());
+        result.dispatchUpdatesTo(ForecastAdapter.this);
+
     }
 }

@@ -6,9 +6,10 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "forecasts")
 public class Forecast {
-    @PrimaryKey(autoGenerate = true)
+//    @PrimaryKey(autoGenerate = true)
     private int id;
     private int cityId;
+    @PrimaryKey
     private long dateTime;
     private double pressure;
     private int humidity;
@@ -168,5 +169,24 @@ public class Forecast {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Forecast forecast = (Forecast) o;
+
+        if (id != forecast.id) return false;
+        return cityId == forecast.cityId;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + cityId;
+        return result;
     }
 }

@@ -20,8 +20,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.R;
+import com.chichkanov.yandex_weather.model.CurrentWeather;
 import com.chichkanov.yandex_weather.model.Forecast;
-import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeatherResponse;
 import com.chichkanov.yandex_weather.ui.BaseFragment;
 import com.chichkanov.yandex_weather.ui.adapter.ForecastAdapter;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
@@ -115,7 +116,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
         getActivity().setTitle(R.string.menu_weather);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setProgressViewOffset(false, 0, 100);
-        weatherPresenter.loadCurrentWeather();
+        weatherPresenter.onRefresh();
     }
 
     @Override
@@ -144,12 +145,13 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
         windIcon.setVisibility(View.VISIBLE);
         humidityIcon.setVisibility(View.VISIBLE);
 
-        tvTemp.setText(getString(R.string.weather_temperature, (int) weather.getMain().getTemp()));
-        tvWind.setText(getString(R.string.weather_wind_speed, (int) weather.getWind().getSpeed()));
-        tvHumidity.setText(getString(R.string.weather_humidity, weather.getMain().getHumidity()));
-        tvDesc.setText(weather.getWeather().get(0).getDescription());
-        tvMinMaxTemp.setText(getString(R.string.weather_temperature_minmax, (int) weather.getMain().getTempMax(), (int) weather.getMain().getTempMin()));
-        ivIcon.setImageDrawable(WeatherUtils.chooseIcon(weather.getWeather().get(0).getIcon().substring(0, 2), getContext()));
+        tvTemp.setText(getString(R.string.weather_temperature, (int) weather.getTemp()));
+        tvWind.setText(getString(R.string.weather_wind_speed, (int) weather.getWindSpeed()));
+        tvHumidity.setText(getString(R.string.weather_humidity, weather.getHumidity()));
+        tvDesc.setText(weather.getDescription());
+        tvMinMaxTemp.setText(getString(R.string.weather_temperature_minmax, (int) weather.getMaxTemp(),
+                (int) weather.getMinTemp()));
+        ivIcon.setImageDrawable(WeatherUtils.chooseIcon(weather.getIcon().substring(0, 2), getContext()));
 
         tvLatestUpdate.setVisibility(View.VISIBLE);
         tvLatestUpdate.setText(getString(R.string.weather_latest_update_time, lastUpdateDate));
@@ -162,8 +164,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
 
     @Override
     public void onRefresh() {
-        weatherPresenter.loadCurrentWeather();
-        weatherPresenter.loadForecastWeather();
+        weatherPresenter.onRefresh();
     }
 
     @Override

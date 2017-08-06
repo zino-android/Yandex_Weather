@@ -1,14 +1,16 @@
 package com.chichkanov.yandex_weather.interactor;
 
 import com.chichkanov.yandex_weather.App;
+import com.chichkanov.yandex_weather.model.CurrentWeather;
 import com.chichkanov.yandex_weather.model.Forecast;
-import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeatherResponse;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 public class WeatherInteractorImpl implements WeatherInteractor {
@@ -21,12 +23,12 @@ public class WeatherInteractorImpl implements WeatherInteractor {
     }
 
     @Override
-    public Observable<CurrentWeather> getWeather(String cityName) {
+    public Flowable<CurrentWeather> getWeather(String cityName) {
         return repository.getWeather(cityName);
     }
 
     @Override
-    public Observable<List<Forecast>> getForecasts(String cityName) {
+    public Flowable<List<Forecast>> getForecasts(String cityName) {
         return repository.getForecasts(cityName);
     }
 }

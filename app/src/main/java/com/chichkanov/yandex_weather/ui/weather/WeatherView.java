@@ -1,8 +1,9 @@
 package com.chichkanov.yandex_weather.ui.weather;
 
 import com.arellomobile.mvp.MvpView;
+import com.chichkanov.yandex_weather.model.CurrentWeather;
 import com.chichkanov.yandex_weather.model.Forecast;
-import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeatherResponse;
 
 import java.util.List;
 

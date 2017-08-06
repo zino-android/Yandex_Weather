@@ -1,16 +1,13 @@
 package com.chichkanov.yandex_weather.repository;
 
-import android.util.Log;
-
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.api.WeatherApi;
 import com.chichkanov.yandex_weather.db.WeatherDatabase;
+import com.chichkanov.yandex_weather.model.CurrentWeather;
 import com.chichkanov.yandex_weather.model.Forecast;
-import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
 import com.chichkanov.yandex_weather.model.forecast.ForecastItemResponse;
 import com.chichkanov.yandex_weather.model.forecast.ForecastResponse;
 import com.chichkanov.yandex_weather.utils.Constants;
-import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
 
@@ -19,7 +16,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 public class WeatherRepositoryImpl implements WeatherRepository {
 
@@ -29,8 +28,6 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     @Inject
     Settings settings;
 
-    @Inject
-    IOtools iotools;
 
     @Inject
     WeatherDatabase database;
@@ -40,45 +37,66 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     }
 
     @Override
-    public Observable<CurrentWeather> getWeather(String cityName) {
+    public Flowable<CurrentWeather> getWeather(String cityName) {
 
         String locale = WeatherUtils.getLocale();
 
-        Observable<CurrentWeather> weatherDb = null;
-        CurrentWeather currentWeather = iotools.getCurrentWeather();
-        if (currentWeather != null) {
-            weatherDb = Observable.just(currentWeather);
-            Log.i("Repository", "Cache exist");
-        }
+        Maybe<CurrentWeather> weatherDb = database.currentWeatherDao().loadCurrentWeatherByCityId(524901);
 
-        Observable<CurrentWeather> weatherInternet = weatherApi
+        Single<CurrentWeather> weatherInternet = weatherApi
                 .getWeather(cityName, Constants.API_KEY, locale, "metric")
-                .doOnNext(f -> {
+
+                .map(currentWeatherResponse -> {
+                    CurrentWeather currentWeather = new CurrentWeather();
+                    currentWeather.setCityId(currentWeatherResponse.getId());
+                    currentWeather.setWindDegree(currentWeatherResponse.getWind().getDeg());
+                    currentWeather.setWindSpeed(currentWeatherResponse.getWind().getSpeed());
+                    currentWeather.setTitle(currentWeatherResponse.getWeather().get(0).getMain());
+                    currentWeather.setDescription(currentWeatherResponse.getWeather().get(0).getDescription());
+                    currentWeather.setIcon(currentWeatherResponse.getWeather().get(0).getIcon());
+                    currentWeather.setPressure(currentWeatherResponse.getMain().getPressure());
+                    currentWeather.setHumidity(currentWeatherResponse.getMain().getHumidity());
+                    currentWeather.setClouds(currentWeatherResponse.getClouds().getAll());
+                    currentWeather.setMaxTemp(currentWeatherResponse.getMain().getTempMax());
+                    currentWeather.setMinTemp(currentWeatherResponse.getMain().getTempMin());
+                    currentWeather.setTemp(currentWeatherResponse.getMain().getTemp());
+                    currentWeather.setDateTime(currentWeatherResponse.getDt());
+                    currentWeather.setSunrise(currentWeatherResponse.getSys().getSunrise());
+                    currentWeather.setSunset(currentWeatherResponse.getSys().getSunset());
+                    return currentWeather;
+                })
+                .map(f -> {
                     settings.saveLastUpdateTime();
-                    iotools.saveCurrentWeather(f);
+                    database.currentWeatherDao().insertCurrentWeather(f);
+                    return f;
                 });
 
         if (weatherDb == null) {
-            return weatherInternet;
+            return weatherInternet.toFlowable();
         } else {
-            return Observable.concat(weatherDb, weatherInternet);
+            return Flowable.concat(weatherDb.toFlowable(), weatherInternet.toFlowable());
         }
     }
 
     @Override
-    public Observable<List<Forecast>> getForecasts(String cityName) {
+    public Flowable<List<Forecast>> getForecasts(String cityName) {
         String locale = WeatherUtils.getLocale();
 
-        Observable<List<Forecast>> forecastInternet = weatherApi
+
+        Single<List<Forecast>> forecastDb = database.forecastDao().loadForecastByDateTime(System.currentTimeMillis() / 1000);
+
+        Single<List<Forecast>> forecastInternet = weatherApi
                 .getForecasts(cityName, Constants.API_KEY, locale, "metric")
                 .map(this::transformForecastResponseToList)
-                .doOnNext(forecasts -> {
+                .doOnSuccess(forecasts -> {
                    database.forecastDao().insertForecasts(forecasts);
                 });
 
-
-
-        return forecastInternet;
+        if (forecastDb == null) {
+            return forecastInternet.toFlowable();
+        } else {
+            return Single.concat(forecastDb, forecastInternet);
+        }
     }
 
     private List<Forecast> transformForecastResponseToList(ForecastResponse forecastResponse) {

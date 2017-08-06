@@ -3,9 +3,8 @@ package com.chichkanov.yandex_weather.ui.weather;
 
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 
-import com.chichkanov.yandex_weather.model.current_weather.CurrentWeather;
+import com.chichkanov.yandex_weather.model.current_weather.CurrentWeatherResponse;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
-import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
 import com.google.gson.Gson;
 
@@ -86,7 +85,7 @@ public class WeatherPresenterTest {
         HttpException nothing = new HttpException(Response.error(404, ResponseBody.create(null, "NOTHING")));
         when(weatherInteractor.getWeather(DEFAULT_CITY)).thenReturn(Observable.error(nothing));
         when(settings.getCurrentCity()).thenReturn(DEFAULT_CITY);
-        when(iOtools.getCurrentWeather()).thenReturn(new Gson().fromJson(json, CurrentWeather.class));
+        when(iOtools.getCurrentWeather()).thenReturn(new Gson().fromJson(json, CurrentWeatherResponse.class));
 
         presenter.loadCurrentWeather();
         verify(weatherView, times(1)).showLoading();
@@ -98,7 +97,7 @@ public class WeatherPresenterTest {
 
     @Test
     public void testLoadWeatherSuccess() {
-        CurrentWeather weather = new Gson().fromJson(json, CurrentWeather.class);
+        CurrentWeatherResponse weather = new Gson().fromJson(json, CurrentWeatherResponse.class);
         when(weatherInteractor.getWeather(DEFAULT_CITY)).thenReturn(Observable.just(weather));
         when(settings.getCurrentCity()).thenReturn(DEFAULT_CITY);
         presenter.loadCurrentWeather();

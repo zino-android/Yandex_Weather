@@ -4,7 +4,6 @@ import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 import com.chichkanov.yandex_weather.ui.change_city.ChangeCityPresenter;
 import com.chichkanov.yandex_weather.ui.weather.WeatherPresenter;
-import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
 
 import javax.inject.Singleton;
@@ -25,7 +24,7 @@ public class PresenterModule {
 
     @Singleton
     @Provides
-    WeatherPresenter provideWeatherPresenter(WeatherInteractorImpl interactor, Settings settings, IOtools iOtools) {
-        return new WeatherPresenter(interactor, settings, iOtools, Schedulers.io(), AndroidSchedulers.mainThread());
+    WeatherPresenter provideWeatherPresenter(WeatherInteractorImpl interactor, Settings settings) {
+        return new WeatherPresenter(interactor, settings, Schedulers.io(), AndroidSchedulers.mainThread());
     }
 }

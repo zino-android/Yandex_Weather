@@ -7,7 +7,6 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
-import com.chichkanov.yandex_weather.utils.IOtools;
 import com.chichkanov.yandex_weather.utils.Settings;
 
 import java.text.DateFormat;
@@ -26,8 +25,6 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     private Settings settings;
 
-    private IOtools iotools;
-
     private Disposable weatherSubscription;
     private Disposable forecastSubscription;
 
@@ -37,10 +34,9 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     private Scheduler mainScheduler;
 
     @Inject
-    public WeatherPresenter(WeatherInteractorImpl interactor, Settings settings, IOtools iotools, Scheduler io, Scheduler main) {
+    public WeatherPresenter(WeatherInteractorImpl interactor, Settings settings,  Scheduler io, Scheduler main) {
         this.interactor = interactor;
         this.settings = settings;
-        this.iotools = iotools;
         this.ioScheduler = io;
         this.mainScheduler = main;
     }
@@ -51,7 +47,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         Log.i("Presenter", "Loading weather");
         weatherSubscription = interactor.getWeather(cityName)
                 .subscribeOn(ioScheduler)
-                .observeOn(mainScheduler, true)
+                .observeOn(mainScheduler, false)
                 .subscribe(response -> {
                     Log.i("Presenter", "Success");
 
@@ -65,7 +61,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     Log.i("Presenter", "Error loading");
                     Log.i("onError", throwable.toString());
                     getViewState().hideLoading();
-                    if (iotools.getCurrentWeather() == null) getViewState().showError();
+                    getViewState().showError();
                 });
 
 
@@ -99,6 +95,9 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         if (weatherSubscription != null) {
             weatherSubscription.dispose();
         }
+        if (forecastSubscription != null) {
+            forecastSubscription.dispose();
+        }
     }
 
     void addNavigationManager(NavigationManager navigationManager) {
@@ -109,5 +108,10 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         if (navigationManager != null) {
             navigationManager.navigateTo(ChangeCityFragment.newInstance());
         }
+    }
+
+    void onRefresh() {
+        loadCurrentWeather();
+        loadForecastWeather();
     }
 }
