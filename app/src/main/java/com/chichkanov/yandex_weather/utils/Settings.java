@@ -14,6 +14,7 @@ public class Settings {
     public final static String REFRESH_UPDATE_KEY = "refresh_update";
     public final static String LAST_UPDATE_KEY = "last_update";
     public final static String CURRENT_CITY_KEY = "current_city";
+    public final static String ABOUT_KEY = "about";
 
     private static SharedPreferences prefsDefault;
     private Context context;

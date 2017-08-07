@@ -33,8 +33,6 @@ import java.util.List;
 import butterknife.BindView;
 
 public class WeatherFragment extends BaseFragment implements WeatherView, SwipeRefreshLayout.OnRefreshListener {
-    private static final int POSITION_IN_MENU = 0;
-
     @BindView(R.id.tv_weather_city)
     TextView tvCity;
     @BindView(R.id.tv_weather_temp)
@@ -93,8 +91,8 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        onDrawerEnabled.setDrawerEnabled(true);
         weatherPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
-        menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
 
         rvForecast.setHasFixedSize(true);
 
@@ -176,6 +174,9 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.nav_change_city) {
             weatherPresenter.onMenuChangeCityClick();
+        }
+        if (item.getItemId() == R.id.nav_settings) {
+            weatherPresenter.onMenuSettingsClick();
         }
         return super.onOptionsItemSelected(item);
     }

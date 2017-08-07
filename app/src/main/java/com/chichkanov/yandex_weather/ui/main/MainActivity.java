@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends MvpAppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, MainView, OnMenuItemChangeListener {
+        NavigationView.OnNavigationItemSelectedListener, MainView, OnDrawerEnabled {
 
     @InjectPresenter
     MainPresenter mainPresenter;
@@ -31,6 +31,7 @@ public class MainActivity extends MvpAppCompatActivity implements
     DrawerLayout drawerLayout;
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,7 @@ public class MainActivity extends MvpAppCompatActivity implements
         mainPresenter.addNavigationManager(new NavigationManager(getSupportFragmentManager(), R.id.content_main));
 
         if (savedInstanceState == null) {
-            navigationView.getMenu().getItem(0).setChecked(true);
-            onNavigationItemSelected(navigationView.getMenu().getItem(0));
+            mainPresenter.showWeatherFragment();
         }
     }
 
@@ -60,7 +60,7 @@ public class MainActivity extends MvpAppCompatActivity implements
     private void initNavigation() {
         setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -70,20 +70,6 @@ public class MainActivity extends MvpAppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        switch (id) {
-            case R.id.nav_weather: {
-                mainPresenter.showWeatherFragment();
-                break;
-            }
-            case R.id.nav_settings: {
-                mainPresenter.showSettingsFragment();
-                break;
-            }
-            case R.id.nav_about: {
-                mainPresenter.showAboutFragment();
-                break;
-            }
-        }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -96,7 +82,25 @@ public class MainActivity extends MvpAppCompatActivity implements
     }
 
     @Override
-    public void onMenuItemChange(int position) {
-        navigationView.getMenu().getItem(position).setChecked(true);
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void setDrawerEnabled(boolean isEnabled) {
+        int lockMode = isEnabled ? DrawerLayout.LOCK_MODE_UNLOCKED :
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        drawerLayout.setDrawerLockMode(lockMode);
+        if (isEnabled) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            toggle.setDrawerIndicatorEnabled(true);
+            toggle.setToolbarNavigationClickListener(null);
+        }
+        else {
+            toggle.setDrawerIndicatorEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toggle.setToolbarNavigationClickListener(v -> onBackPressed());
+        }
     }
 }

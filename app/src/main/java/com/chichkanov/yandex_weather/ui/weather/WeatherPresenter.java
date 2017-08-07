@@ -8,6 +8,7 @@ import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
+import com.chichkanov.yandex_weather.ui.settings.SettingsFragment;
 import com.chichkanov.yandex_weather.utils.Settings;
 
 import java.text.DateFormat;
@@ -117,7 +118,13 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     void onMenuChangeCityClick() {
         if (navigationManager != null) {
-            navigationManager.navigateTo(ChangeCityFragment.newInstance());
+            navigationManager.navigateToAndAddBackStack(ChangeCityFragment.newInstance());
+        }
+    }
+
+    void onMenuSettingsClick() {
+        if (navigationManager != null) {
+            navigationManager.navigateToAndAddBackStack(SettingsFragment.newInstance());
         }
     }
 

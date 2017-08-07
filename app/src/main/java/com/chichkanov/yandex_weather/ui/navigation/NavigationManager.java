@@ -19,4 +19,12 @@ public class NavigationManager {
                 .replace(containerId, fragment)
                 .commit();
     }
+
+    public void navigateToAndAddBackStack(Fragment fragment) {
+        fragmentManager
+                .beginTransaction()
+                .replace(containerId, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }

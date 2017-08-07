@@ -6,20 +6,20 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
-import com.chichkanov.yandex_weather.ui.main.OnMenuItemChangeListener;
+import com.chichkanov.yandex_weather.ui.main.OnDrawerEnabled;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class BaseFragment extends MvpAppCompatFragment {
 
-    protected OnMenuItemChangeListener menuItemChangeListener;
+    protected OnDrawerEnabled onDrawerEnabled;
     protected Unbinder unbinder;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        menuItemChangeListener = (OnMenuItemChangeListener) activity;
+        onDrawerEnabled = (OnDrawerEnabled) activity;
 
     }
 

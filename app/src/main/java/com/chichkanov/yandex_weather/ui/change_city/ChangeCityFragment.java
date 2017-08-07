@@ -31,8 +31,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
-    private static final int POSITION_IN_MENU = 1;
-
     @BindView(R.id.et_city_name)
     EditText etCityName;
     @BindView(R.id.rv_suggestions)
@@ -67,8 +65,8 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        onDrawerEnabled.setDrawerEnabled(false);
         getActivity().setTitle(R.string.settings_change_city);
-        menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
         changeCityPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
         setCityNameObservable();
 
