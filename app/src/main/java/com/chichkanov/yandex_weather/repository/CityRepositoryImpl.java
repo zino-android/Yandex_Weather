@@ -2,14 +2,19 @@ package com.chichkanov.yandex_weather.repository;
 
 import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.api.PlacesApi;
+import com.chichkanov.yandex_weather.db.WeatherDatabase;
+import com.chichkanov.yandex_weather.model.City;
 import com.chichkanov.yandex_weather.model.places.CitySuggestion;
+import com.chichkanov.yandex_weather.model.places.Prediction;
 import com.chichkanov.yandex_weather.utils.Constants;
-import com.chichkanov.yandex_weather.utils.Settings;
 import com.chichkanov.yandex_weather.utils.WeatherUtils;
 
 import javax.inject.Inject;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class CityRepositoryImpl implements CityRepository {
@@ -18,7 +23,7 @@ public class CityRepositoryImpl implements CityRepository {
     PlacesApi placesApi;
 
     @Inject
-    Settings settings;
+    WeatherDatabase database;
 
     public CityRepositoryImpl() {
         App.getComponent().inject(this);
@@ -34,12 +39,20 @@ public class CityRepositoryImpl implements CityRepository {
     }
 
     @Override
-    public void setCurrentCity(String city) {
-        settings.setCurrentCity(city);
+    public void setCurrentCity(Prediction prediction) {
+        City city = new City();
+        city.setPlacesId(prediction.getId());
+        city.setSelected(true);
+        city.setDescription(prediction.getDescription());
+        city.setName(prediction.getStructuredFormatting().getMainText());
+        Single.fromCallable(() -> database.cityDao().insertCity(city))
+                .subscribeOn(Schedulers.io())
+                .subscribe(i -> {database.cityDao().updateSelectedCity(i);});
+
     }
 
     @Override
-    public String getCurrentCity() {
-        return settings.getCurrentCity();
+    public Maybe<City> getCurrentCity() {
+        return database.cityDao().loadCurrentCity();
     }
 }

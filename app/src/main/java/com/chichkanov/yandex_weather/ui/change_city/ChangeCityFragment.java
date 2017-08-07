@@ -25,11 +25,10 @@ import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import java.util.List;
 
 public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     private static final int POSITION_IN_MENU = 1;
@@ -78,7 +77,7 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
         rvSuggestions.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         adapter = new CitySuggestionAdapter(new ArrayList<>(), prediction -> {
-            changeCityPresenter.onCurrentCityChanged(prediction.getDescription());
+            changeCityPresenter.onCurrentCityChanged(prediction);
             hideKeyboard();
         });
         rvSuggestions.setAdapter(adapter);

@@ -28,7 +28,6 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     @Inject
     Settings settings;
 
-
     @Inject
     WeatherDatabase database;
 
@@ -41,11 +40,11 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 
         String locale = WeatherUtils.getLocale();
 
-        Maybe<CurrentWeather> weatherDb = database.currentWeatherDao().loadCurrentWeatherByCityId(524901);
+        Maybe<CurrentWeather> weatherDb = database.cityDao().loadCurrentCity()
+                .flatMap(c -> database.currentWeatherDao().loadCurrentWeatherByCityId(c.getCityId()));
 
         Single<CurrentWeather> weatherInternet = weatherApi
                 .getWeather(cityName, Constants.API_KEY, locale, "metric")
-
                 .map(currentWeatherResponse -> {
                     CurrentWeather currentWeather = new CurrentWeather();
                     currentWeather.setCityId(currentWeatherResponse.getId());
@@ -67,7 +66,10 @@ public class WeatherRepositoryImpl implements WeatherRepository {
                 })
                 .map(f -> {
                     settings.saveLastUpdateTime();
+//                    City city = database.cityDao().loadCurrentCity().blockingGet();
+//                    f.setCityName(city.getName());
                     database.currentWeatherDao().insertCurrentWeather(f);
+                    database.cityDao().updateSelectedCityId(f.getCityId());
                     return f;
                 });
 

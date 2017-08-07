@@ -3,7 +3,6 @@ package com.chichkanov.yandex_weather.api;
 import com.chichkanov.yandex_weather.model.current_weather.CurrentWeatherResponse;
 import com.chichkanov.yandex_weather.model.forecast.ForecastResponse;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

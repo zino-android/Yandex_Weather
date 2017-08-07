@@ -1,15 +1,16 @@
 package com.chichkanov.yandex_weather.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 
-@Entity(tableName = "forecasts")
+@Entity(tableName = "forecasts", indices = @Index(value = "dateTime", unique = true))
+
 public class Forecast {
-//    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private int cityId;
-    @PrimaryKey
     private long dateTime;
     private double pressure;
     private int humidity;

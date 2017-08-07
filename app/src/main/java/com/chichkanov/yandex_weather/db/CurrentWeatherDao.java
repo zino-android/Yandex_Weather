@@ -9,7 +9,6 @@ import android.arch.persistence.room.Query;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
 
 import io.reactivex.Maybe;
-import io.reactivex.Single;
 
 @Dao
 public interface CurrentWeatherDao {

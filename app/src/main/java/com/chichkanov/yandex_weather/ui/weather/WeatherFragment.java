@@ -22,7 +22,6 @@ import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
 import com.chichkanov.yandex_weather.model.Forecast;
-import com.chichkanov.yandex_weather.model.current_weather.CurrentWeatherResponse;
 import com.chichkanov.yandex_weather.ui.BaseFragment;
 import com.chichkanov.yandex_weather.ui.adapter.ForecastAdapter;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;

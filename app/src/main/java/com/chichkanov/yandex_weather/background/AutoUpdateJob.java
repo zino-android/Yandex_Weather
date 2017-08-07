@@ -3,8 +3,8 @@ package com.chichkanov.yandex_weather.background;
 import android.support.annotation.NonNull;
 
 import com.chichkanov.yandex_weather.App;
+import com.chichkanov.yandex_weather.repository.CityRepositoryImpl;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
-import com.chichkanov.yandex_weather.utils.Settings;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
 
@@ -12,13 +12,16 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.schedulers.Schedulers;
+
 public class AutoUpdateJob extends Job {
 
     @Inject
     WeatherRepositoryImpl repository;
 
     @Inject
-    Settings settings;
+    CityRepositoryImpl cityRepository;
+
 
     static final String TAG = "auto_update_job";
 
@@ -29,9 +32,16 @@ public class AutoUpdateJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        String currentCity = settings.getCurrentCity();
-        repository.getWeather(currentCity).subscribe();
-        repository.getForecasts(currentCity).subscribe();
+        cityRepository.getCurrentCity().subscribeOn(Schedulers.io())
+                .subscribe(city -> {
+                    repository.getWeather(city.getDescription())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe();
+                    repository.getForecasts(city.getDescription())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe();
+                });
+
         return Result.SUCCESS;
     }
 

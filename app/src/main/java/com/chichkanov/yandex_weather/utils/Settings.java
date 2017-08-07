@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.support.v7.preference.PreferenceManager;
 
 import com.chichkanov.yandex_weather.App;
-import com.chichkanov.yandex_weather.R;
 
 import javax.inject.Singleton;
 
@@ -39,6 +38,8 @@ public class Settings {
         return prefsDefault.getLong(LAST_UPDATE_KEY, 0);
     }
 
+    /*
+
     public void setCurrentCity(String city) {
         prefsDefault.edit().putString(CURRENT_CITY_KEY, city).apply();
     }
@@ -47,4 +48,5 @@ public class Settings {
         return prefsDefault.getString(CURRENT_CITY_KEY,
                 context.getResources().getString(R.string.default_city));
     }
+    */
 }

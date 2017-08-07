@@ -2,11 +2,13 @@ package com.chichkanov.yandex_weather.model;
 
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "current_weather")
+@Entity(tableName = "current_weather", indices = @Index(value = "cityId", unique = true))
 public class CurrentWeather {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private int cityId;
     private long dateTime;
     private long sunrise;
@@ -22,6 +24,14 @@ public class CurrentWeather {
     private double windSpeed;
     private double windDegree;
     private int clouds;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getCityId() {
         return cityId;
