@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 
@@ -66,9 +68,20 @@ public class MainActivity extends MvpAppCompatActivity implements
         adapter = new CityAdapter(getApplicationContext(), new ArrayList<>(), city -> {
             mainPresenter.onCitySelectedChanged(city.getCityId());
             drawerLayout.closeDrawer(Gravity.START);
+        }, () -> {
+            mainPresenter.showChangeCityFragment();
         });
         rvCities.setAdapter(adapter);
         mainPresenter.loadCities();
+
+        CityItemTouchHelper cityItemTouchHelper = new CityItemTouchHelper(i -> {
+
+            mainPresenter.deleteCityById(adapter.getCities().get(i));
+        }, adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cityItemTouchHelper);
+
+        itemTouchHelper.attachToRecyclerView(rvCities);
 
 
         if (savedInstanceState == null) {
@@ -133,6 +146,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     @Override
     public void showCities(List<CityMenu> cities) {
+        Log.i("wwwwwww", "showCities: ");
         adapter.setCities(cities);
     }
 }

@@ -47,4 +47,9 @@ public class ChangeCityInteractorImpl implements ChangeCityInteractor {
     public void setCitySelected(int cityId) {
         repository.setCitySelected(cityId);
     }
+
+    @Override
+    public void deleteCityById(int cityId) {
+        repository.deleteCityById(cityId);
+    }
 }

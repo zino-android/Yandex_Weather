@@ -20,4 +20,7 @@ public interface CurrentWeatherDao {
 
     @Query("SELECT temp FROM current_weather WHERE cityId = :cityId LIMIT 1")
     public Single<Double> loadCurrentTempByCityId(int cityId);
+
+    @Query("DELETE FROM current_weather WHERE cityId = :cityId")
+    public void deleteCurrentWeatherByCityId(int cityId);
 }

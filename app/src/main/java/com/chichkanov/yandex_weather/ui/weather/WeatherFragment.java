@@ -171,9 +171,6 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.nav_change_city) {
-            weatherPresenter.onMenuChangeCityClick();
-        }
         if (item.getItemId() == R.id.nav_settings) {
             weatherPresenter.onMenuSettingsClick();
         }

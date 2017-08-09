@@ -86,4 +86,13 @@ public class CityRepositoryImpl implements CityRepository {
         }).subscribeOn(Schedulers.io()).subscribe();
 
     }
+
+    @Override
+    public void deleteCityById(int cityId) {
+        Completable.fromAction(() -> {
+            database.cityDao().deleteCityById(cityId);
+            database.currentWeatherDao().deleteCurrentWeatherByCityId(cityId);
+            database.forecastDao().deleteForecastsByCityId(cityId);
+        }).subscribeOn(Schedulers.io()).subscribe();
+    }
 }

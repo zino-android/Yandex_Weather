@@ -21,4 +21,7 @@ public interface ForecastDao {
 
     @Query("DELETE FROM forecasts WHERE dateTime <= :dateTime")
     public void deleteOldForecasts(long dateTime);
+
+    @Query("DELETE FROM forecasts WHERE cityId = :cityId")
+    public void deleteForecastsByCityId(int cityId);
 }

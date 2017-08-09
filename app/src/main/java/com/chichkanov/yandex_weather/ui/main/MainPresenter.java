@@ -54,7 +54,7 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     void showChangeCityFragment() {
-        navigationManager.navigateTo(ChangeCityFragment.newInstance());
+        navigationManager.navigateToAndAddBackStack(ChangeCityFragment.newInstance());
     }
 
 
@@ -94,5 +94,9 @@ public class MainPresenter extends MvpPresenter<MainView> {
                     Log.i("wwwww", "loadCities: ");
                     getViewState().showCities(cities);
                 });
+    }
+
+    public void deleteCityById(CityMenu cityMenu) {
+        changeCityInteractor.deleteCityById(cityMenu.getCityId());
     }
 }

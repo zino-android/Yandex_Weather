@@ -179,8 +179,8 @@ public class Forecast {
 
         Forecast forecast = (Forecast) o;
 
-        if (id != forecast.id) return false;
-        return cityId == forecast.cityId;
+        if (cityId != forecast.cityId) return false;
+        return dateTime == forecast.dateTime;
 
     }
 

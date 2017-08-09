@@ -39,21 +39,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onViewCreated(view, savedInstanceState);
         onDrawerEnabled.setDrawerEnabled(false);
         navigationManager = new NavigationManager(getFragmentManager(), R.id.content_main);
-        Preference prefs = getPreferenceManager().findPreference(Settings.CURRENT_CITY_KEY);
-        prefs.setSummary(prefs.getSharedPreferences().getString(Settings.CURRENT_CITY_KEY,
-                getResources().getString(R.string.default_city)));
-
-
-
-
     }
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey().equals(Settings.CURRENT_CITY_KEY)) {
-            navigationManager.navigateToAndAddBackStack(ChangeCityFragment.newInstance());
-            return true;
-        }
         if (preference.getKey().equals(Settings.ABOUT_KEY)) {
             navigationManager.navigateToAndAddBackStack(AboutFragment.newInstance());
             return true;

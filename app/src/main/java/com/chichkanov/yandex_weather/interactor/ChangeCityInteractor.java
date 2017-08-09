@@ -20,4 +20,6 @@ public interface ChangeCityInteractor {
     Flowable<List<City>> getCities();
 
     void setCitySelected(int cityId);
+
+    void deleteCityById(int cityId);
 }

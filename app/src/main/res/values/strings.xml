@@ -48,6 +48,7 @@
     <string name="change_city_hint">Enter the name of the city</string>
     <string name="default_city">Moscow</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="add_city">Add city</string>
 
 
 </resources>
