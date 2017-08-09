@@ -14,6 +14,7 @@ import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 import com.chichkanov.yandex_weather.repository.CityRepositoryImpl;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 import com.chichkanov.yandex_weather.ui.change_city.ChangeCityPresenter;
+import com.chichkanov.yandex_weather.ui.main.MainPresenter;
 import com.chichkanov.yandex_weather.ui.weather.WeatherPresenter;
 import com.chichkanov.yandex_weather.utils.Settings;
 
@@ -47,6 +48,8 @@ public interface AppComponent {
     ChangeCityPresenter getChangeCityPresenter();
 
     WeatherPresenter getWeatherPresenter();
+
+    MainPresenter getMainPresenter();
 
     void inject(WeatherDatabase weatherDatabase);
 }

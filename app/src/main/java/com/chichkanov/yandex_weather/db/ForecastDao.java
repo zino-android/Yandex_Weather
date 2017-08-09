@@ -16,8 +16,8 @@ public interface ForecastDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertForecasts(List<Forecast> forecasts);
 
-    @Query("SELECT * FROM forecasts WHERE dateTime >= :dateTime ORDER BY dateTime ASC")
-    public Single<List<Forecast>> loadForecastByDateTime(long dateTime);
+    @Query("SELECT * FROM forecasts WHERE dateTime >= :dateTime AND cityId = :cityId ORDER BY dateTime ASC")
+    public Single<List<Forecast>> loadForecastByDateTimeAndCityId(long dateTime, int cityId);
 
     @Query("DELETE FROM forecasts WHERE dateTime <= :dateTime")
     public void deleteOldForecasts(long dateTime);

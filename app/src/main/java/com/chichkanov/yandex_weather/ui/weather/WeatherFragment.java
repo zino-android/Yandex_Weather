@@ -113,7 +113,6 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
         getActivity().setTitle(R.string.menu_weather);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setProgressViewOffset(false, 0, 100);
-        weatherPresenter.onRefresh();
     }
 
     @Override
@@ -142,12 +141,12 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
         windIcon.setVisibility(View.VISIBLE);
         humidityIcon.setVisibility(View.VISIBLE);
 
-        tvTemp.setText(getString(R.string.weather_temperature, (int) weather.getTemp()));
+        tvTemp.setText(getString(R.string.weather_temperature, Math.round(weather.getTemp())));
         tvWind.setText(getString(R.string.weather_wind_speed, (int) weather.getWindSpeed()));
         tvHumidity.setText(getString(R.string.weather_humidity, weather.getHumidity()));
         tvDesc.setText(weather.getDescription());
-        tvMinMaxTemp.setText(getString(R.string.weather_temperature_minmax, (int) weather.getMaxTemp(),
-                (int) weather.getMinTemp()));
+        tvMinMaxTemp.setText(getString(R.string.weather_temperature_minmax, Math.round(weather.getMaxTemp()),
+                Math.round(weather.getMinTemp())));
         ivIcon.setImageDrawable(WeatherUtils.chooseIcon(weather.getIcon().substring(0, 2), getContext()));
 
         tvLatestUpdate.setVisibility(View.VISIBLE);

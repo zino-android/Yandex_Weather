@@ -32,15 +32,14 @@ public class AutoUpdateJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        cityRepository.getCurrentCity().subscribeOn(Schedulers.io())
-                .subscribe(city -> {
-                    repository.getWeather(city.getDescription())
+
+                    repository.getWeather()
                             .subscribeOn(Schedulers.io())
                             .subscribe();
-                    repository.getForecasts(city.getDescription())
+                    repository.getForecasts()
                             .subscribeOn(Schedulers.io())
                             .subscribe();
-                });
+
 
         return Result.SUCCESS;
     }

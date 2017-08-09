@@ -5,7 +5,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 
-@Entity(tableName = "forecasts", indices = @Index(value = "dateTime", unique = true))
+@Entity(tableName = "forecasts", indices = @Index(value = {"dateTime", "cityId"}, unique = true))
 
 public class Forecast {
     @PrimaryKey(autoGenerate = true)

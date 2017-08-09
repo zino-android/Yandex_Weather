@@ -1,7 +1,5 @@
 package com.chichkanov.yandex_weather.ui.weather;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
@@ -24,13 +22,10 @@ import io.reactivex.disposables.Disposable;
 @InjectViewState
 public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
+    private final CompositeDisposable disposables = new CompositeDisposable();
     private WeatherInteractorImpl interactor;
     private ChangeCityInteractor cityInteractor;
-
     private Settings settings;
-
-    private final CompositeDisposable disposables = new CompositeDisposable();
-
     private NavigationManager navigationManager;
 
     private Scheduler ioScheduler;
@@ -38,7 +33,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     @Inject
     public WeatherPresenter(WeatherInteractorImpl interactor, ChangeCityInteractor changeCityInteractor,
-                            Settings settings,  Scheduler io, Scheduler main) {
+                            Settings settings, Scheduler io, Scheduler main) {
         this.interactor = interactor;
         this.cityInteractor = changeCityInteractor;
         this.settings = settings;
@@ -49,18 +44,10 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     void loadCurrentWeather() {
         getViewState().showLoading();
 
-        Disposable weatherDisposable = cityInteractor.getCurrentCity()
-                .toFlowable()
+        Disposable weatherDisposable = interactor.getWeather()
                 .subscribeOn(ioScheduler)
-                .observeOn(mainScheduler)
-                .doOnNext(city -> {
-                    getViewState().showCityName(city.getName());
-                })
-                .observeOn(ioScheduler)
-                .flatMap(city -> interactor.getWeather(city.getDescription()))
                 .observeOn(mainScheduler, false)
                 .subscribe(response -> {
-                    Log.i("Presenter", "Success");
 
                     getViewState().hideLoading();
                     DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
@@ -69,36 +56,43 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     getViewState().showWeather(response, formattedDate);
 
                 }, throwable -> {
-                    Log.i("Presenter", "Error loading");
-                    Log.i("onError", throwable.toString());
                     throwable.printStackTrace();
                     getViewState().hideLoading();
                     getViewState().showError();
                 });
 
 
-
-        Log.i("Presenter", "Loading weather");
+        loadCurrentCity();
 
         disposables.add(weatherDisposable);
 
     }
 
-    public void loadForecastWeather() {
-        Disposable forecastDisposable = cityInteractor.getCurrentCity()
-                .toFlowable()
-                .flatMap(city -> interactor.getForecasts(city.getDescription()))
+    private void loadCurrentCity() {
+        Disposable cityDisposable = cityInteractor.getCurrentCity()
                 .subscribeOn(ioScheduler)
-                .observeOn(mainScheduler, true)
-                .subscribe(forecasts -> {
-                    Log.i("Presenter", "Success");
+                .observeOn(mainScheduler)
+                .subscribe(city -> getViewState().showCityName(city.getName()));
+        disposables.add(cityDisposable);
 
+    }
+
+    @Override
+    public void attachView(WeatherView view) {
+        super.attachView(view);
+        loadForecastWeather();
+        loadCurrentWeather();
+    }
+
+    public void loadForecastWeather() {
+        Disposable forecastDisposable = interactor.getForecasts()
+                .subscribeOn(ioScheduler)
+                .observeOn(mainScheduler)
+                .subscribe(forecasts -> {
                     getViewState().hideLoading();
 
                     getViewState().showForecast(forecasts);
                 }, throwable -> {
-                    Log.i("Presenter", "Error loading");
-                    Log.i("onError", throwable.toString());
                     throwable.printStackTrace();
                     getViewState().hideLoading();
                     getViewState().showError();
@@ -129,7 +123,48 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     }
 
     void onRefresh() {
-        loadCurrentWeather();
-        loadForecastWeather();
+        loadWeatherFromInternet();
+        loadForecastFromInternet();
     }
+
+    private void loadForecastFromInternet() {
+        Disposable forecastDisposable = interactor.getForecastsFromInternet()
+                .subscribeOn(ioScheduler)
+                .observeOn(mainScheduler)
+                .subscribe(forecasts -> {
+                    getViewState().hideLoading();
+
+                    getViewState().showForecast(forecasts);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    getViewState().hideLoading();
+                    getViewState().showError();
+                });
+        disposables.add(forecastDisposable);
+    }
+
+    private void loadWeatherFromInternet() {
+        Disposable weatherDisposable = interactor.getCurrentWeatherFromInternet()
+                .subscribeOn(ioScheduler)
+                .observeOn(mainScheduler)
+                .subscribe(response -> {
+                    getViewState().hideLoading();
+                    DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+                    String formattedDate = dateFormat.format(new Date(settings.getLastUpdateTime()));
+
+                    getViewState().showWeather(response, formattedDate);
+
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    getViewState().hideLoading();
+                    getViewState().showError();
+                });
+
+
+        loadCurrentCity();
+
+        disposables.add(weatherDisposable);
+
+    }
+
 }

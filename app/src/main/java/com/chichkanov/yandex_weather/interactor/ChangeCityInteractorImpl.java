@@ -6,11 +6,12 @@ import com.chichkanov.yandex_weather.model.places.CitySuggestion;
 import com.chichkanov.yandex_weather.model.places.Prediction;
 import com.chichkanov.yandex_weather.repository.CityRepositoryImpl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
-import io.reactivex.Maybe;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
-
 
 
 public class ChangeCityInteractorImpl implements ChangeCityInteractor {
@@ -28,12 +29,22 @@ public class ChangeCityInteractorImpl implements ChangeCityInteractor {
     }
 
     @Override
+    public Flowable<City> getCurrentCity() {
+        return repository.getCurrentCity();
+    }
+
+    @Override
     public void setCurrentCity(Prediction city) {
         repository.setCurrentCity(city);
     }
 
     @Override
-    public Maybe<City> getCurrentCity() {
-        return repository.getCurrentCity();
+    public Flowable<List<City>> getCities() {
+        return repository.getCities();
+    }
+
+    @Override
+    public void setCitySelected(int cityId) {
+        repository.setCitySelected(cityId);
     }
 }

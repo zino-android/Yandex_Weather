@@ -6,9 +6,17 @@ import com.chichkanov.yandex_weather.model.Forecast;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 interface WeatherRepository {
-    Flowable<CurrentWeather> getWeather(String cityName);
+    Flowable<CurrentWeather> getWeather();
 
-    Flowable<List<Forecast>> getForecasts(String cityName);
+    Flowable<List<Forecast>> getForecasts();
+
+    Maybe<Double> getCurrentTempFromDBbyCityId(int cityId);
+
+    Single<CurrentWeather> getCurrentWeatherFromInternet();
+
+    Single<List<Forecast>> getForecastFromInternet();
 }

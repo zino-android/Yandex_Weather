@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 
 import com.chichkanov.yandex_weather.model.CurrentWeather;
 
-import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 @Dao
 public interface CurrentWeatherDao {
@@ -16,5 +16,8 @@ public interface CurrentWeatherDao {
     public void insertCurrentWeather(CurrentWeather currentWeather);
 
     @Query("SELECT * FROM current_weather WHERE cityId = :cityId LIMIT 1")
-    public Maybe<CurrentWeather> loadCurrentWeatherByCityId(int cityId);
+    public Single<CurrentWeather> loadCurrentWeatherByCityId(int cityId);
+
+    @Query("SELECT temp FROM current_weather WHERE cityId = :cityId LIMIT 1")
+    public Single<Double> loadCurrentTempByCityId(int cityId);
 }
