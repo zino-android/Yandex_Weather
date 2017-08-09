@@ -76,6 +76,7 @@ ext {
     mockito_version = '2.8.47'
     runner_version = '1.0.0'
     room_version = '1.0.0-alpha8'
+    leak_canary_version = '1.5.1'
 }
 
 dependencies {
@@ -155,5 +156,10 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     testCompile "android.arch.persistence.room:testing:$room_version"
     compile "android.arch.persistence.room:rxjava2:$room_version"
+
+    // Leak canary
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
 
 }

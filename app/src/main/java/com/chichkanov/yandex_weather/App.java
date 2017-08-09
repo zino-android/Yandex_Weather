@@ -10,6 +10,7 @@ import com.chichkanov.yandex_weather.di.modules.ApplicationModule;
 import com.chichkanov.yandex_weather.utils.Settings;
 import com.evernote.android.job.JobManager;
 import com.facebook.stetho.Stetho;
+import com.squareup.leakcanary.LeakCanary;
 
 import javax.inject.Inject;
 
@@ -28,6 +29,12 @@ public class App extends Application {
         if (BuildConfig.DEBUG) {
             initStetho();
         }
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     public static AppComponent getComponent() {
