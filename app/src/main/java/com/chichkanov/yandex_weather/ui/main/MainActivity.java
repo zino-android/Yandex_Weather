@@ -4,23 +4,13 @@ import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.Gravity;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.R;
-import com.chichkanov.yandex_weather.model.CityMenu;
-import com.chichkanov.yandex_weather.ui.adapter.CityAdapter;
+import com.chichkanov.yandex_weather.ui.favorite_cities.FavoriteCitiesFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,16 +24,10 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, OnDr
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.rv_cities)
-    RecyclerView rvCities;
+
     private ActionBarDrawerToggle toggle;
 
-    private CityAdapter adapter;
-
-    @ProvidePresenter
-    MainPresenter providePresenter() {
-        return App.getComponent().getMainPresenter();
-    }
+    private boolean isTwoPane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,31 +35,14 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, OnDr
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        isTwoPane = findViewById(R.id.container) != null;
+
+        if (isTwoPane) {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new FavoriteCitiesFragment()).commit();
+        }
+
         initNavigation();
         mainPresenter.addNavigationManager(new NavigationManager(getSupportFragmentManager(), R.id.content_main));
-
-        rvCities.setHasFixedSize(true);
-
-        rvCities.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter = new CityAdapter(getApplicationContext(), new ArrayList<>(), city -> {
-            mainPresenter.onCitySelectedChanged(city.getCityId());
-            drawerLayout.closeDrawer(Gravity.START);
-        }, () -> {
-            mainPresenter.showChangeCityFragment();
-        });
-        rvCities.setAdapter(adapter);
-        mainPresenter.loadCities();
-
-        CityItemTouchHelper cityItemTouchHelper = new CityItemTouchHelper(i -> {
-
-            mainPresenter.deleteCityById(adapter.getCities().get(i));
-        }, adapter);
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(cityItemTouchHelper);
-
-        itemTouchHelper.attachToRecyclerView(rvCities);
-
 
         if (savedInstanceState == null) {
             mainPresenter.showWeatherFragment();
@@ -97,7 +64,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, OnDr
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
     }
 
     @Override
@@ -124,10 +90,15 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, OnDr
             }
             toggle.setToolbarNavigationClickListener(v -> onBackPressed());
         }
+        if (isTwoPane) {
+            toggle.setDrawerIndicatorEnabled(false);
+        }
     }
 
     @Override
-    public void showCities(List<CityMenu> cities) {
-        adapter.setCities(cities);
+    public void closeDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 }

@@ -3,7 +3,7 @@ package com.chichkanov.yandex_weather.di.modules;
 import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractorImpl;
 import com.chichkanov.yandex_weather.ui.change_city.ChangeCityPresenter;
-import com.chichkanov.yandex_weather.ui.main.MainPresenter;
+import com.chichkanov.yandex_weather.ui.favorite_cities.FavoriteCitiesPresenter;
 import com.chichkanov.yandex_weather.ui.weather.WeatherPresenter;
 import com.chichkanov.yandex_weather.utils.Settings;
 
@@ -26,7 +26,7 @@ public class PresenterModule {
     }
 
     @Provides
-    MainPresenter provideMainPresenter(ChangeCityInteractor changeCityInteractor, WeatherInteractorImpl weatherInteractor) {
-        return new MainPresenter(changeCityInteractor, weatherInteractor);
+    FavoriteCitiesPresenter provideFavoritesPresenter(ChangeCityInteractor changeCityInteractor, WeatherInteractorImpl weatherInteractor) {
+        return new FavoriteCitiesPresenter(changeCityInteractor, weatherInteractor);
     }
 }

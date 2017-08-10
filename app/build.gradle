@@ -81,12 +81,12 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Tests
-    androidTestCompile ("com.android.support.test.espresso:espresso-core:$espresso_version") {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso_version") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     testCompile "junit:junit:$junit_version"
     testCompile "org.mockito:mockito-core:$mockito_version"
-    androidTestCompile ("com.android.support.test.espresso:espresso-contrib:$espresso_version") {
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$espresso_version") {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
@@ -95,7 +95,7 @@ dependencies {
     }
     compile "com.android.support:support-annotations:$support_version"
     androidTestCompile "com.android.support.test.espresso:espresso-idling-resource:$espresso_version"
-    androidTestCompile ("com.android.support.test:runner:$runner_version") {
+    androidTestCompile("com.android.support.test:runner:$runner_version") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
@@ -135,7 +135,6 @@ dependencies {
 
     // Picasso
     compile "com.squareup.picasso:picasso:$picasso_version"
-
 
     // Job Scheduler
     compile "com.evernote:android-job:$job_scheduler_version"

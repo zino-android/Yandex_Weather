@@ -34,14 +34,12 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_cities"
+    <fragment
+        class="com.chichkanov.yandex_weather.ui.favorite_cities.FavoriteCitiesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/colorDrawer"
-        android:fitsSystemWindows="true"
-        app:itemBackground="@android:color/transparent" />
+        android:id="@+id/favorite_cities_fragment" />
 
 
 </android.support.v4.widget.DrawerLayout>

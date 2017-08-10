@@ -28,9 +28,7 @@
         android:id="@+id/temp_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/weather_image_view"
-        android:layout_margin="0dp"
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/weather_image_view"
         android:text="17 C"
@@ -87,47 +85,52 @@
         android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/description_text_view"
+        android:layout_toRightOf="@+id/temp_text_view"
+        android:gravity="center"
         android:layout_margin="16dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="8dp"
-        android:weightSum="3">
+        >
 
 
         <TextView
             android:id="@+id/humidity_text_view"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:drawableTop="@drawable/water"
             android:gravity="center_horizontal|bottom"
             android:text=""
             android:textColor="@android:color/black"
-            android:textSize="16dp" />
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            />
 
 
         <TextView
             android:id="@+id/wind_text_view"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:drawableTop="@drawable/wind"
             android:gravity="center_horizontal|bottom"
             android:text=""
             android:textColor="@android:color/black"
-            android:textSize="16dp" />
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            />
 
 
         <TextView
             android:id="@+id/pressure_text_view"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/barometer"
             android:gravity="center_horizontal|bottom"
             android:text=""
             android:textColor="@android:color/black"
-            android:textSize="16dp" />
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"
+            />
 
 
     </LinearLayout>

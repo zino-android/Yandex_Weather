@@ -60,9 +60,14 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        onDrawerEnabled.setDrawerEnabled(false);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        onDrawerEnabled.setDrawerEnabled(false);
         getActivity().setTitle(R.string.settings_change_city);
         changeCityPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
         setCityNameObservable();
