@@ -1,8 +1,6 @@
 package com.chichkanov.yandex_weather.ui.main;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Gravity;
-import android.view.MenuItem;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -28,8 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends MvpAppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, MainView, OnDrawerEnabled {
+public class MainActivity extends MvpAppCompatActivity implements MainView, OnDrawerEnabled {
 
     @InjectPresenter
     MainPresenter mainPresenter;
@@ -105,14 +101,6 @@ public class MainActivity extends MvpAppCompatActivity implements
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-
-    @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
@@ -124,12 +112,16 @@ public class MainActivity extends MvpAppCompatActivity implements
                 DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
         drawerLayout.setDrawerLockMode(lockMode);
         if (isEnabled) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
             toggle.setDrawerIndicatorEnabled(true);
             toggle.setToolbarNavigationClickListener(null);
         } else {
             toggle.setDrawerIndicatorEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
             toggle.setToolbarNavigationClickListener(v -> onBackPressed());
         }
     }
