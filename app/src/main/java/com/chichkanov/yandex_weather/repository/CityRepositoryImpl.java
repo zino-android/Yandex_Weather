@@ -1,8 +1,8 @@
 package com.chichkanov.yandex_weather.repository;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.api.PlacesApi;
 import com.chichkanov.yandex_weather.db.WeatherDatabase;
 import com.chichkanov.yandex_weather.model.City;
@@ -23,19 +23,17 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class CityRepositoryImpl implements CityRepository {
+    private PlacesApi placesApi;
+    private WeatherDatabase database;
 
     @Inject
-    PlacesApi placesApi;
-
-    @Inject
-    WeatherDatabase database;
-
-    public CityRepositoryImpl() {
-        App.getComponent().inject(this);
+    public CityRepositoryImpl(PlacesApi placesApi, WeatherDatabase database) {
+        this.placesApi = placesApi;
+        this.database = database;
     }
 
     @Override
-    public Observable<CitySuggestion> getCitySuggestion(String cityName) {
+    public Observable<CitySuggestion> getCitySuggestion(@NonNull String cityName) {
         String locale = WeatherUtils.getLocale();
         Observable<CitySuggestion> citySuggestion = placesApi
                 .getCitySuggest(cityName, locale, Constants.PLACES_API_KEY);

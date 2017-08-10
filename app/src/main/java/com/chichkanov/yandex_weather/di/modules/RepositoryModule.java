@@ -1,5 +1,7 @@
 package com.chichkanov.yandex_weather.di.modules;
 
+import com.chichkanov.yandex_weather.api.PlacesApi;
+import com.chichkanov.yandex_weather.db.WeatherDatabase;
 import com.chichkanov.yandex_weather.repository.CityRepositoryImpl;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
 
@@ -19,7 +21,7 @@ public class RepositoryModule {
 
     @Singleton
     @Provides
-    CityRepositoryImpl provideCityRepository() {
-        return new CityRepositoryImpl();
+    CityRepositoryImpl provideCityRepository(PlacesApi placesApi, WeatherDatabase database) {
+        return new CityRepositoryImpl(placesApi, database);
     }
 }

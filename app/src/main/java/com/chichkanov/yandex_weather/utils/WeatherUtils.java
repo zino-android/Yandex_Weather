@@ -8,10 +8,12 @@ import java.util.Locale;
 
 public class WeatherUtils {
 
+    @NonNull
     public static String getLocale() {
         return Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en";
     }
 
+    @NonNull
     public static String formatTemperature(double temp) {
         if (temp > 0) {
             return String.format("+%.0f°", temp);
@@ -49,13 +51,5 @@ public class WeatherUtils {
             default:
                 return R.drawable.sun;
         }
-    }
-
-    public static int metersToKm(int meters) {
-        return meters / 1000;
-    }
-
-    public static double celsiusToFahrenheit(double celsius) {
-        return (9f / 5) * celsius + 32;
     }
 }
