@@ -30,6 +30,21 @@
     <string name="default_city">Москва</string>
     <string name="no_internet_connection">Отсутствует интернет соединение</string>
 
+    <string name="add_city">Добавить город</string>
+
+
+    <string name="pressure">%s гПа\nДавление</string>
+    <string name="humidity">%s %%\nВлажность</string>
+    <string name="wind">%s м/с\nСкорость ветра</string>
+    <string name="morning">Утро</string>
+
+    <string name="wind_forecast">%s м/с</string>
+    <string name="day">День</string>
+    <string name="evening">Вечер</string>
+    <string name="night">Ночь</string>
+    <string name="error">Произошла ошибка, проверьте интернет соединение и попробуйте еще раз</string>
+    <string name="version">Версия: %s</string>
+
 
     <string-array name="refresh_entries">
         <item>Никогда</item>

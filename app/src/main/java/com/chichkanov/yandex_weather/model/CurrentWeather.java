@@ -1,85 +1,29 @@
 package com.chichkanov.yandex_weather.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 
+@Entity(tableName = "current_weather", indices = @Index(value = "cityId", unique = true))
 public class CurrentWeather {
-
-    @SerializedName("base")
-    @Expose
-    private String base;
-    @SerializedName("clouds")
-    @Expose
-    private Clouds clouds;
-    @SerializedName("cod")
-    @Expose
-    private int cod;
-    @SerializedName("coord")
-    @Expose
-    private Coord coord;
-    @SerializedName("dt")
-    @Expose
-    private int dt;
-    @SerializedName("id")
-    @Expose
+    @PrimaryKey(autoGenerate = true)
     private int id;
-    @SerializedName("main")
-    @Expose
-    private Main main;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("sys")
-    @Expose
-    private Sys sys;
-    @SerializedName("weather")
-    @Expose
-    private List<Weather> weather = null;
-    @SerializedName("wind")
-    @Expose
-    private Wind wind;
-
-    public String getBase() {
-        return base;
-    }
-
-    public void setBase(String base) {
-        this.base = base;
-    }
-
-    public Clouds getClouds() {
-        return clouds;
-    }
-
-    public void setClouds(Clouds clouds) {
-        this.clouds = clouds;
-    }
-
-    public int getCod() {
-        return cod;
-    }
-
-    public void setCod(int cod) {
-        this.cod = cod;
-    }
-
-    public Coord getCoord() {
-        return coord;
-    }
-
-    public void setCoord(Coord coord) {
-        this.coord = coord;
-    }
-
-    public int getDt() {
-        return dt;
-    }
-
-    public void setDt(int dt) {
-        this.dt = dt;
-    }
+    private int cityId;
+    private long dateTime;
+    private long sunrise;
+    private long sunset;
+    private double pressure;
+    private int humidity;
+    private double minTemp;
+    private double maxTemp;
+    private double temp;
+    private String description;
+    private String icon;
+    private String title;
+    private double windSpeed;
+    private double windDegree;
+    private int clouds;
 
     public int getId() {
         return id;
@@ -89,44 +33,123 @@ public class CurrentWeather {
         this.id = id;
     }
 
-    public Main getMain() {
-        return main;
+    public int getCityId() {
+        return cityId;
     }
 
-    public void setMain(Main main) {
-        this.main = main;
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
-    public String getName() {
-        return name;
+    public long getDateTime() {
+        return dateTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDateTime(long dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public Sys getSys() {
-        return sys;
+    public long getSunrise() {
+        return sunrise;
     }
 
-    public void setSys(Sys sys) {
-        this.sys = sys;
+    public void setSunrise(long sunrise) {
+        this.sunrise = sunrise;
     }
 
-    public List<Weather> getWeather() {
-        return weather;
+    public long getSunset() {
+        return sunset;
     }
 
-    public void setWeather(List<Weather> weather) {
-        this.weather = weather;
+    public void setSunset(long sunset) {
+        this.sunset = sunset;
     }
 
-    public Wind getWind() {
-        return wind;
+    public double getPressure() {
+        return pressure;
     }
 
-    public void setWind(Wind wind) {
-        this.wind = wind;
+    public void setPressure(double pressure) {
+        this.pressure = pressure;
     }
 
+    public int getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
+    }
+
+    public double getMinTemp() {
+        return minTemp;
+    }
+
+    public void setMinTemp(double minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public double getMaxTemp() {
+        return maxTemp;
+    }
+
+    public void setMaxTemp(double maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+
+    public double getTemp() {
+        return temp;
+    }
+
+    public void setTemp(double temp) {
+        this.temp = temp;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public double getWindDegree() {
+        return windDegree;
+    }
+
+    public void setWindDegree(double windDegree) {
+        this.windDegree = windDegree;
+    }
+
+    public int getClouds() {
+        return clouds;
+    }
+
+    public void setClouds(int clouds) {
+        this.clouds = clouds;
+    }
 }

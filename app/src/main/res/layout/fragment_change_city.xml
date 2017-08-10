@@ -1,39 +1,47 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
     tools:context="com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment">
+
+    <ImageView
+        android:id="@+id/yandex_logo_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/yandex" />
 
     <EditText
         android:id="@+id/et_city_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/yandex_logo_image_view"
         android:layout_margin="16dp"
-        android:paddingLeft="8dp"
-        android:hint="@string/change_city_hint"
         android:background="@drawable/change_city_edit_text_background"
-        />
+        android:hint="@string/change_city_hint"
+        android:paddingLeft="8dp"
+        android:textColor="@android:color/black" />
 
     <ImageView
         android:id="@+id/iv_clear"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_alignBottom="@+id/et_city_name"
         android:layout_alignRight="@+id/et_city_name"
         android:layout_alignTop="@+id/et_city_name"
-        android:layout_alignBottom="@+id/et_city_name"
         android:layout_marginRight="8dp"
-        app:srcCompat="@drawable/close"
         android:visibility="invisible"
-        />
+        app:srcCompat="@drawable/close" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_suggestions"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/et_city_name"
-        />
+        android:scrollbars="vertical" />
+
+    <include layout="@layout/error" />
 
 
 </RelativeLayout>

@@ -4,6 +4,7 @@ package com.chichkanov.yandex_weather.ui.change_city;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -31,44 +32,43 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
-    private static final int POSITION_IN_MENU = 1;
-
     @BindView(R.id.et_city_name)
     EditText etCityName;
     @BindView(R.id.rv_suggestions)
     RecyclerView rvSuggestions;
     @BindView(R.id.iv_clear)
     ImageView ivClear;
-
-    private CitySuggestionAdapter adapter;
-
-
+    @BindView(R.id.error_relative_layout)
+    RelativeLayout errorRelativeLayout;
     @InjectPresenter
     ChangeCityPresenter changeCityPresenter;
-
-    @ProvidePresenter
-    ChangeCityPresenter providePresenter() {
-        return  App.getComponent().getChangeCityPresenter();
-    }
+    private CitySuggestionAdapter adapter;
 
     public static ChangeCityFragment newInstance() {
         return new ChangeCityFragment();
     }
 
-
+    @ProvidePresenter
+    ChangeCityPresenter providePresenter() {
+        return App.getComponent().getChangeCityPresenter();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_change_city, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        onDrawerEnabled.setDrawerEnabled(false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(R.string.settings_change_city);
-        menuItemChangeListener.onMenuItemChange(POSITION_IN_MENU);
         changeCityPresenter.addNavigationManager(new NavigationManager(getFragmentManager(), R.id.content_main));
         setCityNameObservable();
 
@@ -77,12 +77,12 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
         rvSuggestions.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         adapter = new CitySuggestionAdapter(new ArrayList<>(), prediction -> {
-            changeCityPresenter.onCurrentCityChanged(prediction.getDescription());
+            changeCityPresenter.onCurrentCityChanged(prediction);
             hideKeyboard();
         });
         rvSuggestions.setAdapter(adapter);
+        rvSuggestions.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
-
 
 
     @Override
@@ -96,13 +96,9 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
         etCityName.setSelection(city.length());
     }
 
-
-    public interface OnCityClickListener {
-        void onCityClick(Prediction prediction);
-    }
-
     private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etCityName.getWindowToken(), 0);
     }
 
@@ -129,6 +125,7 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     @Override
     public void showSuggestionList() {
         rvSuggestions.setVisibility(View.VISIBLE);
+        errorRelativeLayout.setVisibility(View.INVISIBLE);
     }
 
     @OnClick(R.id.iv_clear)
@@ -138,11 +135,15 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
 
     @Override
     public void showError() {
-        Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+        errorRelativeLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void setCityNameObservable() {
         changeCityPresenter.setObservable(RxTextView.textChanges(etCityName));
+    }
+
+    public interface OnCityClickListener {
+        void onCityClick(Prediction prediction);
     }
 }

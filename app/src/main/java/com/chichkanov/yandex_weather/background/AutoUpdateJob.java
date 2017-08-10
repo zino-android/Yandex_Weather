@@ -3,9 +3,8 @@ package com.chichkanov.yandex_weather.background;
 import android.support.annotation.NonNull;
 
 import com.chichkanov.yandex_weather.App;
+import com.chichkanov.yandex_weather.repository.CityRepositoryImpl;
 import com.chichkanov.yandex_weather.repository.WeatherRepositoryImpl;
-import com.chichkanov.yandex_weather.utils.IOtools;
-import com.chichkanov.yandex_weather.utils.Settings;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
 
@@ -13,16 +12,16 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.schedulers.Schedulers;
+
 public class AutoUpdateJob extends Job {
 
     @Inject
     WeatherRepositoryImpl repository;
 
     @Inject
-    IOtools iotools;
+    CityRepositoryImpl cityRepository;
 
-    @Inject
-    Settings settings;
 
     static final String TAG = "auto_update_job";
 
@@ -33,9 +32,15 @@ public class AutoUpdateJob extends Job {
     @NonNull
     @Override
     protected Result onRunJob(Params params) {
-        String currentCity = settings.getCurrentCity();
-        repository.getWeather(currentCity)
-                .subscribe(iotools::saveCurrentWeather);
+
+                    repository.getWeather()
+                            .subscribeOn(Schedulers.io())
+                            .subscribe();
+                    repository.getForecasts()
+                            .subscribeOn(Schedulers.io())
+                            .subscribe();
+
+
         return Result.SUCCESS;
     }
 
@@ -43,7 +48,8 @@ public class AutoUpdateJob extends Job {
 
         new JobRequest.Builder(AutoUpdateJob.TAG)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .setPeriodic(TimeUnit.MINUTES.toMillis(autoUpdateTime), TimeUnit.MINUTES.toMillis(5))
+                .setPeriodic(TimeUnit.MINUTES.toMillis(autoUpdateTime),
+                        TimeUnit.MINUTES.toMillis(5))
                 .setUpdateCurrent(true)
                 .setPersisted(true)
                 .build()

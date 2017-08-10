@@ -9,10 +9,8 @@
         android:title="@string/settings_auto_update" />
 
     <android.support.v7.preference.Preference
-        android:defaultValue="@string/default_city"
-        android:inputType="text"
-        android:key="current_city"
+        android:key="about"
         android:summary=""
-        android:title="@string/settings_change_city"/>
+        android:title="@string/menu_about" />
 
 </android.support.v7.preference.PreferenceScreen>

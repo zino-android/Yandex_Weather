@@ -1,11 +1,16 @@
 package com.chichkanov.yandex_weather.interactor;
 
 import com.chichkanov.yandex_weather.App;
+import com.chichkanov.yandex_weather.model.City;
 import com.chichkanov.yandex_weather.model.places.CitySuggestion;
+import com.chichkanov.yandex_weather.model.places.Prediction;
 import com.chichkanov.yandex_weather.repository.CityRepositoryImpl;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 
@@ -24,12 +29,27 @@ public class ChangeCityInteractorImpl implements ChangeCityInteractor {
     }
 
     @Override
-    public void setCurrentCity(String city) {
+    public Flowable<City> getCurrentCity() {
+        return repository.getCurrentCity();
+    }
+
+    @Override
+    public void setCurrentCity(Prediction city) {
         repository.setCurrentCity(city);
     }
 
     @Override
-    public String getCurrentCity() {
-        return repository.getCurrentCity();
+    public Flowable<List<City>> getCities() {
+        return repository.getCities();
+    }
+
+    @Override
+    public void setCitySelected(int cityId) {
+        repository.setCitySelected(cityId);
+    }
+
+    @Override
+    public void deleteCityById(int cityId) {
+        repository.deleteCityById(cityId);
     }
 }

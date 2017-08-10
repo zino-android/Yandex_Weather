@@ -1,26 +1,21 @@
 package com.chichkanov.yandex_weather.ui.main;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.chichkanov.yandex_weather.R;
+import com.chichkanov.yandex_weather.ui.favorite_cities.FavoriteCitiesFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
-import com.mikepenz.iconics.context.IconicsContextWrapper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView,
-        OnMenuItemChangeListener {
+public class MainActivity extends MvpAppCompatActivity implements MainView, OnDrawerEnabled {
 
     @InjectPresenter
     MainPresenter mainPresenter;
@@ -29,8 +24,10 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.navigation_view)
-    NavigationView navigationView;
+
+    private ActionBarDrawerToggle toggle;
+
+    private boolean isTwoPane = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +35,17 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        initNavigation();
+        isTwoPane = findViewById(R.id.container) != null;
 
+        if (isTwoPane) {
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new FavoriteCitiesFragment()).commit();
+        }
+
+        initNavigation();
         mainPresenter.addNavigationManager(new NavigationManager(getSupportFragmentManager(), R.id.content_main));
 
         if (savedInstanceState == null) {
-            navigationView.getMenu().getItem(0).setChecked(true);
-            onNavigationItemSelected(navigationView.getMenu().getItem(0));
+            mainPresenter.showWeatherFragment();
         }
     }
 
@@ -60,43 +61,44 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     private void initNavigation() {
         setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.nav_weather: {
-                mainPresenter.showWeatherFragment();
-                break;
-            }
-            case R.id.nav_settings: {
-                mainPresenter.showSettingsFragment();
-                break;
-            }
-            case R.id.nav_about: {
-                mainPresenter.showAboutFragment();
-                break;
-            }
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
         return true;
     }
 
-
-
     @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
+    public void setDrawerEnabled(boolean isEnabled) {
+        int lockMode = isEnabled ? DrawerLayout.LOCK_MODE_UNLOCKED :
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        drawerLayout.setDrawerLockMode(lockMode);
+        if (isEnabled) {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
+            toggle.setDrawerIndicatorEnabled(true);
+            toggle.setToolbarNavigationClickListener(null);
+        } else {
+            toggle.setDrawerIndicatorEnabled(false);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+            toggle.setToolbarNavigationClickListener(v -> onBackPressed());
+        }
+        if (isTwoPane) {
+            toggle.setDrawerIndicatorEnabled(false);
+        }
     }
 
     @Override
-    public void onMenuItemChange(int position) {
-        navigationView.getMenu().getItem(position).setChecked(true);
+    public void closeDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 }

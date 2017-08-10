@@ -1,9 +1,22 @@
 package com.chichkanov.yandex_weather.interactor;
 
 import com.chichkanov.yandex_weather.model.CurrentWeather;
+import com.chichkanov.yandex_weather.model.Forecast;
 
-import io.reactivex.Observable;
+import java.util.List;
 
-interface WeatherInteractor {
-    Observable<CurrentWeather> getWeather(String cityName);
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
+
+public interface WeatherInteractor {
+    Flowable<CurrentWeather> getWeather();
+
+    Flowable<List<Forecast>> getForecasts();
+
+    Maybe<Double> getCurrentWeatherFromDBbyId(int cityId);
+
+    Single<List<Forecast>> getForecastsFromInternet();
+
+    Single<CurrentWeather> getCurrentWeatherFromInternet();
 }
