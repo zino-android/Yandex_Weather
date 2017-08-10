@@ -13,13 +13,17 @@
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
     </style>
 
+    <style name="PreferenceThemeOverlay.v14">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
         <item name="android:fontFamily">sans-serif-light</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
     </style>
 
 </resources>
