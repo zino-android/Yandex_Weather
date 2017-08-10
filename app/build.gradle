@@ -66,8 +66,6 @@ ext {
     javaannotation_version = '1.0'
     gson_version = '2.8.0'
     picasso_version = '2.5.2'
-    iconics_core_version = '2.8.9@aar'
-    meteocons_icons_version = '1.1.0.3@aar'
     job_scheduler_version = '1.1.11'
     gcm_version = '11.0.2'
     stetho_version = '1.5.0'
@@ -138,9 +136,6 @@ dependencies {
     // Picasso
     compile "com.squareup.picasso:picasso:$picasso_version"
 
-    // Weather Icons
-    compile "com.mikepenz:iconics-core:$iconics_core_version"
-    compile "com.mikepenz:meteocons-typeface:$meteocons_icons_version"
 
     // Job Scheduler
     compile "com.evernote:android-job:$job_scheduler_version"
@@ -161,5 +156,7 @@ dependencies {
     debugCompile "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leak_canary_version"
+
+    compile "com.android.support:cardview-v7:$support_version"
 
 }

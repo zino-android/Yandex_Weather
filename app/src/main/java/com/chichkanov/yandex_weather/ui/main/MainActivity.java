@@ -1,6 +1,5 @@
 package com.chichkanov.yandex_weather.ui.main;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 
@@ -23,7 +21,6 @@ import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.model.CityMenu;
 import com.chichkanov.yandex_weather.ui.adapter.CityAdapter;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
-import com.mikepenz.iconics.context.IconicsContextWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +46,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     @ProvidePresenter
     MainPresenter providePresenter() {
-        return  App.getComponent().getMainPresenter();
+        return App.getComponent().getMainPresenter();
     }
 
     @Override
@@ -105,7 +102,7 @@ public class MainActivity extends MvpAppCompatActivity implements
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        }
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -114,12 +111,6 @@ public class MainActivity extends MvpAppCompatActivity implements
         return true;
     }
 
-
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(IconicsContextWrapper.wrap(newBase));
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -136,8 +127,7 @@ public class MainActivity extends MvpAppCompatActivity implements
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             toggle.setDrawerIndicatorEnabled(true);
             toggle.setToolbarNavigationClickListener(null);
-        }
-        else {
+        } else {
             toggle.setDrawerIndicatorEnabled(false);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toggle.setToolbarNavigationClickListener(v -> onBackPressed());
@@ -146,7 +136,6 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     @Override
     public void showCities(List<CityMenu> cities) {
-        Log.i("wwwwwww", "showCities: ");
         adapter.setCities(cities);
     }
 }

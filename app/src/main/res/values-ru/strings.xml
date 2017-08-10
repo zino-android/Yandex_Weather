@@ -33,6 +33,18 @@
     <string name="add_city">Добавить город</string>
 
 
+    <string name="pressure">%s гПа\nДавление</string>
+    <string name="humidity">%s %%\nВлажность</string>
+    <string name="wind">Скорость ветра: %s м/с</string>
+    <string name="morning">Утро</string>
+
+    <string name="wind_forecast">%s м/с</string>
+    <string name="day">День</string>
+    <string name="evening">Вечер</string>
+    <string name="night">Ночь</string>
+    <string name="error">Произошла ошибка, проверьте интернет соединение и попробуйте еще раз</string>
+
+
     <string-array name="refresh_entries">
         <item>Никогда</item>
         <item>30 минут</item>

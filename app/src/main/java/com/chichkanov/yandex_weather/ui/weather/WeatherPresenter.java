@@ -80,8 +80,8 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     @Override
     public void attachView(WeatherView view) {
         super.attachView(view);
-        loadForecastWeather();
         loadCurrentWeather();
+        loadForecastWeather();
     }
 
     public void loadForecastWeather() {
@@ -147,6 +147,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         Disposable weatherDisposable = interactor.getCurrentWeatherFromInternet()
                 .subscribeOn(ioScheduler)
                 .observeOn(mainScheduler)
+                .doOnError(e -> loadCurrentWeather())
                 .subscribe(response -> {
                     getViewState().hideLoading();
                     DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());

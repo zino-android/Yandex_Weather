@@ -65,10 +65,10 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     public Flowable<List<Forecast>> getForecasts() {
         Maybe<List<Forecast>> forecastDb = database.cityDao().loadCurrentCity()
                 .flatMap(city -> database.forecastDao()
-                        .loadForecastByDateTimeAndCityId(System.currentTimeMillis() / 1000, city.getCityId()).toMaybe());
+                        .loadForecastByDateTimeAndCityId(System.currentTimeMillis() / 1000, city.getCityId()).toMaybe())
+                .onErrorResumeNext(getForecastFromInternet().toMaybe());
 
-
-        return Maybe.concat(forecastDb, getForecastFromInternet().toMaybe());
+        return forecastDb.toFlowable();
     }
 
     @Override

@@ -1,51 +1,61 @@
 package com.chichkanov.yandex_weather.utils;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.support.annotation.NonNull;
 
-import com.mikepenz.iconics.IconicsDrawable;
-import com.mikepenz.meteocons_typeface_library.Meteoconcs;
+import com.chichkanov.yandex_weather.R;
 
 import java.util.Locale;
 
 public class WeatherUtils {
 
-    private static final int ICON_SIZE = 80;
-
-    public static IconicsDrawable chooseIcon(String iconId, Context context) {
-        switch (iconId) {
-            case "01": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_sun).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-            case "02": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_cloud_sun).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-            case "03": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_cloud).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-            case "04": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_cloud).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-            case "09": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_rain).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-            case "10": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_rain).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-            case "11": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_cloud_flash).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-            case "13": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_snow).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-            case "50": {
-                return new IconicsDrawable(context).icon(Meteoconcs.Icon.met_mist).color(Color.WHITE).sizeDp(ICON_SIZE);
-            }
-        }
-        return null;
-    }
-
     public static String getLocale() {
         return Locale.getDefault().getLanguage().equals("ru") ? "ru" : "en";
+    }
+
+    public static String formatTemperature(double temp) {
+        if (temp > 0) {
+            return String.format("+%.0f°", temp);
+        } else {
+            return String.format("%.0f°", temp);
+        }
+    }
+
+    public static int getImageIdByName(@NonNull String name) {
+        switch (name) {
+            case "01d":
+            case "01n":
+                return R.drawable.sun;
+            case "02d":
+            case "02n":
+                return R.drawable.cloud_sun;
+            case "03d":
+            case "03n":
+                return R.drawable.cloud;
+            case "04d":
+            case "04n":
+                return R.drawable.cloud;
+            case "09d":
+            case "09n":
+                return R.drawable.shower_rain;
+            case "10d":
+            case "10n":
+                return R.drawable.rain;
+            case "11d":
+            case "11n":
+                return R.drawable.thunderstorm;
+            case "13d":
+            case "13n":
+                return R.drawable.mist;
+            default:
+                return R.drawable.sun;
+        }
+    }
+
+    public static int metersToKm(int meters) {
+        return meters / 1000;
+    }
+
+    public static double celsiusToFahrenheit(double celsius) {
+        return (9f / 5) * celsius + 32;
     }
 }

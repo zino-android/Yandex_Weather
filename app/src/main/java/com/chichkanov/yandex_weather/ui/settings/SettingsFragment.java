@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.chichkanov.yandex_weather.R;
 import com.chichkanov.yandex_weather.ui.about.AboutFragment;
-import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
 import com.chichkanov.yandex_weather.ui.main.OnDrawerEnabled;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.utils.Settings;
