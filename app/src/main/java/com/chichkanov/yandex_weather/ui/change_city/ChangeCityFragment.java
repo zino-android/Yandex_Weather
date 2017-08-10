@@ -4,6 +4,7 @@ package com.chichkanov.yandex_weather.ui.change_city;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -37,28 +38,24 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     RecyclerView rvSuggestions;
     @BindView(R.id.iv_clear)
     ImageView ivClear;
-
-    private CitySuggestionAdapter adapter;
-
-
+    @BindView(R.id.error_relative_layout)
+    RelativeLayout errorRelativeLayout;
     @InjectPresenter
     ChangeCityPresenter changeCityPresenter;
-
-    @ProvidePresenter
-    ChangeCityPresenter providePresenter() {
-        return  App.getComponent().getChangeCityPresenter();
-    }
+    private CitySuggestionAdapter adapter;
 
     public static ChangeCityFragment newInstance() {
         return new ChangeCityFragment();
     }
 
-
+    @ProvidePresenter
+    ChangeCityPresenter providePresenter() {
+        return App.getComponent().getChangeCityPresenter();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_change_city, container, false);
     }
 
@@ -79,8 +76,8 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
             hideKeyboard();
         });
         rvSuggestions.setAdapter(adapter);
+        rvSuggestions.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
     }
-
 
 
     @Override
@@ -92,11 +89,6 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     public void showCurrentCity(String city) {
         etCityName.setText(city);
         etCityName.setSelection(city.length());
-    }
-
-
-    public interface OnCityClickListener {
-        void onCityClick(Prediction prediction);
     }
 
     private void hideKeyboard() {
@@ -128,6 +120,7 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
     @Override
     public void showSuggestionList() {
         rvSuggestions.setVisibility(View.VISIBLE);
+        errorRelativeLayout.setVisibility(View.INVISIBLE);
     }
 
     @OnClick(R.id.iv_clear)
@@ -137,12 +130,15 @@ public class ChangeCityFragment extends BaseFragment implements ChangeCityView {
 
     @Override
     public void showError() {
-        Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection),
-                Toast.LENGTH_SHORT).show();
+        errorRelativeLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void setCityNameObservable() {
         changeCityPresenter.setObservable(RxTextView.textChanges(etCityName));
+    }
+
+    public interface OnCityClickListener {
+        void onCityClick(Prediction prediction);
     }
 }
