@@ -52,13 +52,14 @@
 
     <string name="pressure">%s hPa\nPressure</string>
     <string name="humidity">%s %%\nHumidity</string>
-    <string name="wind">Wind speed: %s m/s</string>
+    <string name="wind">%s m/s\nWind speed</string>
     <string name="morning">Morning</string>
     <string name="wind_forecast">%s m/s</string>
     <string name="day">Day</string>
     <string name="evening">Evening</string>
     <string name="night">Night</string>
     <string name="error">An error occurred, check the internet connection and try again</string>
+    <string name="version">Version: %s</string>
 
 
 </resources>

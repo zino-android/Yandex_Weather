@@ -35,7 +35,7 @@
 
     <string name="pressure">%s гПа\nДавление</string>
     <string name="humidity">%s %%\nВлажность</string>
-    <string name="wind">Скорость ветра: %s м/с</string>
+    <string name="wind">%s м/с\nСкорость ветра</string>
     <string name="morning">Утро</string>
 
     <string name="wind_forecast">%s м/с</string>
@@ -43,6 +43,7 @@
     <string name="evening">Вечер</string>
     <string name="night">Ночь</string>
     <string name="error">Произошла ошибка, проверьте интернет соединение и попробуйте еще раз</string>
+    <string name="version">Версия: %s</string>
 
 
     <string-array name="refresh_entries">
