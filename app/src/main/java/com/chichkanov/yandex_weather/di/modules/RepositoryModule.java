@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.schedulers.Schedulers;
 
 @Module
 public class RepositoryModule {
@@ -22,6 +23,6 @@ public class RepositoryModule {
     @Singleton
     @Provides
     CityRepositoryImpl provideCityRepository(PlacesApi placesApi, WeatherDatabase database) {
-        return new CityRepositoryImpl(placesApi, database);
+        return new CityRepositoryImpl(placesApi, database, Schedulers.io());
     }
 }
