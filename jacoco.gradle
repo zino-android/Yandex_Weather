@@ -1,7 +1,4 @@
-task jacocoTestReport(type: JacocoReport) {
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports"
-
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     reports {
         xml.enabled = true
         html.enabled = true
@@ -17,7 +14,24 @@ task jacocoTestReport(type: JacocoReport) {
             '**/*_Provide*.*',
             '**/Dagger*.*',
             '**/di/*',
-            '**/di/modules/*'
+            '**/di/modules/*',
+            'android/**/*.*',
+            '**/Lambda$*.class', //Retrolambda
+            '**/Lambda.class',
+            '**/*Lambda.class',
+            '**/*Lambda*.class',
+            '**/*Lambda*.*',
+            '**/*Builder.*',
+
+            '**/*_*Factory*.*', //Dagger2 generated code
+            '**/*MoxyReflector*.*',
+            '**/*$PresentersBinder$*.*',
+            '**/*$PresentersBinder.*',
+            '**/ui/change_city/*$ViewStateProvider.*',
+            '**/*$State$*.*',
+            '**/*$State.*',
+            //Room
+            '**/*_Impl*.*'
     ]
 
     def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)

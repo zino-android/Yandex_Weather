@@ -7,18 +7,9 @@ import java.util.List;
 
 public class CurrentWeatherResponse {
 
-    @SerializedName("base")
-    @Expose
-    private String base;
     @SerializedName("clouds")
     @Expose
     private Clouds clouds;
-    @SerializedName("cod")
-    @Expose
-    private int cod;
-    @SerializedName("coord")
-    @Expose
-    private Coord coord;
     @SerializedName("dt")
     @Expose
     private int dt;
@@ -41,20 +32,8 @@ public class CurrentWeatherResponse {
     @Expose
     private Wind wind;
 
-    public String getBase() {
-        return base;
-    }
-
     public Clouds getClouds() {
         return clouds;
-    }
-
-    public int getCod() {
-        return cod;
-    }
-
-    public Coord getCoord() {
-        return coord;
     }
 
     public int getDt() {
@@ -73,10 +52,6 @@ public class CurrentWeatherResponse {
         return name;
     }
 
-    public Sys getSys() {
-        return sys;
-    }
-
     public List<Weather> getWeather() {
         return weather;
     }
@@ -85,4 +60,7 @@ public class CurrentWeatherResponse {
         return wind;
     }
 
+    public Sys getSys() {
+        return sys;
+    }
 }

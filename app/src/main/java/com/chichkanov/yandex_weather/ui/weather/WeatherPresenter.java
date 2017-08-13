@@ -48,7 +48,6 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                 .subscribeOn(ioScheduler)
                 .observeOn(mainScheduler, false)
                 .subscribe(response -> {
-
                     getViewState().hideLoading();
                     DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
                     String formattedDate = dateFormat.format(new Date(settings.getLastUpdateTime()));
@@ -56,7 +55,6 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     getViewState().showWeather(response, formattedDate);
 
                 }, throwable -> {
-                    throwable.printStackTrace();
                     getViewState().hideLoading();
                     getViewState().showError();
                 });
@@ -93,7 +91,6 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
                     getViewState().showForecast(forecasts);
                 }, throwable -> {
-                    throwable.printStackTrace();
                     getViewState().hideLoading();
                     getViewState().showError();
                 });
@@ -127,23 +124,23 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
         loadForecastFromInternet();
     }
 
-    private void loadForecastFromInternet() {
+    public void loadForecastFromInternet() {
         Disposable forecastDisposable = interactor.getForecastsFromInternet()
                 .subscribeOn(ioScheduler)
                 .observeOn(mainScheduler)
+                .doOnError(e -> loadForecastWeather())
                 .subscribe(forecasts -> {
                     getViewState().hideLoading();
 
                     getViewState().showForecast(forecasts);
                 }, throwable -> {
-                    throwable.printStackTrace();
                     getViewState().hideLoading();
                     getViewState().showError();
                 });
         disposables.add(forecastDisposable);
     }
 
-    private void loadWeatherFromInternet() {
+    public void loadWeatherFromInternet() {
         Disposable weatherDisposable = interactor.getCurrentWeatherFromInternet()
                 .subscribeOn(ioScheduler)
                 .observeOn(mainScheduler)
@@ -156,7 +153,6 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     getViewState().showWeather(response, formattedDate);
 
                 }, throwable -> {
-                    throwable.printStackTrace();
                     getViewState().hideLoading();
                     getViewState().showError();
                 });

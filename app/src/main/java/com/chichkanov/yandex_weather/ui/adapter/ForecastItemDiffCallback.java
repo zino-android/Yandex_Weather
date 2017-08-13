@@ -30,11 +30,12 @@ public class ForecastItemDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
+        return (oldList.get(oldItemPosition).getCityId() == newList.get(newItemPosition).getCityId()
+                && oldList.get(oldItemPosition).getDateTime() == newList.get(newItemPosition).getDateTime());
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return true;
+        return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
     }
 }

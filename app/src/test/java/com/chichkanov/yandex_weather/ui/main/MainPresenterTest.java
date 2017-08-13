@@ -54,7 +54,7 @@ public class MainPresenterTest {
     @Test
     public void testShowChangeCityFragment() throws Exception {
         presenter.showChangeCityFragment();
-        verify(navigationManager, times(1)).navigateTo(any(ChangeCityFragment.class));
+        verify(navigationManager, times(1)).navigateToAndAddBackStack(any(ChangeCityFragment.class));
     }
 
 }

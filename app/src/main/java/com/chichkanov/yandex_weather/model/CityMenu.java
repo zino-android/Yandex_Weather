@@ -1,8 +1,5 @@
 package com.chichkanov.yandex_weather.model;
 
-/**
- * Created by Алексей on 08.08.2017.
- */
 
 public class CityMenu {
 
@@ -61,5 +58,35 @@ public class CityMenu {
 
     public void setTemp(double temp) {
         this.temp = temp;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CityMenu cityMenu = (CityMenu) o;
+
+        if (id != cityMenu.id) return false;
+        if (cityId != cityMenu.cityId) return false;
+        if (isSelected != cityMenu.isSelected) return false;
+        if (Double.compare(cityMenu.temp, temp) != 0) return false;
+        if (!name.equals(cityMenu.name)) return false;
+        return description.equals(cityMenu.description);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp1;
+        result = id;
+        result = 31 * result + cityId;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + (isSelected ? 1 : 0);
+        temp1 = Double.doubleToLongBits(temp);
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        return result;
     }
 }

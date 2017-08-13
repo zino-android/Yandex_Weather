@@ -1,7 +1,6 @@
 package com.chichkanov.yandex_weather.repository;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.chichkanov.yandex_weather.api.PlacesApi;
 import com.chichkanov.yandex_weather.db.WeatherDatabase;
@@ -19,7 +18,6 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
-import io.reactivex.schedulers.Schedulers;
 
 
 public class CityRepositoryImpl implements CityRepository {
