@@ -32,6 +32,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava2.HttpException;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -246,5 +247,36 @@ public class CityRepositoryTest {
         verify(cityDao).deleteCityById(1);
         verify(weatherDao).deleteCurrentWeatherByCityId(1);
         verify(forecastDao).deleteForecastsByCityId(1);
+    }
+
+    @Test
+    public void testCityEqualsAndHashCode() {
+        City city = new City();
+        city.setName("Moscow");
+        city.setSelected(true);
+        city.setDescription("RU");
+        city.setPlacesId("sggfs43t");
+        city.setId(1);
+        city.setCityId(346634);
+
+        City city2 = new City();
+        city2.setName("Moscow");
+        city2.setSelected(true);
+        city2.setDescription("RU");
+        city2.setPlacesId("sggfs43t");
+        city2.setId(1);
+        city2.setCityId(346634);
+
+        assertTrue(city.hashCode() == city2.hashCode());
+
+        assertTrue(city.equals(city2));
+        assertTrue(city2.equals(city));
+        assertTrue(city.equals(city));
+        assertFalse(city.equals(null));
+
+        city2.setDescription("gfg");
+
+        assertFalse(city2.hashCode() == city.hashCode());
+        assertFalse(city2.equals(city));
     }
 }

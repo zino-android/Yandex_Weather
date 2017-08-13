@@ -152,4 +152,59 @@ public class CurrentWeather {
     public void setClouds(int clouds) {
         this.clouds = clouds;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CurrentWeather that = (CurrentWeather) o;
+
+        if (id != that.id) return false;
+        if (cityId != that.cityId) return false;
+        if (dateTime != that.dateTime) return false;
+        if (sunrise != that.sunrise) return false;
+        if (sunset != that.sunset) return false;
+        if (Double.compare(that.pressure, pressure) != 0) return false;
+        if (humidity != that.humidity) return false;
+        if (Double.compare(that.minTemp, minTemp) != 0) return false;
+        if (Double.compare(that.maxTemp, maxTemp) != 0) return false;
+        if (Double.compare(that.temp, temp) != 0) return false;
+        if (Double.compare(that.windSpeed, windSpeed) != 0) return false;
+        if (Double.compare(that.windDegree, windDegree) != 0) return false;
+        if (clouds != that.clouds) return false;
+        if (!description.equals(that.description)) return false;
+        if (!icon.equals(that.icon)) return false;
+        return title.equals(that.title);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp1;
+        result = id;
+        result = 31 * result + cityId;
+        result = 31 * result + (int) (dateTime ^ (dateTime >>> 32));
+        result = 31 * result + (int) (sunrise ^ (sunrise >>> 32));
+        result = 31 * result + (int) (sunset ^ (sunset >>> 32));
+        temp1 = Double.doubleToLongBits(pressure);
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        result = 31 * result + humidity;
+        temp1 = Double.doubleToLongBits(minTemp);
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(maxTemp);
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(temp);
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        result = 31 * result + description.hashCode();
+        result = 31 * result + icon.hashCode();
+        result = 31 * result + title.hashCode();
+        temp1 = Double.doubleToLongBits(windSpeed);
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(windDegree);
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        result = 31 * result + clouds;
+        return result;
+    }
 }

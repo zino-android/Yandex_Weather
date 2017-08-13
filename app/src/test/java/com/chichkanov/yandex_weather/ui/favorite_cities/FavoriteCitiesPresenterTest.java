@@ -8,6 +8,8 @@ import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.ui.weather.WeatherFragment;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +27,8 @@ import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -83,7 +87,7 @@ public class FavoriteCitiesPresenterTest {
         verify(navigationManager).navigateTo(any(WeatherFragment.class));
     }
 
-/*
+
     @Test
     public void testLoadCities() {
         ArrayList<City> cities = new ArrayList<>();
@@ -108,9 +112,9 @@ public class FavoriteCitiesPresenterTest {
 
         verify(favoriteCitiesView).showCities(any());
     }
-    */
 
-/*
+
+
     @Test
     public void testLoadCitiesError() {
         HttpException nothing = new HttpException(Response.error(404, ResponseBody.create(null, "NOTHING")));
@@ -137,7 +141,7 @@ public class FavoriteCitiesPresenterTest {
 
         verify(favoriteCitiesView).showCities(any());
     }
-*/
+
     @Test
     public void testShowCityFragment() {
         presenter.showChangeCityFragment();
@@ -157,6 +161,35 @@ public class FavoriteCitiesPresenterTest {
 
         presenter.deleteCityById(item);
         verify(changeCityInteractor).deleteCityById(city.getCityId());
+    }
+
+    @Test
+    public void testCityMenuEqualsAndHashCode() {
+        CityMenu item = new CityMenu();
+        item.setSelected(city.isSelected());
+        item.setName(city.getName());
+        item.setDescription(city.getDescription());
+        item.setCityId(city.getCityId());
+        item.setTemp(5.0);
+
+        CityMenu item2 = new CityMenu();
+        item2.setSelected(city.isSelected());
+        item2.setName(city.getName());
+        item2.setDescription(city.getDescription());
+        item2.setCityId(city.getCityId());
+        item2.setTemp(4.0);
+
+        assertFalse(item.hashCode() == item2.hashCode());
+        assertFalse(item.equals(item2));
+        assertFalse(item2.equals(item));
+
+        item2.setTemp(5.0);
+        assertTrue(item.hashCode() == item2.hashCode());
+        assertTrue(item.equals(item2));
+        assertTrue(item2.equals(item));
+
+        assertFalse(item.equals(null));
+        assertTrue(item.equals(item));
     }
 
 }
