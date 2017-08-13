@@ -61,5 +61,4 @@
     <string name="error">An error occurred, check the internet connection and try again</string>
     <string name="version">Version: %s</string>
 
-
 </resources>

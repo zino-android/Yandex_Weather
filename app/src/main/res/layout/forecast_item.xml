@@ -12,7 +12,6 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground">
 
@@ -28,8 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+                android:layout_marginStart="8dp"
+                android:textAppearance="@style/WeatherTextViewStyle" />
 
             <ImageView
                 android:id="@+id/weather_image_view"
@@ -39,34 +38,31 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/sun" />
 
-
             <TextView
                 android:id="@+id/min_temp_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:text="+19"
                 android:textColor="@color/blue"
                 android:textSize="16sp" />
-
 
             <TextView
                 android:id="@+id/max_temp_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/min_temp_text_view"
-                android:text="+27"
+                android:layout_toStartOf="@+id/min_temp_text_view"
                 android:textColor="@color/red"
                 android:textSize="18sp" />
 
-
         </RelativeLayout>
-
 
         <LinearLayout
             android:id="@+id/linear_layout"
@@ -96,13 +92,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="8dp"
-                    android:text="+27"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-
+                    android:textAppearance="@style/WeatherTextViewStyle" />
 
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -123,10 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="8dp"
-                    android:text="+27"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-
+                    android:textAppearance="@style/WeatherTextViewStyle" />
 
             </LinearLayout>
 
@@ -149,10 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="8dp"
-                    android:text="+27"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-
+                    android:textAppearance="@style/WeatherTextViewStyle" />
 
             </LinearLayout>
 
@@ -175,14 +161,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="8dp"
-                    android:text="+27"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-
+                    android:textAppearance="@style/WeatherTextViewStyle" />
 
             </LinearLayout>
-        </LinearLayout>
 
+        </LinearLayout>
 
     </RelativeLayout>
 
