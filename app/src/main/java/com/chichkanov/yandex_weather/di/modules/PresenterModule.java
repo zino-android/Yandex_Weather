@@ -27,6 +27,7 @@ public class PresenterModule {
 
     @Provides
     FavoriteCitiesPresenter provideFavoritesPresenter(ChangeCityInteractor changeCityInteractor, WeatherInteractorImpl weatherInteractor) {
-        return new FavoriteCitiesPresenter(changeCityInteractor, weatherInteractor);
+        return new FavoriteCitiesPresenter(changeCityInteractor, weatherInteractor, Schedulers.io(),
+                AndroidSchedulers.mainThread());
     }
 }

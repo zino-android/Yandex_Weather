@@ -1,7 +1,6 @@
 package com.chichkanov.yandex_weather.repository;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.chichkanov.yandex_weather.api.PlacesApi;
 import com.chichkanov.yandex_weather.db.WeatherDatabase;
@@ -18,18 +17,19 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.Scheduler;
 
 
 public class CityRepositoryImpl implements CityRepository {
     private PlacesApi placesApi;
     private WeatherDatabase database;
+    private Scheduler ioScheduler;
 
     @Inject
-    public CityRepositoryImpl(PlacesApi placesApi, WeatherDatabase database) {
+    public CityRepositoryImpl(PlacesApi placesApi, WeatherDatabase database, Scheduler ioScheduler) {
         this.placesApi = placesApi;
         this.database = database;
+        this.ioScheduler = ioScheduler;
     }
 
     @Override
@@ -47,17 +47,24 @@ public class CityRepositoryImpl implements CityRepository {
     }
 
     @Override
-    public void setCurrentCity(Prediction prediction) {
+    public void setCurrentCity(@NonNull Prediction prediction) {
         City city = new City();
         city.setPlacesId(prediction.getId());
         city.setSelected(true);
         city.setDescription(prediction.getDescription());
         city.setName(prediction.getStructuredFormatting().getMainText());
-        Single.fromCallable(() -> database.cityDao().insertCity(city))
-                .subscribeOn(Schedulers.io())
-                .subscribe(i -> {
-                    database.cityDao().updateSelectedCity(i);
-                });
+        Completable.fromAction(() -> {
+            database.beginTransaction();
+            try {
+                long i = database.cityDao().insertCity(city);
+                database.cityDao().updateSelectedCity(i);
+                database.setTransactionSuccessful();
+            } finally {
+                database.endTransaction();
+            }
+        })
+                .subscribeOn(ioScheduler)
+                .subscribe();
 
     }
 
@@ -68,9 +75,7 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public void setCitySelected(int cityId) {
-        Log.i("kkkkkk", "setCitySelected: " + cityId);
         Completable.fromAction(() -> {
-
             database.beginTransaction();
             try {
                 database.cityDao().selectCity(cityId);
@@ -81,7 +86,7 @@ public class CityRepositoryImpl implements CityRepository {
             }
 
 
-        }).subscribeOn(Schedulers.io()).subscribe();
+        }).subscribeOn(ioScheduler).subscribe();
 
     }
 
@@ -91,6 +96,6 @@ public class CityRepositoryImpl implements CityRepository {
             database.cityDao().deleteCityById(cityId);
             database.currentWeatherDao().deleteCurrentWeatherByCityId(cityId);
             database.forecastDao().deleteForecastsByCityId(cityId);
-        }).subscribeOn(Schedulers.io()).subscribe();
+        }).subscribeOn(ioScheduler).subscribe();
     }
 }

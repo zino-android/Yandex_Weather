@@ -1,0 +1,51 @@
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    // Exclude Dagger 2 and other generated code
+    def fileFilter = [
+            '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*',
+            '**/*_*Factory*.*',
+            '**/*_Module*.*',
+            '**/*_ViewBinding*.*',
+            '**/*_MembersInjector*.*',
+            '**/*_Provide*.*',
+            '**/Dagger*.*',
+            '**/di/*',
+            '**/di/modules/*',
+            'android/**/*.*',
+            '**/Lambda$*.class', //Retrolambda
+            '**/Lambda.class',
+            '**/*Lambda.class',
+            '**/*Lambda*.class',
+            '**/*Lambda*.*',
+            '**/*Builder.*',
+
+            '**/*_*Factory*.*', //Dagger2 generated code
+            '**/*MoxyReflector*.*',
+            '**/*$PresentersBinder$*.*',
+            '**/*$PresentersBinder.*',
+            '**/ui/change_city/*$ViewStateProvider.*',
+            '**/*$State$*.*',
+            '**/*$State.*',
+            //Room
+            '**/*_Impl*.*'
+    ]
+
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = files([
+            "${buildDir}/jacoco/testDebugUnitTest.exec",
+            fileTree(dir: "${buildDir}/outputs/code-coverage/connected/").matching {
+                include '*.ec'
+            }
+    ])
+
+    // Always regenerate report
+    outputs.upToDateWhen { false }
+}

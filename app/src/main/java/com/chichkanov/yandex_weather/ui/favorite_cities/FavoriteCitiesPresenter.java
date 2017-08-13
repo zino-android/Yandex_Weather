@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import io.reactivex.Maybe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.Scheduler;
 
 @InjectViewState
 public class FavoriteCitiesPresenter extends MvpPresenter<FavoriteCitiesView> {
@@ -27,10 +26,16 @@ public class FavoriteCitiesPresenter extends MvpPresenter<FavoriteCitiesView> {
 
     private NavigationManager navigationManager;
 
+    private Scheduler ioScheduler;
+    private Scheduler mainScheduler;
+
     @Inject
-    public FavoriteCitiesPresenter(ChangeCityInteractor changeCityInteractor, WeatherInteractor weatherInteractor) {
+    public FavoriteCitiesPresenter(ChangeCityInteractor changeCityInteractor, WeatherInteractor weatherInteractor,
+                                   Scheduler io, Scheduler main) {
         this.changeCityInteractor = changeCityInteractor;
         this.weatherInteractor = weatherInteractor;
+        this.ioScheduler = io;
+        this.mainScheduler = main;
     }
 
     public void onCitySelectedChanged(int cityId) {
@@ -44,27 +49,30 @@ public class FavoriteCitiesPresenter extends MvpPresenter<FavoriteCitiesView> {
                     ArrayList<CityMenu> cityMenus = new ArrayList<CityMenu>(list.size());
                     for (City city : list) {
 
-                        double temp = weatherInteractor
+                       weatherInteractor
                                 .getCurrentWeatherFromDBbyId(city.getCityId())
-                                .subscribeOn(Schedulers.io())
+                                .subscribeOn(ioScheduler)
                                 .onErrorResumeNext(e -> {
                                     return Maybe.just(0.0);
                                 })
-                                .blockingGet();
+                                .map(temp -> {
+                                    CityMenu item = new CityMenu();
+                                    item.setSelected(city.isSelected());
+                                    item.setName(city.getName());
+                                    item.setDescription(city.getDescription());
+                                    item.setCityId(city.getCityId());
+                                    item.setTemp(temp);
+                                    return item;
+                                })
+                                .subscribe(cityMenu -> cityMenus.add(cityMenu));
 
-                        CityMenu item = new CityMenu();
-                        item.setSelected(city.isSelected());
-                        item.setName(city.getName());
-                        item.setDescription(city.getDescription());
-                        item.setCityId(city.getCityId());
-                        item.setTemp(temp);
-                        cityMenus.add(item);
+
                     }
 
                     return cityMenus;
                 })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(ioScheduler)
+                .observeOn(mainScheduler)
                 .subscribe(cities -> {
                     getViewState().showCities(cities);
                 });

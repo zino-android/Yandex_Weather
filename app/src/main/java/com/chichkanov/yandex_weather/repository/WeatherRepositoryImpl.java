@@ -1,6 +1,5 @@
 package com.chichkanov.yandex_weather.repository;
 
-import com.chichkanov.yandex_weather.App;
 import com.chichkanov.yandex_weather.api.WeatherApi;
 import com.chichkanov.yandex_weather.db.WeatherDatabase;
 import com.chichkanov.yandex_weather.model.CurrentWeather;
@@ -23,17 +22,17 @@ import io.reactivex.Single;
 
 public class WeatherRepositoryImpl implements WeatherRepository {
 
-    @Inject
-    WeatherApi weatherApi;
+    private WeatherApi weatherApi;
+
+    private Settings settings;
+
+    private WeatherDatabase database;
 
     @Inject
-    Settings settings;
-
-    @Inject
-    WeatherDatabase database;
-
-    public WeatherRepositoryImpl() {
-        App.getComponent().inject(this);
+    public WeatherRepositoryImpl(WeatherApi weatherApi, Settings settings, WeatherDatabase database) {
+        this.weatherApi = weatherApi;
+        this.settings = settings;
+        this.database = database;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
                         .loadCurrentWeatherByCityId(c.getCityId()))
                 .onErrorResumeNext(getCurrentWeatherFromInternet());
 
-        return weatherDb.toFlowable();
+        return Single.concat(weatherDb, getCurrentWeatherFromInternet());
 
     }
 
@@ -68,7 +67,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
                         .loadForecastByDateTimeAndCityId(System.currentTimeMillis() / 1000, city.getCityId()).toMaybe())
                 .onErrorResumeNext(getForecastFromInternet().toMaybe());
 
-        return forecastDb.toFlowable();
+        return Maybe.concat(forecastDb, getForecastFromInternet().toMaybe());
     }
 
     @Override

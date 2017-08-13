@@ -100,8 +100,13 @@ public class ForecastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setWeather(CurrentWeather weather) {
-        currentWeather = weather;
-        notifyItemChanged(0);
+        if (currentWeather == null) {
+            currentWeather = weather;
+            notifyItemChanged(0);
+        } else if (!currentWeather.equals(weather)) {
+            currentWeather = weather;
+            notifyItemChanged(0);
+        }
     }
 
 

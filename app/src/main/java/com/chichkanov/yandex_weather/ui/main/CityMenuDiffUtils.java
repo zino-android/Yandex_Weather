@@ -7,9 +7,7 @@ import com.chichkanov.yandex_weather.model.CityMenu;
 
 import java.util.List;
 
-/**
- * Created by Алексей on 09.08.2017.
- */
+
 
 public class CityMenuDiffUtils  extends DiffUtil.Callback {
 

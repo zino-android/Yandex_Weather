@@ -1,6 +1,7 @@
 package com.chichkanov.yandex_weather;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.chichkanov.yandex_weather.background.AutoUpdateJob;
 import com.chichkanov.yandex_weather.background.AutoUpdateJobCreator;

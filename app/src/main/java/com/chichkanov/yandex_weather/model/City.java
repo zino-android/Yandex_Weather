@@ -63,4 +63,31 @@ public class City {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        City city = (City) o;
+
+        if (id != city.id) return false;
+        if (cityId != city.cityId) return false;
+        if (isSelected != city.isSelected) return false;
+        if (!placesId.equals(city.placesId)) return false;
+        if (!name.equals(city.name)) return false;
+        return description.equals(city.description);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + cityId;
+        result = 31 * result + placesId.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + (isSelected ? 1 : 0);
+        return result;
+    }
 }
