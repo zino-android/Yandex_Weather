@@ -1,5 +1,7 @@
 package com.chichkanov.yandex_weather.ui.weather;
 
+import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
@@ -16,6 +18,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -43,6 +46,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     void loadCurrentWeather() {
         getViewState().showLoading();
+        getViewState().hideRecyclerView();
 
         Disposable weatherDisposable = interactor.getWeather()
                 .subscribeOn(ioScheduler)
@@ -51,7 +55,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     getViewState().hideLoading();
                     DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
                     String formattedDate = dateFormat.format(new Date(settings.getLastUpdateTime()));
-
+                    getViewState().showRecyclerView();
                     getViewState().showWeather(response, formattedDate);
 
                 }, throwable -> {
@@ -67,10 +71,16 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     }
 
     private void loadCurrentCity() {
-        Disposable cityDisposable = cityInteractor.getCurrentCity()
+        Log.i("ddd", "loadCurrentCity: ");
+        Disposable cityDisposable = cityInteractor.getCurrentCity().firstElement().toSingle()
                 .subscribeOn(ioScheduler)
                 .observeOn(mainScheduler)
-                .subscribe(city -> getViewState().showCityName(city.getName()));
+                .subscribe(city -> {
+                    getViewState().showCityName(city.getName());
+
+                }, throwable -> {
+                    getViewState().showAddCityLayout();
+                });
         disposables.add(cityDisposable);
 
     }

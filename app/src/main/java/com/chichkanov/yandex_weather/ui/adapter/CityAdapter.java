@@ -71,7 +71,9 @@ public class CityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewHolder instanceof CityAdapter.ViewHolder) {
             ViewHolder holder = (CityAdapter.ViewHolder) viewHolder;
             holder.tvCityName.setText(cities.get(position).getName());
-            holder.tvTemp.setText(context.getString(R.string.weather_temperature, Math.round(cities.get(position).getTemp())));
+            if (Double.compare(cities.get(position).getTemp(), Double.POSITIVE_INFINITY) != 0) {
+                holder.tvTemp.setText(context.getString(R.string.weather_temperature, Math.round(cities.get(position).getTemp())));
+            }
             if (cities.get(position).isSelected()) {
                 Drawable drawable = context.getResources().getDrawable(R.drawable.marker_circle);
                 drawable = DrawableCompat.wrap(drawable).mutate();

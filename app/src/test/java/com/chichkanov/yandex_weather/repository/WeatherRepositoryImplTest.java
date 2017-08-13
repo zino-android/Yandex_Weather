@@ -177,15 +177,12 @@ public class WeatherRepositoryImplTest {
                 .thenReturn(Single.just(currentWeatherResponse));
 
         TestSubscriber<CurrentWeather> subscriber = repository.getWeather().test();
-//        subscriber.assertError(nothing);
-        subscriber.assertValueCount(2);
-
-
+        subscriber.assertValueCount(1);
 
         scheduler.triggerActions();
-        verify(cityDao, times(2)).updateSelectedCityId(anyInt());
-        verify(settings, times(2)).saveLastUpdateTime();
-        verify(currentWeatherDao, times(2)).insertCurrentWeather(any(CurrentWeather.class));
+        verify(cityDao).updateSelectedCityId(anyInt());
+        verify(settings).saveLastUpdateTime();
+        verify(currentWeatherDao).insertCurrentWeather(any(CurrentWeather.class));
     }
 
     @Test

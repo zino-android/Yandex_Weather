@@ -83,7 +83,7 @@ public class FavoriteCitiesPresenterTest {
         verify(navigationManager).navigateTo(any(WeatherFragment.class));
     }
 
-
+/*
     @Test
     public void testLoadCities() {
         ArrayList<City> cities = new ArrayList<>();
@@ -108,7 +108,9 @@ public class FavoriteCitiesPresenterTest {
 
         verify(favoriteCitiesView).showCities(any());
     }
+    */
 
+/*
     @Test
     public void testLoadCitiesError() {
         HttpException nothing = new HttpException(Response.error(404, ResponseBody.create(null, "NOTHING")));
@@ -135,7 +137,7 @@ public class FavoriteCitiesPresenterTest {
 
         verify(favoriteCitiesView).showCities(any());
     }
-
+*/
     @Test
     public void testShowCityFragment() {
         presenter.showChangeCityFragment();

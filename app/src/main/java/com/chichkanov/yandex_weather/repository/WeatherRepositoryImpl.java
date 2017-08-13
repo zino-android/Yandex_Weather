@@ -37,12 +37,12 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 
     @Override
     public Flowable<CurrentWeather> getWeather() {
-        Single<CurrentWeather> weatherDb = database.cityDao().loadCurrentCity().toSingle()
+        Flowable<CurrentWeather> weatherDb = database.cityDao().loadCurrentCity()
                 .flatMap(c -> database.currentWeatherDao()
-                        .loadCurrentWeatherByCityId(c.getCityId()))
-                .onErrorResumeNext(getCurrentWeatherFromInternet());
+                        .loadCurrentWeatherByCityId(c.getCityId()).toMaybe()).toFlowable()
+                .startWith(getCurrentWeatherFromInternet().toFlowable());
 
-        return Single.concat(weatherDb, getCurrentWeatherFromInternet());
+        return weatherDb;
 
     }
 

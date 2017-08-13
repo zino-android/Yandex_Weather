@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class WeatherFragment extends BaseFragment implements WeatherView, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.swipe_refresh_weather)
@@ -37,6 +38,8 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
 
     @BindView(R.id.error_relative_layout)
     RelativeLayout errorRelativeLayout;
+    @BindView(R.id.city_not_selected_relative_layout)
+    RelativeLayout cityNotSelectedRelativeLayout;
     @InjectPresenter
     WeatherPresenter weatherPresenter;
     private ForecastAdapter adapter;
@@ -96,6 +99,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
     public void showError() {
         errorRelativeLayout.setVisibility(View.VISIBLE);
         rvForecast.setVisibility(View.INVISIBLE);
+        cityNotSelectedRelativeLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -103,6 +107,7 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
         adapter.setWeather(weather);
         rvForecast.setVisibility(View.VISIBLE);
         errorRelativeLayout.setVisibility(View.INVISIBLE);
+        cityNotSelectedRelativeLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -133,5 +138,26 @@ public class WeatherFragment extends BaseFragment implements WeatherView, SwipeR
     public void showForecast(List<Forecast> forecasts) {
         adapter.setForecasts(forecasts);
         rvForecast.smoothScrollToPosition(0);
+    }
+
+    @Override
+    public void hideRecyclerView() {
+        rvForecast.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showRecyclerView() {
+        rvForecast.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showAddCityLayout() {
+        errorRelativeLayout.setVisibility(View.INVISIBLE);
+        cityNotSelectedRelativeLayout.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.add_city_button)
+    void onAddCityClicked() {
+        weatherPresenter.onMenuChangeCityClick();
     }
 }

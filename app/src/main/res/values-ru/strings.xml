@@ -43,7 +43,10 @@
     <string name="evening">Вечер</string>
     <string name="night">Ночь</string>
     <string name="error">Произошла ошибка, проверьте интернет соединение и попробуйте еще раз</string>
+    <string name="city_not_selected">Добавьте город, чтобы можно было отобразить погоду</string>
+
     <string name="version">Версия: %s</string>
+    <string name="add_city_button">Добавить город</string>
 
 
     <string-array name="refresh_entries">
