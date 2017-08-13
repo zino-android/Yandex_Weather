@@ -186,8 +186,8 @@ public class Forecast {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + cityId;
+        int result = cityId;
+        result = 31 * result + (int) (dateTime ^ (dateTime >>> 32));
         return result;
     }
 }

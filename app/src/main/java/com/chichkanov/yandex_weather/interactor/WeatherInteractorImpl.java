@@ -28,7 +28,7 @@ public class WeatherInteractorImpl implements WeatherInteractor {
     }
 
     @Override
-    public Flowable<List<Forecast>> getForecasts() {
+    public Single<List<Forecast>> getForecasts() {
         return repository.getForecasts();
     }
 

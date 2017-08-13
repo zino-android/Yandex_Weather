@@ -12,7 +12,7 @@ import io.reactivex.Single;
 interface WeatherRepository {
     Flowable<CurrentWeather> getWeather();
 
-    Flowable<List<Forecast>> getForecasts();
+    Single<List<Forecast>> getForecasts();
 
     Maybe<Double> getCurrentTempFromDBbyCityId(int cityId);
 

@@ -4,17 +4,15 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.chichkanov.yandex_weather.interactor.ChangeCityInteractor;
 import com.chichkanov.yandex_weather.interactor.WeatherInteractor;
-import com.chichkanov.yandex_weather.model.City;
 import com.chichkanov.yandex_weather.model.CityMenu;
 import com.chichkanov.yandex_weather.ui.change_city.ChangeCityFragment;
 import com.chichkanov.yandex_weather.ui.navigation.NavigationManager;
 import com.chichkanov.yandex_weather.ui.weather.WeatherFragment;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
 import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 
 @InjectViewState
@@ -45,15 +43,11 @@ public class FavoriteCitiesPresenter extends MvpPresenter<FavoriteCitiesView> {
 
     public void loadCities() {
         changeCityInteractor.getCities()
-                .map(list -> {
-                    ArrayList<CityMenu> cityMenus = new ArrayList<CityMenu>(list.size());
-                    for (City city : list) {
-
-                       weatherInteractor
+                .flatMapSingle(list -> Observable.fromIterable(list)
+                        .flatMapMaybe(city -> weatherInteractor
                                 .getCurrentWeatherFromDBbyId(city.getCityId())
-                                .subscribeOn(ioScheduler)
                                 .onErrorResumeNext(e -> {
-                                    return Maybe.just(0.0);
+                                    return Maybe.just(Double.POSITIVE_INFINITY);
                                 })
                                 .map(temp -> {
                                     CityMenu item = new CityMenu();
@@ -63,14 +57,8 @@ public class FavoriteCitiesPresenter extends MvpPresenter<FavoriteCitiesView> {
                                     item.setCityId(city.getCityId());
                                     item.setTemp(temp);
                                     return item;
-                                })
-                                .subscribe(cityMenu -> cityMenus.add(cityMenu));
-
-
-                    }
-
-                    return cityMenus;
-                })
+                                }))
+                        .toList())
                 .subscribeOn(ioScheduler)
                 .observeOn(mainScheduler)
                 .subscribe(cities -> {

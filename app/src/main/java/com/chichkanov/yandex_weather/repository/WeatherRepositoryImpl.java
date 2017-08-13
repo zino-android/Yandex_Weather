@@ -41,8 +41,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
                 .flatMap(c -> database.currentWeatherDao()
                         .loadCurrentWeatherByCityId(c.getCityId()))
                 .onErrorResumeNext(getCurrentWeatherFromInternet());
-
-        return Single.concat(weatherDb, getCurrentWeatherFromInternet());
+        return weatherDb.toFlowable();
 
     }
 
@@ -61,26 +60,31 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     }
 
     @Override
-    public Flowable<List<Forecast>> getForecasts() {
-        Maybe<List<Forecast>> forecastDb = database.cityDao().loadCurrentCity()
-                .flatMap(city -> database.forecastDao()
-                        .loadForecastByDateTimeAndCityId(System.currentTimeMillis() / 1000, city.getCityId()).toMaybe())
-                .onErrorResumeNext(getForecastFromInternet().toMaybe());
-
-        return Maybe.concat(forecastDb, getForecastFromInternet().toMaybe());
+    public Single<List<Forecast>> getForecasts() {
+        Single<List<Forecast>> forecastDb = database.cityDao().loadCurrentCity()
+                .flatMapSingle(city -> database.forecastDao()
+                        .loadForecastByDateTimeAndCityId(System.currentTimeMillis() / 1000, city.getCityId()))
+                .map(l -> {
+                    if (l.isEmpty()) {
+                        throw new RuntimeException();
+                    }
+                    return l;
+                })
+                .onErrorResumeNext(getForecastFromInternet());
+        return forecastDb;
     }
 
     @Override
     public Single<List<Forecast>> getForecastFromInternet() {
         String locale = WeatherUtils.getLocale();
-
         return database.cityDao().loadCurrentCity().toSingle()
                 .flatMap(city -> weatherApi.getForecasts(city.getDescription(), Constants.API_KEY, locale, "metric"))
                 .map(this::transformForecastResponseToList)
                 .doOnSuccess(forecasts -> {
                     database.forecastDao().insertForecasts(forecasts);
                     database.forecastDao().deleteOldForecasts(System.currentTimeMillis() / 1000);
-                });
+                })
+                ;
     }
 
     @Override

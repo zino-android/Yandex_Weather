@@ -16,11 +16,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
             '**/di/*',
             '**/di/modules/*',
             'android/**/*.*',
-            '**/Lambda$*.class', //Retrolambda
-            '**/Lambda.class',
-            '**/*Lambda.class',
-            '**/*Lambda*.class',
-            '**/*Lambda*.*',
+
             '**/*Builder.*',
 
             '**/*_*Factory*.*', //Dagger2 generated code

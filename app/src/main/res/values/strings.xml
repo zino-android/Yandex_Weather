@@ -59,6 +59,8 @@
     <string name="evening">Evening</string>
     <string name="night">Night</string>
     <string name="error">An error occurred, check the internet connection and try again</string>
+    <string name="city_not_selected">Add a city so you can display the weather</string>
     <string name="version">Version: %s</string>
+    <string name="add_city_button">Add city</string>
 
 </resources>

@@ -30,6 +30,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     private Scheduler ioScheduler;
     private Scheduler mainScheduler;
+    private boolean isCityNotAdded = false;
 
     @Inject
     public WeatherPresenter(WeatherInteractorImpl interactor, ChangeCityInteractor changeCityInteractor,
@@ -43,6 +44,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
     void loadCurrentWeather() {
         getViewState().showLoading();
+        getViewState().hideRecyclerView();
 
         Disposable weatherDisposable = interactor.getWeather()
                 .subscribeOn(ioScheduler)
@@ -51,26 +53,31 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     getViewState().hideLoading();
                     DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
                     String formattedDate = dateFormat.format(new Date(settings.getLastUpdateTime()));
-
+                    getViewState().showRecyclerView();
                     getViewState().showWeather(response, formattedDate);
-
                 }, throwable -> {
+                    throwable.printStackTrace();
                     getViewState().hideLoading();
-                    getViewState().showError();
+                    if (!isCityNotAdded) {
+                        getViewState().showError();
+                    }
                 });
 
-
-        loadCurrentCity();
-
         disposables.add(weatherDisposable);
-
     }
 
     private void loadCurrentCity() {
-        Disposable cityDisposable = cityInteractor.getCurrentCity()
+        Disposable cityDisposable = cityInteractor.getCurrentCity().firstElement().toSingle()
                 .subscribeOn(ioScheduler)
                 .observeOn(mainScheduler)
-                .subscribe(city -> getViewState().showCityName(city.getName()));
+                .subscribe(city -> {
+                    getViewState().showCityName(city.getName());
+                    isCityNotAdded = false;
+
+                }, throwable -> {
+                    isCityNotAdded = true;
+                    getViewState().showAddCityLayout();
+                });
         disposables.add(cityDisposable);
 
     }
@@ -78,6 +85,7 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
     @Override
     public void attachView(WeatherView view) {
         super.attachView(view);
+        loadCurrentCity();
         loadCurrentWeather();
         loadForecastWeather();
     }
@@ -88,11 +96,13 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                 .observeOn(mainScheduler)
                 .subscribe(forecasts -> {
                     getViewState().hideLoading();
-
                     getViewState().showForecast(forecasts);
                 }, throwable -> {
+                    throwable.printStackTrace();
                     getViewState().hideLoading();
-                    getViewState().showError();
+                    if (!isCityNotAdded) {
+                        getViewState().showError();
+                    }
                 });
         disposables.add(forecastDisposable);
     }
@@ -135,8 +145,13 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
                     getViewState().showForecast(forecasts);
                 }, throwable -> {
                     getViewState().hideLoading();
-                    getViewState().showError();
+                    if (!isCityNotAdded) {
+                        getViewState().showError();
+                    }
                 });
+
+        loadCurrentCity();
+
         disposables.add(forecastDisposable);
     }
 
@@ -154,9 +169,10 @@ public class WeatherPresenter extends MvpPresenter<WeatherView> {
 
                 }, throwable -> {
                     getViewState().hideLoading();
-                    getViewState().showError();
+                    if (!isCityNotAdded) {
+                        getViewState().showError();
+                    }
                 });
-
 
         loadCurrentCity();
 

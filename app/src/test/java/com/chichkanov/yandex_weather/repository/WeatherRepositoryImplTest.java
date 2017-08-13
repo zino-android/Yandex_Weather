@@ -36,6 +36,8 @@ import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 import retrofit2.Response;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyChar;
@@ -148,19 +150,12 @@ public class WeatherRepositoryImplTest {
         when(database.currentWeatherDao()).thenReturn(currentWeatherDao);
         when(currentWeatherDao.loadCurrentWeatherByCityId(city.getCityId()))
                 .thenReturn(Single.just(currentWeather));
-        when(weatherApi.getWeather(anyString(), anyString(), anyString(), anyString()))
-                .thenReturn(Single.just(currentWeatherResponse));
 
         TestSubscriber<CurrentWeather> subscriber = repository.getWeather().test();
         subscriber.assertNoErrors();
-        subscriber.assertValueCount(2);
-
-
+        subscriber.assertValueCount(1);
 
         scheduler.triggerActions();
-        verify(cityDao).updateSelectedCityId(anyInt());
-        verify(settings).saveLastUpdateTime();
-        verify(currentWeatherDao).insertCurrentWeather(any(CurrentWeather.class));
     }
 
 
@@ -177,15 +172,12 @@ public class WeatherRepositoryImplTest {
                 .thenReturn(Single.just(currentWeatherResponse));
 
         TestSubscriber<CurrentWeather> subscriber = repository.getWeather().test();
-//        subscriber.assertError(nothing);
-        subscriber.assertValueCount(2);
-
-
+        subscriber.assertValueCount(1);
 
         scheduler.triggerActions();
-        verify(cityDao, times(2)).updateSelectedCityId(anyInt());
-        verify(settings, times(2)).saveLastUpdateTime();
-        verify(currentWeatherDao, times(2)).insertCurrentWeather(any(CurrentWeather.class));
+        verify(cityDao).updateSelectedCityId(anyInt());
+        verify(settings).saveLastUpdateTime();
+        verify(currentWeatherDao).insertCurrentWeather(any(CurrentWeather.class));
     }
 
     @Test
@@ -266,18 +258,10 @@ public class WeatherRepositoryImplTest {
         forecasts.add(forecast);
         when(forecastDao.loadForecastByDateTimeAndCityId(anyLong(), anyInt()))
                 .thenReturn(Single.just(forecasts));
-        when(weatherApi.getForecasts(anyString(), anyString(), anyString(), anyString()))
-                .thenReturn(Single.just(forecastResponse));
 
-        TestSubscriber<List<Forecast>> subscriber = repository.getForecasts().test();
+        TestObserver<List<Forecast>> subscriber = repository.getForecasts().test();
         subscriber.assertNoErrors();
-        subscriber.assertValueCount(2);
-
-
-
-        scheduler.triggerActions();
-        verify(forecastDao).insertForecasts(anyList());
-        verify(forecastDao).deleteOldForecasts(anyLong());
+        subscriber.assertValueCount(1);
     }
 
     @Test
@@ -292,16 +276,112 @@ public class WeatherRepositoryImplTest {
         when(weatherApi.getForecasts(anyString(), anyString(), anyString(), anyString()))
                 .thenReturn(Single.just(forecastResponse));
 
-        TestSubscriber<List<Forecast>> subscriber = repository.getForecasts().test();
+        TestObserver<List<Forecast>> subscriber = repository.getForecasts().test();
         subscriber.assertNoErrors();
-        subscriber.assertValueCount(2);
-
-
+        subscriber.assertValueCount(1);
 
         scheduler.triggerActions();
-        verify(forecastDao, times(2)).insertForecasts(anyList());
-        verify(forecastDao, times(2)).deleteOldForecasts(anyLong());
+        verify(forecastDao, times(1)).insertForecasts(anyList());
+        verify(forecastDao, times(1)).deleteOldForecasts(anyLong());
     }
 
+    @Test
+    public void testForecastEqualsAndHashCode() {
+        forecast = new Forecast();
+        forecast.setId(1);
+        forecast.setCityId(524901);
+        forecast.setWindDegree(71);
+        forecast.setWindSpeed(2);
+        forecast.setRain(0);
+        forecast.setTitle("Clouds");
+        forecast.setDescription("few clouds");
+        forecast.setIcon("02d");
+        forecast.setDateTime(1502787600);
+        forecast.setDayTemp(29);
+        forecast.setNightTemp(20);
+        forecast.setEveningTemp(23);
+        forecast.setMorningTemp(23);
+        forecast.setMinTemp(1);
+        forecast.setMaxTemp(30);
+
+        Forecast forecast2 = new Forecast();
+        forecast2.setId(1);
+        forecast2.setCityId(524901);
+        forecast2.setWindDegree(71);
+        forecast2.setWindSpeed(2);
+        forecast2.setRain(0);
+        forecast2.setTitle("Clouds");
+        forecast2.setDescription("few clouds");
+        forecast2.setIcon("02d");
+        forecast2.setDateTime(1502787600);
+        forecast2.setDayTemp(29);
+        forecast2.setNightTemp(20);
+        forecast2.setEveningTemp(23);
+        forecast2.setMorningTemp(23);
+        forecast2.setMinTemp(1);
+        forecast2.setMaxTemp(30);
+
+        assertTrue(forecast.hashCode() == forecast2.hashCode());
+
+        assertTrue(forecast.equals(forecast2));
+        assertTrue(forecast2.equals(forecast));
+        assertTrue(forecast.equals(forecast));
+        assertFalse(forecast.equals(null));
+
+        forecast2.setDateTime(8488348);
+
+        assertFalse(forecast2.hashCode() == forecast.hashCode());
+        assertFalse(forecast2.equals(forecast));
+    }
+
+
+    @Test
+    public void testCurrentWeatherEqualsAndHashCode() {
+        currentWeather = new CurrentWeather();
+        currentWeather.setMaxTemp(25);
+        currentWeather.setPressure(1012);
+        currentWeather.setClouds(72);
+        currentWeather.setCityId(354);
+        currentWeather.setSunset(1485794875);
+        currentWeather.setSunrise(1485762037);
+        currentWeather.setDateTime(1485789600);
+        currentWeather.setDescription("light intensity drizzle");
+        currentWeather.setTitle("Drizzle");
+        currentWeather.setIcon("01d");
+        currentWeather.setHumidity(81);
+        currentWeather.setWindDegree(0);
+        currentWeather.setWindSpeed(4.1);
+        currentWeather.setMaxTemp(29);
+        currentWeather.setMinTemp(20);
+
+        CurrentWeather currentWeather2 = new CurrentWeather();
+        currentWeather2.setMaxTemp(25);
+        currentWeather2.setPressure(1012);
+        currentWeather2.setClouds(72);
+        currentWeather2.setCityId(354);
+        currentWeather2.setSunset(1485794875);
+        currentWeather2.setSunrise(1485762037);
+        currentWeather2.setDateTime(1485789600);
+        currentWeather2.setDescription("light intensity drizzle");
+        currentWeather2.setTitle("Drizzle");
+        currentWeather2.setIcon("01d");
+        currentWeather2.setHumidity(81);
+        currentWeather2.setWindDegree(0);
+        currentWeather2.setWindSpeed(4.1);
+        currentWeather2.setMaxTemp(29);
+        currentWeather2.setMinTemp(20);
+
+        assertTrue(currentWeather.hashCode() == currentWeather2.hashCode());
+
+        assertTrue(currentWeather.equals(currentWeather2));
+        assertTrue(currentWeather2.equals(currentWeather));
+        assertTrue(currentWeather.equals(currentWeather));
+        assertFalse(currentWeather.equals(null));
+
+        currentWeather2.setDateTime(8488348);
+
+        assertFalse(currentWeather2.hashCode() == currentWeather.hashCode());
+        assertFalse(currentWeather2.equals(currentWeather));
+    }
 
 }

@@ -95,7 +95,7 @@ public class WeatherPresenterTest {
         currentWeather.setMinTemp(20);
 
         when(weatherInteractor.getWeather()).thenReturn(Flowable.just(currentWeather));
-        when(weatherInteractor.getForecasts()).thenReturn(Flowable.just(new ArrayList<>()));
+        when(weatherInteractor.getForecasts()).thenReturn(Single.just(new ArrayList<>()));
         when(changeCityInteractor.getCurrentCity()).thenReturn(Flowable.just(city));
 
         presenter.attachView(weatherView);
@@ -217,7 +217,7 @@ public class WeatherPresenterTest {
     @Test
     public void testLoadForecastWeatherError() {
         HttpException nothing = new HttpException(Response.error(404, ResponseBody.create(null, "NOTHING")));
-        when(weatherInteractor.getForecasts()).thenReturn(Flowable.error(nothing));
+        when(weatherInteractor.getForecasts()).thenReturn(Single.error(nothing));
         presenter.loadForecastWeather();
         testScheduler.triggerActions();
         verify(weatherView, times(3)).hideLoading();
